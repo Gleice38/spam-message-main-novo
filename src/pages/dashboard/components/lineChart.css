@@ -1,0 +1,54 @@
+.chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  width: 100%;
+}
+
+.chart-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.25rem;
+}
+
+.chart-header p {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.chart-container {
+  margin-top: 1rem;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.line-chart {
+  width: 100%;
+  height: auto;
+}
+
+/* Grid e eixos */
+.chart-grid {
+  stroke: #e5e7eb;
+  stroke-dasharray: 4;
+}
+
+.chart-axis {
+  stroke: #9ca3af;
+}
+
+/* Linha principal */
+.chart-line {
+  fill: none;
+  stroke: #0b5ed7;
+  stroke-width: 3;
+}
+
+/* Pontos */
+.chart-point {
+  fill: #0b5ed7;
+  stroke: #ffffff;
+  stroke-width: 2;
+}

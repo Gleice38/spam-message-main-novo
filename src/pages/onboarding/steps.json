@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Bem-vindo ao Mensagens Cooperativa!",
+    "icon": "chat",
+    "description": "Sua plataforma completa para comunicação acadêmica via WhatsApp"
+  },
+  {
+    "id": 2,
+    "title": "Gerencie seus Contatos",
+    "icon": "database",
+    "description": "Cadastre e gerencie contatos organizados por Estado, Cidade, Campus Universitário, Faculdade e Área Acadêmica."
+  },
+
+{
+  "id": 3,
+  "title": "Segmentação Inteligente",
+  "icon": "filter",
+  "description": "Use filtros avançados para segmentar sua audiência por região e áreas acadêmicas específicas."
+},
+
+{
+  "id": 4,
+  "title": "Crie Campanhas Personalizadas",
+  "icon": "send",
+  "description": "Crie campanhas de WhatsApp com mensagens personalizadas enviadas individualmente para cada contato."
+},
+{
+  "id": 5,
+  "title": "Agende e Controle",
+  "icon": "calendar",
+  "description": "Defina horários permitidos para envio e intervalos entre mensagens, respeitando o tempo dos contatos."
+},
+
+{
+  "id": 6,
+  "title": "Acompanhe Resultados",
+  "icon": "chart",
+  "description": "Visualize métricas importantes como mensagens enviadas, campanhas ativas e distribuição por região."
+}
+
+]

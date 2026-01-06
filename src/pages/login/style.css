@@ -1,0 +1,256 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* RESET GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body, html, #root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.login-page-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+/* LADO ESQUERDO: BRANDING */
+.login-brand {
+  flex: 1.2;
+  background: linear-gradient(180deg, #003366 0%, #001a33 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 80px;
+}
+
+.branding-inner {
+  max-width: 540px;
+}
+
+.logo-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.logo-circle {
+  width: 45px;
+  height: 45px;
+  background-color: #007bff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.logo-titles h1 { font-size: 28px; font-weight: 700; }
+.logo-titles p { font-size: 14px; opacity: 0.8; font-weight: 300; }
+
+.headline-text {
+  font-size: 22px;
+  line-height: 1.4;
+  margin-bottom: 40px;
+  font-weight: 500;
+}
+
+/* LISTA ESQUERDA - PONTOS BRANCOS E MAIORES */
+.features-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.features-bullets li {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 16px;
+  font-weight: 400;
+  color: #ffffff;
+}
+
+.features-bullets li::before {
+  content: "";
+  width: 10px; 
+  height: 10px;
+  background-color: #ffffff; 
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* LADO DIREITO: FORMULÁRIO */
+.form-section {
+  flex: 1;
+  background-color: #f7fafc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.auth-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.card-header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.card-header h2 { 
+  font-size: 22px; 
+  font-weight: 700; 
+  color: #1a202c; 
+  margin-bottom: 8px;
+}
+
+.card-header p { 
+  font-size: 14px; 
+  color: #718096;
+}
+
+/* MENSAGEM DE ERRO REATIVADA */
+.error-message {
+  color: #e53e3e;
+  background-color: #fff5f5;
+  border: 1px solid #feb2b2;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+  animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+/* INPUTS E ÍCONES */
+.input-field {
+  margin-bottom: 20px;
+}
+
+.input-field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 8px;
+}
+
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  outline: none;
+}
+
+.icon-left {
+  position: absolute;
+  left: 14px;
+  color: #718096;
+}
+
+.icon-right {
+  position: absolute;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a0aec0;
+}
+
+/* AÇÕES */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.checkbox-area {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #4a5568;
+  cursor: pointer;
+}
+
+.forgot-password {
+  font-size: 13px;
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background-color: #004a7c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-submit:hover {
+  background-color: #003660;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #718096;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+/* RODAPÉ - SUBIDO PARA APARECER MELHOR */
+.footer-copyright {
+  position: absolute;
+  bottom: 60px; 
+  font-size: 12px;
+  color: #a0aec0;
+  text-align: center;
+  width: 100%;
+  left: 0;
+}
