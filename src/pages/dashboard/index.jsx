@@ -50,18 +50,18 @@ export default function Dashboard() {
         </div>
         <div style={{ background: '#fff', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
           <h3 style={{ fontSize: '14px', marginBottom: '10px', color: '#667' }}>Região</h3>
-          <PieChart data={contactsByRegion} />
+          {<PieChart data={contactsByRegion} />}
         </div>
         <div style={{ background: '#fff', padding: '15px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
           <h3 style={{ fontSize: '14px', marginBottom: '10px', color: '#667' }}>Área</h3>
-          <BarChart data={contactsByArea} />
+          {<BarChart data={contactsByArea} /> }
         </div>
       </section>
 
       {/* Seção de Tabela */}
       <section className="dashboard-table" style={{ background: '#fff', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
         <h3 style={{ marginBottom: '15px', color: '#0b3c5d' }}>Últimas Campanhas</h3>
-        <CampaignTable campaigns={lastCampaigns} />
+        { <CampaignTable campaigns={lastCampaigns} />}
       </section>
     </div>
   )

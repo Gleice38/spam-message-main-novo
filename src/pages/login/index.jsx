@@ -54,6 +54,7 @@ export default function Login() {
           <h2 className="headline-text">
             Plataforma de disparo de mensagens individuais para contatos de pós-graduação em todo o Brasil
           </h2>
+          
 
           <ul className="features-bullets">
             <li>Alcance contatos acadêmicos em diversas regiões</li>

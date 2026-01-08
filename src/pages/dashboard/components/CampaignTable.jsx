@@ -1,3 +1,4 @@
+import React from 'react'
 import './CampaignTable.css'
 
 const STATUS_LABELS = {
