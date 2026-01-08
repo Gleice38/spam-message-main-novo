@@ -64,7 +64,6 @@ body, html, #root {
   font-weight: 500;
 }
 
-/* LISTA ESQUERDA - PONTOS BRANCOS E MAIORES */
 .features-bullets {
   list-style: none;
   display: flex;
@@ -101,13 +100,41 @@ body, html, #root {
   position: relative;
 }
 
+/* SEÇÃO DA LOGO SOFTEX - MODIFICADA PARA APROXIMAÇÃO MÁXIMA */
+.realization-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8px; 
+  width: 100%;
+}
+
+.realization-header span {
+  font-size: 10px;
+  color: #a0aec0;
+  letter-spacing: 2px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;      /* Faz o span respeitar margens e altura */
+  line-height: 1;      /* Remove o respiro natural da fonte */
+  margin-bottom: 0px;  /* Zera a distância inferior */
+}
+
+.logo-softex-img {
+  width: 150px; 
+  height: auto;
+  object-fit: contain;
+  margin-top: -6px;    /* Puxa a imagem para cima da palavra REALIZAÇÃO */
+}
+
+/* CAIXA DE REGISTRO (AUTH CARD) */
 .auth-card {
   background-color: #ffffff;
   width: 100%;
   max-width: 440px;
   padding: 40px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
@@ -116,7 +143,7 @@ body, html, #root {
 }
 
 .card-header h2 { 
-  font-size: 22px; 
+  font-size: 20px; 
   font-weight: 700; 
   color: #1a202c; 
   margin-bottom: 8px;
@@ -127,92 +154,17 @@ body, html, #root {
   color: #718096;
 }
 
-/* MENSAGEM DE ERRO REATIVADA */
-.error-message {
-  color: #e53e3e;
-  background-color: #fff5f5;
-  border: 1px solid #feb2b2;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 14px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-weight: 500;
-  animation: shake 0.4s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  25% { transform: translateX(-4px); }
-  75% { transform: translateX(4px); }
-}
-
 /* INPUTS E ÍCONES */
-.input-field {
-  margin-bottom: 20px;
-}
+.input-field { margin-bottom: 20px; }
+.input-field label { display: block; font-size: 13px; font-weight: 700; color: #2d3748; margin-bottom: 8px; }
+.input-container { position: relative; display: flex; align-items: center; }
+.input-container input { width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #e2e8f0; border-radius: 8px; outline: none; }
+.icon-left { position: absolute; left: 14px; color: #718096; }
+.icon-right { position: absolute; right: 14px; background: none; border: none; cursor: pointer; color: #a0aec0; }
 
-.input-field label {
-  display: block;
-  font-size: 13px;
-  font-weight: 700;
-  color: #2d3748;
-  margin-bottom: 8px;
-}
-
-.input-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.input-container input {
-  width: 100%;
-  padding: 12px 12px 12px 40px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-}
-
-.icon-left {
-  position: absolute;
-  left: 14px;
-  color: #718096;
-}
-
-.icon-right {
-  position: absolute;
-  right: 14px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #a0aec0;
-}
-
-/* AÇÕES */
-.form-actions {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.checkbox-area {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: #4a5568;
-  cursor: pointer;
-}
-
-.forgot-password {
-  font-size: 13px;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 500;
-}
+.form-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+.checkbox-area { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #4a5568; cursor: pointer; }
+.forgot-password { font-size: 13px; color: #007bff; text-decoration: none; font-weight: 500; }
 
 .btn-submit {
   width: 100%;
@@ -224,33 +176,16 @@ body, html, #root {
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.btn-submit:hover {
-  background-color: #003660;
-}
+.register-link { text-align: center; margin-top: 20px; font-size: 13px; color: #718096; }
+.register-link a { color: #007bff; text-decoration: none; font-weight: 700; }
 
-.register-link {
-  text-align: center;
-  margin-top: 20px;
-  font-size: 13px;
-  color: #718096;
-}
-
-.register-link a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 700;
-}
-
-/* RODAPÉ - SUBIDO PARA APARECER MELHOR */
 .footer-copyright {
   position: absolute;
-  bottom: 60px; 
+  bottom: 40px; 
   font-size: 12px;
   color: #a0aec0;
   text-align: center;
   width: 100%;
-  left: 0;
 }

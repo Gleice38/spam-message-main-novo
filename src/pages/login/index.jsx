@@ -2,31 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Lock, Eye, EyeOff, CreditCard } from 'lucide-react';
 import './style.css';
+// Importando a logo da pasta src conforme sua imagem do explorador
+import softexLogo from '../../softex-logo.png'; 
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [cpf, setCpf] = useState('');
-  const [password, setPassword] = useState(''); // Estado para a senha
-  const [error, setError] = useState(''); // Estado para a mensagem de erro
-  
-  const navigate = useNavigate() // ✅ AQUI
-  
-useEffect(() => {
-  const isAuthenticated =
-    localStorage.getItem('isAuthenticated') === 'true'
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-  const onboardingCompleted =
-    localStorage.getItem('onboardingCompleted') === 'true'
+  useEffect(() => {
+    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
+    const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
 
-  if (isAuthenticated) {
-    if (onboardingCompleted) {
-      navigate('/dashboard')
-    } else {
-      navigate('/onboarding')
+    if (isAuthenticated) {
+      navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
     }
-  }
-}, [])
-
+  }, [navigate]);
 
   const handleCPFChange = (e) => {
     let value = e.target.value.replace(/\D/g, '');
@@ -36,35 +29,22 @@ useEffect(() => {
       value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
     }
     setCpf(value);
-    if (error) setError(''); // Limpa o erro ao digitar
+    if (error) setError('');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    // Validação simples: campos vazios ou CPF incompleto
     if (!cpf || !password) {
       setError('Por favor, preencha todos os campos.');
     } else if (cpf.length < 14) {
       setError('CPF inválido. Verifique os números.');
     } else {
-      setError('')
-
-      localStorage.setItem('isAuthenticated', 'true')
-
-const onboardingCompleted =
-  localStorage.getItem('onboardingCompleted') === 'true'
-
-if (onboardingCompleted) {
-  navigate('/dashboard')
-} else {
-  navigate('/onboarding')
-}
-
-    
+      setError('');
+      localStorage.setItem('isAuthenticated', 'true');
+      const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
+      navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
     }
-  }
-
+  };
 
   return (
     <div className="login-page-wrapper">
@@ -82,12 +62,9 @@ if (onboardingCompleted) {
               <p>Plataforma de Comunicação Acadêmica</p>
             </div>
           </div>
-
           <h2 className="headline-text">
             Plataforma de disparo de mensagens individuais para contatos de pós-graduação em todo o Brasil
           </h2>
-          
-
           <ul className="features-bullets">
             <li>Alcance contatos acadêmicos em diversas regiões</li>
             <li>Divulgue eventos acadêmicos via WhatsApp</li>
@@ -97,6 +74,12 @@ if (onboardingCompleted) {
       </section>
 
       <section className="form-section">
+        {/* NOVA SEÇÃO DE REALIZAÇÃO ADICIONADA AQUI */}
+        <div className="realization-header">
+          <span>REALIZAÇÃO</span>
+          <img src={softexLogo} alt="Softex Recife" className="logo-softex-img" />
+        </div>
+
         <div className="auth-card">
           <header className="card-header">
             <h2>Acesse a plataforma de Mensagens Cooperativa</h2>
@@ -104,10 +87,7 @@ if (onboardingCompleted) {
           </header>
 
           <form className="login-form" onSubmit={handleSubmit}>
-            
-            {/* EXIBIÇÃO DA MENSAGEM DE ERRO */}
             {error && <div className="error-message">{error}</div>}
-
             <div className="input-field">
               <label htmlFor="cpf">CPF</label>
               <div className="input-container">
@@ -154,7 +134,6 @@ if (onboardingCompleted) {
               </label>
               <a href="#" className="forgot-password">Esqueceu a senha?</a>
             </div>
-
             <button type="submit" className="btn-submit">Entrar</button>
           </form>
 
