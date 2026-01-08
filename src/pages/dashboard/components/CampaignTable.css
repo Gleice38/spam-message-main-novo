@@ -1,112 +1,63 @@
-.table-card {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-}
-
-.table-header h2 {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111827;
-  margin-bottom: 0.25rem;
-}
-
-.table-header p {
-  font-size: 0.85rem;
-  color: #6b7280;
-  margin-bottom: 1rem;
-}
-
-/* ===== Desktop Table ===== */
-
-.table-wrapper {
-  width: 100%;
-  overflow-x: auto;
-}
-
 .campaign-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.85rem;
 }
 
-.campaign-table th {
+.campaign-table thead th {
   text-align: left;
-  padding: 0.75rem;
-  color: #6b7280;
-  font-weight: 600;
-  border-bottom: 1px solid #e5e7eb;
+  font-size: 13px;
+  color: #667;
+  font-weight: 500;
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.campaign-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.campaign-table tbody tr:last-child {
+  border-bottom: none;
 }
 
 .campaign-table td {
-  padding: 0.75rem;
-  border-bottom: 1px solid #f1f5f9;
-  color: #374151;
+  padding: 16px 8px;
+  font-size: 14px;
+  color: #333;
+  vertical-align: middle;
 }
 
-/* ===== Status Badge ===== */
+.event-name {
+  font-weight: 500;
+  color: #0b3c5d;
+}
 
+.datetime {
+  font-size: 13px;
+  color: #667;
+  line-height: 1.4;
+}
+
+/* Status badges */
 .status-badge {
-  padding: 0.25rem 0.5rem;
+  padding: 6px 12px;
   border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
 }
 
-.status-badge.active {
+.status-badge.finished {
   background: #dcfce7;
   color: #166534;
 }
 
 .status-badge.scheduled {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-badge.active {
   background: #e0f2fe;
-  color: #075985;
-}
-
-.status-badge.finished {
-  background: #f3f4f6;
-  color: #374151;
-}
-
-/* ===== Mobile Cards ===== */
-
-.campaign-card {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.campaign-card-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
-}
-
-.campaign-card-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  margin-top: 0.25rem;
-}
-
-/* ===== Responsive Helpers ===== */
-
-.desktop-only {
-  display: none;
-}
-
-.mobile-only {
-  display: block;
-}
-
-@media (min-width: 768px) {
-  .desktop-only {
-    display: block;
-  }
-
-  .mobile-only {
-    display: none;
-  }
+  color: #0369a1;
 }

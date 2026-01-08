@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Lock, Eye, EyeOff, CreditCard } from 'lucide-react';
 import './style.css';
 
@@ -7,6 +8,25 @@ export default function Login() {
   const [cpf, setCpf] = useState('');
   const [password, setPassword] = useState(''); // Estado para a senha
   const [error, setError] = useState(''); // Estado para a mensagem de erro
+  
+  const navigate = useNavigate() // ✅ AQUI
+  
+useEffect(() => {
+  const isAuthenticated =
+    localStorage.getItem('isAuthenticated') === 'true'
+
+  const onboardingCompleted =
+    localStorage.getItem('onboardingCompleted') === 'true'
+
+  if (isAuthenticated) {
+    if (onboardingCompleted) {
+      navigate('/dashboard')
+    } else {
+      navigate('/onboarding')
+    }
+  }
+}, [])
+
 
   const handleCPFChange = (e) => {
     let value = e.target.value.replace(/\D/g, '');
@@ -28,11 +48,23 @@ export default function Login() {
     } else if (cpf.length < 14) {
       setError('CPF inválido. Verifique os números.');
     } else {
-      setError('');
-      console.log("Dados enviados:", { cpf, password });
-      // Aqui você faria a chamada para sua API
+      setError('')
+
+      localStorage.setItem('isAuthenticated', 'true')
+
+const onboardingCompleted =
+  localStorage.getItem('onboardingCompleted') === 'true'
+
+if (onboardingCompleted) {
+  navigate('/dashboard')
+} else {
+  navigate('/onboarding')
+}
+
+    
     }
-  };
+  }
+
 
   return (
     <div className="login-page-wrapper">

@@ -1,57 +1,52 @@
-import './LineChart.css'
+import {
+  LineChart as ReLineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer
+} from 'recharts'
 
-export default function LineChart({
-  title = 'Histórico de Mensagens Enviadas',
-  subtitle = 'Evolução nos últimos meses',
-  data = []
-}) {
+import './lineChart.css'
+
+const data = [
+  { month: 'Jul', value: 1800 },
+  { month: 'Ago', value: 2100 },
+  { month: 'Set', value: 2450 },
+  { month: 'Out', value: 2200 },
+  { month: 'Nov', value: 2900 },
+  { month: 'Dez', value: 3300 }
+]
+
+export default function LineChart() {
   return (
-    <div className="chart-card">
-      
-      <header className="chart-header">
-        <h2>{title}</h2>
-        <p>{subtitle}</p>
-      </header>
-
-      <div className="chart-container">
-        <svg viewBox="0 0 600 300" className="line-chart">
-          
-          {/* eixo Y (grid) */}
-          {[50, 100, 150, 200, 250].map((y, i) => (
-            <line
-              key={i}
-              x1="50"
-              y1={y}
-              x2="550"
-              y2={y}
-              className="chart-grid"
-            />
-          ))}
-
-          {/* eixo X */}
-          <line x1="50" y1="250" x2="550" y2="250" className="chart-axis" />
-
-          {/* linha do gráfico (placeholder) */}
-          <polyline
-            points="50,220 150,200 250,170 350,190 450,140 550,120"
-            className="chart-line"
+    <div className="line-chart-wrapper">
+      <ResponsiveContainer width="100%" height={260}>
+        <ReLineChart data={data}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+          <XAxis
+            dataKey="month"
+            axisLine={false}
+            tickLine={false}
+            tick={{ fontSize: 12, fill: '#667' }}
           />
-
-          {/* pontos */}
-          {[50,150,250,350,450,550].map((x, i) => (
-            <circle
-              key={i}
-              cx={x}
-              cy={[220,200,170,190,140,120][i]}
-              r="5"
-              className="chart-point"
-            />
-          ))}
-
-        </svg>
-      </div>
-
+          <YAxis
+            axisLine={false}
+            tickLine={false}
+            tick={{ fontSize: 12, fill: '#667' }}
+          />
+          <Tooltip />
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#0b3c5d"
+            strokeWidth={3}
+            dot={{ r: 4 }}
+            activeDot={{ r: 6 }}
+          />
+        </ReLineChart>
+      </ResponsiveContainer>
     </div>
   )
 }
-///Quando você quiser trocar o SVG por Chart.js:apaga só o <svg>, mantém estrutura, título e CSS

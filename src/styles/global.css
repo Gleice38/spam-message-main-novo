@@ -1,0 +1,22 @@
+/* RESET GLOBAL */
+* {
+  box-sizing: border-box;
+}
+
+/* PERMITE SCROLL */
+body, html, #root {
+  width: 100%;
+  height: auto;
+  min-height: 100%;
+  overflow-y: auto;
+}
+
+
+/* GARANTE QUE PÁGINAS POSSAM CRESCER */
+.login-page-wrapper,
+.onboarding-wrapper,
+.dashboard-container {
+  min-height: 100vh;
+  height: auto;
+  overflow: visible;
+}

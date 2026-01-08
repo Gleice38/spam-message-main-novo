@@ -1,7 +1,7 @@
-export default function StepWelcome() {
+export default function StepWelcome({ onNext, onSkip }) {
   return (
     <div className="onboarding-step">
-      
+
       <h1>Bem-vindo ao Mensagens Cooperativa!</h1>
 
       <p className="step-subtitle">
@@ -30,6 +30,17 @@ export default function StepWelcome() {
           <span>Estatísticas e métricas em tempo real</span>
         </li>
       </ul>
+
+      {/* 🔽 AQUI ESTAVA O PROBLEMA 🔽 */}
+      <div className="step-actions">
+        <button className="btn-secondary" onClick={onSkip}>
+          Pular tutorial
+        </button>
+
+        <button className="btn-primary" onClick={onNext}>
+          Próximo
+        </button>
+      </div>
 
     </div>
   )
