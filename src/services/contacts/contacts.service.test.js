@@ -1,27 +1,15 @@
-import { describe, it, expect, vi } from 'vitest'
-import * as contactsModule from './contacts.service'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { httpClient } from '../api/httpClient'
-
-const { contactsService } = contactsModule
-
-vi.mock('../api/httpClient', () => ({
-  httpClient: {
-    get: vi.fn(),
-    post: vi.fn(),
-    put: vi.fn(),
-    delete: vi.fn()
-  }
-}))
-
-vi.mock('../api/endpoints', () => ({
-  endpoints: {
-    contacts: '/contacts'
-  }
-}))
+import { contactsService } from './contacts.service'
 
 describe('contactsService', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
   it('should fetch contacts', async () => {
-    httpClient.get.mockResolvedValue([
+    // 🔥 ESPIÃO, NÃO MOCK DIRETO
+    vi.spyOn(httpClient, 'get').mockResolvedValue([
       { id: 1, name: 'Ana' }
     ])
 

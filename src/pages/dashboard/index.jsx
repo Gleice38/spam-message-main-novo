@@ -7,29 +7,23 @@ import CampaignTable from './components/CampaignTable'
 import Navbar from '../../components/Navbar'
 import { Database, Send, TrendingUp, Clock } from 'lucide-react'
 import './style.css'
+import { useDashboardData } from '@/hooks/useDashboardData'
+
 
 export default function Dashboard() {
-  const contactsByRegion = [
-    { label: 'Sudeste', value: 47, color: '#0b3c5d' },
-    { label: 'Sul', value: 20, color: '#145374' },
-    { label: 'Nordeste', value: 13, color: '#1c6ea4' },
-    { label: 'Centro-Oeste', value: 12, color: '#2a9df4' },
-    { label: 'Norte', value: 8, color: '#6ec1e4' }
-  ]
+const {
+  loading,
+  error,
+  totalContacts,
+  messagesThisMonth,
+  activeCampaigns,
+  nextDispatch,
+  contactsByRegion,
+  contactsByArea,
+  lastCampaigns
+} = useDashboardData()
 
-  const contactsByArea = [
-    { label: 'Ciências Humanas', value: 32, color: '#0b3c5d' },
-    { label: 'Ciências Exatas', value: 26, color: '#145374' },
-    { label: 'Ciências Biológicas', value: 18, color: '#1c6ea4' },
-    { label: 'Engenharias', value: 14, color: '#2a9df4' },
-    { label: 'Ciências da Saúde', value: 10, color: '#6ec1e4' }
-  ]
 
-  const lastCampaigns = [
-    { name: 'Workshop de IA', datetime: '12/03/2025 • 14:00', region: 'Sudeste', contacts: 1240, status: 'active' },
-    { name: 'Seminário de Ecologia', datetime: '20/03/2025 • 10:00', region: 'Nordeste', contacts: 860, status: 'scheduled' },
-    { name: 'Congresso Nacional', datetime: '02/03/2025 • 09:00', region: 'Nacional', contacts: 3200, status: 'finished' }
-  ]
 
   const cardStyle = {
     background: '#fff',
@@ -84,10 +78,11 @@ export default function Dashboard() {
             marginBottom: '40px'
           }}
         >
-          <StatCard title="Total de Contatos" value="15.847" icon={<Database size={20} />} />
-          <StatCard title="Mensagens (Dezembro)" value="3.245" icon={<Send size={20} />} />
-          <StatCard title="Campanhas Ativas" value="5" icon={<TrendingUp size={20} />} />
-          <StatCard title="Próximo Disparo" value="Hoje às 14h" icon={<Clock size={20} />} />
+          <StatCard title="Total de Contatos" value={totalContacts} icon={<Database size={20} />} />
+          <StatCard title="Mensagens (Dezembro)" value={messagesThisMonth} icon={<Send size={20} />} />
+          <StatCard title="Campanhas Ativas" value={activeCampaigns} icon={<TrendingUp size={20} />} />
+          <StatCard title="Próximo Disparo" value={nextDispatch} icon={<Clock size={20} />} />
+
         </section>
 
         {/* Gráficos */}
