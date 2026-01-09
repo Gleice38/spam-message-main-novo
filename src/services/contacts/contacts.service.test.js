@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest'
-import * as contactsModule from './contacts.service'
 import { httpClient } from '../api/httpClient'
 
 import {
@@ -8,10 +7,13 @@ import {
   resetMocks
 } from '@/test-utils'
 
-// setup padrão de testes
+// ✅ mocks PRIMEIRO
 mockHttpClient()
 mockEndpoints()
 resetMocks()
+
+// ✅ service DEPOIS do mock
+import * as contactsModule from './contacts.service'
 
 const { contactsService } = contactsModule
 
