@@ -1,58 +1,32 @@
 .stat-card {
   background: #ffffff;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 140px;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  min-height: 120px;
 }
 
-.stat-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.stat-card__icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: #1c6ea4;
 }
 
-.stat-card-title {
-  font-size: 0.95rem;
-  font-weight: 500;
-  color: #4b5563;
+.stat-card__title {
+  font-size: 13px;
+  color: #667;
+  margin-bottom: 12px;
 }
 
-.stat-card-icon {
-  font-size: 1.25rem;
-  color: #0b5ed7;
+.stat-card__value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0b3c5d;
+  margin-bottom: 6px;
 }
 
-.stat-card-value {
-  font-size: 2rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0.75rem 0;
-}
-
-.stat-card-subtitle {
-  font-size: 0.85rem;
-  color: #6b7280;
-}
-
-.stat-card-variation {
-  font-size: 0.85rem;
-  font-weight: 500;
-  margin-top: 0.25rem;
-}
-
-/* Variações */
-.stat-card-variation.positive {
-  color: #16a34a;
-}
-
-.stat-card-variation.negative {
-  color: #dc2626;
-}
-
-.stat-card-variation.neutral {
-  color: #6b7280;
+.stat-card__subtitle {
+  font-size: 12px;
 }
