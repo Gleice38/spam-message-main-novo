@@ -11,5 +11,13 @@ export default defineConfig({
   },
   test: {
     environment: 'node'
+  },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://89.117.33.220:8000',
+        changeOrigin: true
+      }
+    }
   }
 })

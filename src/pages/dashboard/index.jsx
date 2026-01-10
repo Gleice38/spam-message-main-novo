@@ -23,127 +23,62 @@ const {
   lastCampaigns
 } = useDashboardData()
 
-
-
-  const cardStyle = {
-    background: '#fff',
-    padding: '24px',
-    borderRadius: '12px',
-    boxShadow: '0 2px 6px rgba(0,0,0,0.05)'
-  }
-
-  const cardTitle = {
-    fontSize: '16px',
-    color: '#0b3c5d',
-    marginBottom: '4px'
-  }
-
-  const cardSubtitle = {
-    fontSize: '13px',
-    color: '#667',
-    marginBottom: '16px'
-  }
-
   return (
     <>
-      {/* NAVBAR FIXA */}
       <Navbar />
-
-      {/* CONTEÚDO */}
-      <div
-        className="dashboard-container"
-        style={{
-          padding: '32px',
-          paddingTop: '96px', // espaço da navbar
-          backgroundColor: '#f4f7f6',
-          minHeight: '100vh'
-        }}
-      >
-        {/* Boas-vindas */}
-        <header style={{ marginBottom: '32px' }}>
-          <h1 style={{ color: '#0b3c5d', fontSize: '24px', marginBottom: '6px' }}>
-            Bem-vindo ao Dashboard
-          </h1>
-          <p style={{ color: '#667', fontSize: '14px' }}>
-            Gerencie suas campanhas de WhatsApp para contatos de pós-graduação
-          </p>
+      <div className="dashboard-container">
+        <header className="dashboard-header">
+          <h1>Bem-vindo ao Dashboard</h1>
+          <p>Gerencie suas campanhas de WhatsApp para contatos de pós-graduação</p>
         </header>
 
-        {/* Cards principais */}
-        <section
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '20px',
-            marginBottom: '40px'
-          }}
-        >
+        <section className="dashboard-section">
           <StatCard title="Total de Contatos" value={totalContacts} icon={<Database size={20} />} />
           <StatCard title="Mensagens (Dezembro)" value={messagesThisMonth} icon={<Send size={20} />} />
           <StatCard title="Campanhas Ativas" value={activeCampaigns} icon={<TrendingUp size={20} />} />
           <StatCard title="Próximo Disparo" value={nextDispatch} icon={<Clock size={20} />} />
-
         </section>
 
-        {/* Gráficos */}
-        <section
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '2fr 1fr',
-            gap: '20px',
-            marginBottom: '40px'
-          }}
-        >
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>Histórico de Mensagens Enviadas</h3>
-            <p style={cardSubtitle}>Evolução nos últimos meses</p>
+        <section className="dashboard-section--charts">
+          <div className="card">
+            <h3 className="card-title">Histórico de Mensagens Enviadas</h3>
+            <p className="card-subtitle">Evolução nos últimos meses</p>
             <LineChart />
           </div>
 
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>Contatos por Região</h3>
-            <p style={cardSubtitle}>Distribuição geográfica da base</p>
+          <div className="card">
+            <h3 className="card-title">Contatos por Região</h3>
+            <p className="card-subtitle">Distribuição geográfica da base</p>
             <PieChart data={contactsByRegion} />
           </div>
         </section>
 
-        {/* Barra */}
-        <section style={{ marginBottom: '40px' }}>
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>Contatos por Área Acadêmica</h3>
-            <p style={cardSubtitle}>Distribuição por campo de estudo</p>
+        <section className="dashboard-section--bar">
+          <div className="card">
+            <h3 className="card-title">Contatos por Área Acadêmica</h3>
+            <p className="card-subtitle">Distribuição por campo de estudo</p>
             <BarChart data={contactsByArea} />
           </div>
         </section>
 
-        {/* Tabela */}
-        <section style={{ marginBottom: '40px' }}>
-          <div style={cardStyle}>
-            <h3 style={cardTitle}>Últimas Campanhas</h3>
-            <p style={cardSubtitle}>Histórico de eventos divulgados via WhatsApp</p>
+        <section className="dashboard-section--table">
+          <div className="card">
+            <h3 className="card-title">Últimas Campanhas</h3>
+            <p className="card-subtitle">Histórico de eventos divulgados via WhatsApp</p>
             <CampaignTable campaigns={lastCampaigns} />
           </div>
         </section>
 
-        {/* Métricas finais */}
-        <section
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '20px',
-            marginBottom: '40px'
-          }}
-        >
+        <section className="dashboard-section">
           <StatCard title="Instituições Cadastradas" value="78" subtitle="Universidades em todo Brasil" icon={<Database size={20} />} />
           <StatCard title="Média de Envios" value="1.200" subtitle="Mensagens por dia útil" icon={<Send size={20} />} />
           <StatCard title="Crescimento da Base" value="+2.2%" subtitle="Novos contatos este mês" icon={<TrendingUp size={20} />} />
         </section>
 
-        <footer style={{ textAlign: 'center', fontSize: '12px', color: '#999' }}>
+        <footer className="dashboard-footer">
           © 2025 Mensagens Cooperativa. Todos os direitos reservados.
         </footer>
       </div>
     </>
   )
 }
-

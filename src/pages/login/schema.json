@@ -3,10 +3,10 @@
   "subtitle": "Faça login ou crie uma conta para continuar.",
   "fields": [
     {
-      "name": "cpf",
-      "label": "CPF",
-      "type": "text",
-      "placeholder": "000.000.000-00",
+      "name": "email",
+      "label": "Email",
+      "type": "email",
+      "placeholder": "seu@email.com",
       "required": true
     },
     {

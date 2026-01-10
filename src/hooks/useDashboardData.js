@@ -1,6 +1,42 @@
 import { useEffect, useState } from 'react'
 import { contactsService } from '@/services/contacts/contacts.service'
-// import { campaignsService } from '@/services/campaigns/campaigns.service'
+import { campaignsService } from '@/services/campaigns/campaigns.service'
+
+const REGION_COLORS = {
+  Sudeste: '#0b3c5d',
+  Sul: '#145374',
+  Nordeste: '#1c6ea4',
+  'Centro-Oeste': '#2a9df4',
+  Norte: '#6ec1e4'
+};
+
+const AREA_COLORS = {
+  'Ciências Humanas': '#0b3c5d',
+  'Ciências Exatas': '#145374',
+  'Ciências Biológicas': '#1c6ea4',
+  Engenharias: '#2a9df4',
+  'Ciências da Saúde': '#6ec1e4'
+};
+
+function aggregateData(items, key, colorMap) {
+  if (!items || items.length === 0) return [];
+
+  const aggregation = items.reduce((acc, item) => {
+    const value = item[key] || 'Não definido';
+    if (!acc[value]) {
+      acc[value] = 0;
+    }
+    acc[value]++;
+    return acc;
+  }, {});
+
+  return Object.entries(aggregation).map(([label, value]) => ({
+    label,
+    value,
+    color: colorMap[label] || '#cccccc' 
+  })).sort((a, b) => b.value - a.value);
+}
+
 
 export function useDashboardData() {
   const [loading, setLoading] = useState(true)
@@ -19,52 +55,37 @@ export function useDashboardData() {
       try {
         setLoading(true)
 
-        // 🔹 Dado real vindo do backend
-        const contacts = await contactsService.getAll()
+        // NOTE: The API does not exist, so this will fail.
+        // We are preparing the frontend for when the API is ready.
+        const [contacts, campaigns] = await Promise.all([
+          contactsService.getAll(),
+          Promise.resolve([]) // campaignsService.getAll() is not available on the backend
+        ]);
+        
+        setTotalContacts(contacts.length);
+        
+        setContactsByRegion(aggregateData(contacts, 'region', REGION_COLORS));
+        setContactsByArea(aggregateData(contacts, 'area', AREA_COLORS));
 
-        // 🔹 Métrica simples
-        setTotalContacts(contacts.length)
+        setLastCampaigns(campaigns);
+        
+        const active = campaigns.filter(c => c.status === 'active');
+        setActiveCampaigns(active.length);
 
-        // 🔹 Agregações (mockadas por enquanto)
-        // Podem virar cálculo real depois
-        setContactsByRegion([
-          { label: 'Sudeste', value: 47, color: '#0b3c5d' },
-          { label: 'Sul', value: 20, color: '#145374' },
-          { label: 'Nordeste', value: 13, color: '#1c6ea4' },
-          { label: 'Centro-Oeste', value: 12, color: '#2a9df4' },
-          { label: 'Norte', value: 8, color: '#6ec1e4' }
-        ])
-        // MOCK TEMPORÁRIO
-         setMessagesThisMonth(3245)
-         setActiveCampaigns(lastCampaigns.filter(c => c.status === 'active').length)
-         setNextDispatch('Hoje às 14h')
+        // MOCK REMAINS: API data structure for these is unknown.
+        setMessagesThisMonth(3245);
+        
+        const scheduled = campaigns
+          .filter(c => c.status === 'scheduled' && new Date(c.datetime) > new Date())
+          .sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
 
+        if (scheduled.length > 0) {
+          const next = new Date(scheduled[0].datetime);
+          setNextDispatch(next.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
+        } else {
+          setNextDispatch('N/A');
+        }
 
-        setContactsByArea([
-          { label: 'Ciências Humanas', value: 32, color: '#0b3c5d' },
-          { label: 'Ciências Exatas', value: 26, color: '#145374' },
-          { label: 'Ciências Biológicas', value: 18, color: '#1c6ea4' },
-          { label: 'Engenharias', value: 14, color: '#2a9df4' },
-          { label: 'Ciências da Saúde', value: 10, color: '#6ec1e4' }
-        ])
-
-        // 🔹 Campanhas (mock até existir GET /campaigns)
-        setLastCampaigns([
-          {
-            name: 'Workshop de IA',
-            datetime: '12/03/2025 • 14:00',
-            region: 'Sudeste',
-            contacts: 1240,
-            status: 'active'
-          },
-          {
-            name: 'Seminário de Ecologia',
-            datetime: '20/03/2025 • 10:00',
-            region: 'Nordeste',
-            contacts: 860,
-            status: 'scheduled'
-          }
-        ])
       } catch (err) {
         setError(err.message || 'Erro ao carregar dashboard')
       } finally {

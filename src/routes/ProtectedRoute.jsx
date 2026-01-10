@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 
 export default function ProtectedRoute({ children }) {
   const navigate = useNavigate()
-  const isAuthenticated =
-    localStorage.getItem('isAuthenticated') === 'true'
+  const token = localStorage.getItem('authToken');
+  const isAuthenticated = !!token;
 
   useEffect(() => {
     if (!isAuthenticated) {
