@@ -44,41 +44,34 @@ export default function Onboarding() {
       )}
 
       {step === 2 && (
-        <StepContacts
-          onNext={nextStep}
-          onPrev={prevStep}
-        />
-      )}
-
-      {step === 3 && (
         <StepSegmentation
           onNext={nextStep}
           onPrev={prevStep}
         />
       )}
 
-      {step === 4 && (
+      {step === 3 && (
         <StepCampaigns
           onNext={nextStep}
           onPrev={prevStep}
         />
       )}
 
-      {step === 5 && (
+      {step === 4 && (
         <StepSchedule
           onNext={nextStep}
           onPrev={prevStep}
         />
       )}
 
-      {step === 6 && (
+      {step === 5 && (
         <StepAnalytics
           onNext={nextStep}
           onPrev={prevStep}
         />
       )}
 
-      {step === 7 && (
+      {step === 6 && (
         <StepFinish onFinish={finishOnboarding} />
       )}
 

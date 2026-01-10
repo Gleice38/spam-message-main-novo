@@ -189,4 +189,22 @@ body, html, #root {
   color: #a0aec0;
   text-align: center;
   width: 100%;
+
+  /* ESTILIZAÇÃO DA CAIXA DE ERRO PROFISSIONAL */
+.error-message {
+  background-color: #fff5f5; /* Fundo vermelho ultra claro */
+  border: 1px solid #feb2b2; /* Borda vermelha suave */
+  color: #c53030;            /* Texto em vermelho escuro para leitura */
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;       /* Espaço para não encostar no campo de Email */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 }

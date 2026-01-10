@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Lock, Eye, EyeOff, Mail } from 'lucide-react';
 import './style.css';
-// Importando a logo da pasta src conforme sua imagem do explorador
+// Importação segura da logo
 import softexLogo from '../../softex-logo.png'; 
 import { authService } from '../../services/auth/auth.service';
 
@@ -16,27 +16,17 @@ export default function Login() {
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
-
     if (isAuthenticated) {
+      const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
       navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleEmailChange = (e) => {
-    setEmail(e.target.value);
-    if (error) setError('');
-  };
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      return setError('Por favor, preencha todos os campos.');
-    }
-    // Basic email validation
-    if (!/^\S+@\S+\.\S+$/.test(email)) {
-      return setError('Email inválido. Verifique o formato.');
+      setError('Por favor, preencha todos os campos.');
+      return;
     }
 
     setLoading(true);
@@ -44,15 +34,12 @@ export default function Login() {
 
     try {
       const loginResponse = await authService.login({ email, password });
-      console.log('Login response:', loginResponse); // Log the full response
-      const token = loginResponse.access_token; // Assuming the token is in access_token
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', token); // Store the token
+      localStorage.setItem('authToken', loginResponse.access_token);
       
       const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
       navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
     } catch (err) {
-      console.error('Login failed:', err);
       setError(err.message || 'Email ou senha inválidos.');
     } finally {
       setLoading(false);
@@ -87,7 +74,6 @@ export default function Login() {
       </section>
 
       <section className="form-section">
-        {/* NOVA SEÇÃO DE REALIZAÇÃO ADICIONADA AQUI */}
         <div className="realization-header">
           <span>REALIZAÇÃO</span>
           <img src={softexLogo} alt="Softex Recife" className="logo-softex-img" />
@@ -100,7 +86,26 @@ export default function Login() {
           </header>
 
           <form className="login-form" onSubmit={handleSubmit}>
-            {error && <div className="error-message">{error}</div>}
+            {/* BOX DE ERRO ESTILO FIGMA - RESTAURADO */}
+            {error && (
+              <div style={{
+                backgroundColor: '#fef2f2',
+                border: '1px solid #fee2e2',
+                color: '#991b1b',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                fontSize: '14px',
+                fontWeight: '500',
+                marginBottom: '20px',
+                textAlign: 'center',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                {error}
+              </div>
+            )}
+
             <div className="input-field">
               <label htmlFor="email">Email</label>
               <div className="input-container">
@@ -110,7 +115,7 @@ export default function Login() {
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
-                  onChange={handleEmailChange}
+                  onChange={(e) => { setEmail(e.target.value); setError(''); }}
                   disabled={loading}
                 />
               </div>
@@ -125,10 +130,7 @@ export default function Login() {
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                    if (error) setError('');
-                  }}
+                  onChange={(e) => { setPassword(e.target.value); setError(''); }}
                   disabled={loading}
                 />
                 <button 
@@ -149,6 +151,7 @@ export default function Login() {
               </label>
               <a href="#" className="forgot-password">Esqueceu a senha?</a>
             </div>
+            
             <button type="submit" className="btn-submit" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
