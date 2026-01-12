@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Lock, Eye, EyeOff, Mail } from 'lucide-react';
 import './style.css';
-// Importação segura da logo
-import softexLogo from '../../softex-logo.png'; 
+
+import softexLogo from '../../softex-logo.png';
 import { authService } from '../../services/auth/auth.service';
 
 export default function Login() {
@@ -12,18 +12,26 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
+  // 🔁 Se já estiver autenticado, redireciona corretamente
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
-    if (isAuthenticated) {
-      const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
-      navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
+    const token = localStorage.getItem('authToken');
+
+    if (token) {
+      const onboardingCompleted =
+        localStorage.getItem('onboardingCompleted') === 'true';
+
+      navigate(onboardingCompleted ? '/dashboard' : '/onboarding', {
+        replace: true,
+      });
     }
   }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (!email || !password) {
       setError('Por favor, preencha todos os campos.');
       return;
@@ -33,11 +41,19 @@ export default function Login() {
     setError('');
 
     try {
-      const loginResponse = await authService.login({ email, password });
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('authToken', loginResponse.access_token);
-      
-      const onboardingCompleted = localStorage.getItem('onboardingCompleted') === 'true';
+      // 🔐 Login real (ou mock)
+      //const loginResponse = await authService.login({ email, password });
+
+      // ✅ Fonte única de autenticação
+      //localStorage.setItem('authToken', loginResponse.access_token);
+
+      // 🔐 LOGIN FAKE PARA DESENVOLVIMENTO
+      localStorage.setItem('authToken', 'dev-token');
+
+      // ❗ onboardingCompleted NÃO deve ser setado aqui
+      const onboardingCompleted =
+        localStorage.getItem('onboardingCompleted') === 'true';
+
       navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
     } catch (err) {
       setError(err.message || 'Email ou senha inválidos.');
@@ -62,9 +78,12 @@ export default function Login() {
               <p>Plataforma de Comunicação Acadêmica</p>
             </div>
           </div>
+
           <h2 className="headline-text">
-            Plataforma de disparo de mensagens individuais para contatos de pós-graduação em todo o Brasil
+            Plataforma de disparo de mensagens individuais para contatos de
+            pós-graduação em todo o Brasil
           </h2>
+
           <ul className="features-bullets">
             <li>Alcance contatos acadêmicos em diversas regiões</li>
             <li>Divulgue eventos acadêmicos via WhatsApp</li>
@@ -76,7 +95,11 @@ export default function Login() {
       <section className="form-section">
         <div className="realization-header">
           <span>REALIZAÇÃO</span>
-          <img src={softexLogo} alt="Softex Recife" className="logo-softex-img" />
+          <img
+            src={softexLogo}
+            alt="Softex Recife"
+            className="logo-softex-img"
+          />
         </div>
 
         <div className="auth-card">
@@ -86,22 +109,20 @@ export default function Login() {
           </header>
 
           <form className="login-form" onSubmit={handleSubmit}>
-            {/* BOX DE ERRO ESTILO FIGMA - RESTAURADO */}
             {error && (
-              <div style={{
-                backgroundColor: '#fef2f2',
-                border: '1px solid #fee2e2',
-                color: '#991b1b',
-                padding: '12px 16px',
-                borderRadius: '8px',
-                fontSize: '14px',
-                fontWeight: '500',
-                marginBottom: '20px',
-                textAlign: 'center',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
+              <div
+                style={{
+                  backgroundColor: '#fef2f2',
+                  border: '1px solid #fee2e2',
+                  color: '#991b1b',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  marginBottom: '20px',
+                  textAlign: 'center',
+                }}
+              >
                 {error}
               </div>
             )}
@@ -115,7 +136,10 @@ export default function Login() {
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
-                  onChange={(e) => { setEmail(e.target.value); setError(''); }}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError('');
+                  }}
                   disabled={loading}
                 />
               </div>
@@ -127,14 +151,17 @@ export default function Login() {
                 <Lock className="icon-left" size={18} />
                 <input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
                   value={password}
-                  onChange={(e) => { setPassword(e.target.value); setError(''); }}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError('');
+                  }}
                   disabled={loading}
                 />
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="icon-right"
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={loading}
@@ -149,17 +176,12 @@ export default function Login() {
                 <input type="checkbox" disabled={loading} />
                 <span>Lembrar-me</span>
               </label>
-              <a href="#" className="forgot-password">Esqueceu a senha?</a>
             </div>
-            
+
             <button type="submit" className="btn-submit" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
-
-          <p className="register-link">
-            Não tem uma conta? <a href="#">Registrar</a>
-          </p>
         </div>
 
         <footer className="footer-copyright">

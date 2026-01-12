@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageSquare, CheckCircle2, ChevronRight } from 'lucide-react';
+import { ChevronRight, CheckCircle2 } from 'lucide-react';
 
 export default function StepWelcome({ onNext, onSkip }) {
   const [isHovered, setIsHovered] = useState(false);
@@ -8,19 +8,31 @@ export default function StepWelcome({ onNext, onSkip }) {
     <div style={styles.wrapper}>
       <div style={styles.container}>
         
-        {/* LADO ESQUERDO: VISUAL */}
+        {/* LADO ESQUERDO: VISUAL AZUL */}
         <div style={styles.visualSide}>
-          <div style={styles.iconBox}>
-            <MessageSquare size={48} color="#ffffff" />
+          <div style={styles.circleTop}></div>
+          <div style={styles.circleBottom}></div>
+
+          <div style={styles.iconCard}>
+            <div style={styles.iconCircle}>
+              {/* Ícone de Balão de Chat conforme protótipo */}
+              <div style={styles.chatIconBase}>
+                <div style={styles.chatIconTail}></div>
+              </div>
+            </div>
           </div>
-          <p style={styles.stepText}>PASSO 1 DE 7</p>
+          
+          <div style={styles.stepBadge}>Passo 1 de 7</div>
+          
           <div style={styles.dotsRow}>
             <div style={styles.activeDot}></div>
-            {[...Array(6)].map((_, i) => <div key={i} style={styles.dot}></div>)}
+            {[...Array(6)].map((_, i) => (
+              <div key={i} style={styles.dot}></div>
+            ))}
           </div>
         </div>
 
-        {/* LADO DIREITO: CONTEÚDO TOTALMENTE RECUPERADO */}
+        {/* LADO DIREITO: CONTEÚDO */}
         <div style={styles.contentSide}>
           <header style={styles.header}>
             <div style={styles.logoCircle}>MC</div>
@@ -31,36 +43,31 @@ export default function StepWelcome({ onNext, onSkip }) {
           </header>
 
           <div style={styles.body}>
-            <h1 style={styles.title}>Bem-vindo!</h1>
-            <p style={styles.subtitle}>Sua plataforma completa para comunicação via WhatsApp</p>
+            <h1 style={styles.title}>Bem-vindo ao Mensagens Cooperativa!</h1>
+            <h2 style={styles.subtitle}>Sua plataforma completa para comunicação acadêmica via WhatsApp</h2>
             
             <p style={styles.descriptionText}>
               Envie mensagens individuais sobre eventos acadêmicos regionais e nacionais para contatos de pós-graduação em todo o Brasil de forma organizada e profissional.
             </p>
-            
+
             <div style={styles.list}>
-              {/* ITEM 1 */}
               <div style={styles.listItem}>
-                <CheckCircle2 color="#10b981" size={18} style={{ flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ textAlign: 'left' }}>
+                <CheckCircle2 size={18} color="#10b981" />
+                <div>
                   <h4 style={styles.itemTitle}>Envios Individuais</h4>
                   <p style={styles.itemDesc}>Mensagens personalizadas para cada contato.</p>
                 </div>
               </div>
-              
-              {/* ITEM 2 */}
               <div style={styles.listItem}>
-                <CheckCircle2 color="#10b981" size={18} style={{ flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ textAlign: 'left' }}>
+                <CheckCircle2 size={18} color="#10b981" />
+                <div>
                   <h4 style={styles.itemTitle}>Segmentação Avançada</h4>
                   <p style={styles.itemDesc}>Filtros por região e área acadêmica.</p>
                 </div>
               </div>
-
-              {/* ITEM 3: RECUPERADO AQUI */}
               <div style={styles.listItem}>
-                <CheckCircle2 color="#10b981" size={18} style={{ flexShrink: 0, marginTop: '3px' }} />
-                <div style={{ textAlign: 'left' }}>
+                <CheckCircle2 size={18} color="#10b981" />
+                <div>
                   <h4 style={styles.itemTitle}>Dashboard Completo</h4>
                   <p style={styles.itemDesc}>Estatísticas e métricas em tempo real.</p>
                 </div>
@@ -69,52 +76,71 @@ export default function StepWelcome({ onNext, onSkip }) {
           </div>
 
           <div style={styles.footer}>
-            <button 
-              onClick={onSkip}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
+            {/* Pular Tutorial alinhado à esquerda e funcional */}
+           <button 
+              onClick={onSkip} 
+              onMouseEnter={() => setIsHovered(true)} // Ativa o hover
+              onMouseLeave={() => setIsHovered(false)} // Desativa o hover
               style={{
                 ...styles.btnSkip,
-                border: isHovered ? '1px solid #cbd5e0' : '1px solid transparent',
-                backgroundColor: isHovered ? '#f7fafc' : 'transparent',
+                color: isHovered ? '#2d3748' : '#718096', // Muda de cinza claro para cinza escuro
               }}
             >
-              PULAR TUTORIAL
+              Pular Tutorial
             </button>
-
+            
             <button onClick={onNext} style={styles.btnNext}>
-              PRÓXIMO <ChevronRight size={18} color="#ffffff" />
+              Próximo <ChevronRight size={18} />
             </button>
           </div>
         </div>
       </div>
+
+      {/* Frase posicionada fora do card conforme protótipo */}
+      <p style={styles.disclaimerOutside}>
+        Você pode acessar este tutorial novamente nas Configurações
+      </p>
     </div>
   );
 }
 
 const styles = {
-  wrapper: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#f0f2f5', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999 },
-  container: { width: '1000px', height: '620px', backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 50px rgba(0,0,0,0.1)' },
-  visualSide: { width: '40%', background: 'linear-gradient(135deg, #005a96 0%, #003366 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' },
-  iconBox: { background: 'rgba(255, 255, 255, 0.1)', padding: '20px', borderRadius: '22px', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: '10px' },
-  stepText: { fontWeight: '700', fontSize: '13px', margin: '10px 0', color: '#ffffff' },
-  dotsRow: { display: 'flex', gap: '8px' },
-  dot: { width: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.3)', borderRadius: '50%' },
-  activeDot: { width: '24px', height: '8px', backgroundColor: '#ffffff', borderRadius: '10px' },
-  contentSide: { width: '60%', padding: '35px 60px', display: 'flex', flexDirection: 'column', backgroundColor: '#ffffff' },
-  header: { display: 'flex', alignItems: 'center', marginBottom: '20px' },
-  logoCircle: { width: '40px', height: '40px', backgroundColor: '#004a7c', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '800', marginRight: '15px' },
-  brandName: { margin: 0, fontWeight: '800', color: '#1a202c', fontSize: '15px' },
-  brandSub: { margin: 0, fontSize: '11px', color: '#718096' },
+  wrapper: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#f4f7f9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999 },
+  container: { width: '950px', height: '580px', backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', marginBottom: '30px' },
+  
+  visualSide: { width: '42%', background: 'linear-gradient(135deg, #005a96 0%, #003e6b 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
+  circleTop: { position: 'absolute', top: '-50px', left: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
+  circleBottom: { position: 'absolute', bottom: '-80px', right: '-40px', width: '250px', height: '250px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
+  
+  iconCard: { width: '140px', height: '140px', backgroundColor: 'rgba(255, 255, 255, 0.15)', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: '30px', zIndex: 2 },
+  iconCircle: { width: '85px', height: '85px', border: '3px solid #ffffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+  chatIconBase: { width: '38px', height: '28px', border: '3px solid #ffffff', borderRadius: '6px', position: 'relative' },
+  chatIconTail: { position: 'absolute', bottom: '-10px', left: '6px', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderTop: '10px solid #ffffff' },
+  
+  stepBadge: { backgroundColor: 'rgba(255, 255, 255, 0.2)', color: '#ffffff', padding: '8px 22px', borderRadius: '20px', fontSize: '14px', fontWeight: '600', marginBottom: '25px', zIndex: 2 },
+  dotsRow: { display: 'flex', gap: '8px', zIndex: 2 },
+  dot: { width: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: '50%' },
+  activeDot: { width: '30px', height: '8px', backgroundColor: '#ffffff', borderRadius: '10px' },
+
+  contentSide: { width: '58%', padding: '50px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left' },
+  header: { display: 'flex', alignItems: 'center', marginBottom: '30px' },
+  logoCircle: { width: '45px', height: '45px', backgroundColor: '#004a7c', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '800', marginRight: '15px' },
+  brandName: { margin: 0, color: '#004a7c', fontSize: '18px', fontWeight: '700' },
+  brandSub: { margin: 0, fontSize: '12px', color: '#718096' },
+  
   body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' },
-  title: { fontSize: '26px', fontWeight: '800', color: '#1a202c', margin: '0 0 5px 0', textAlign: 'left' },
-  subtitle: { color: '#007bff', fontWeight: '700', fontSize: '14px', margin: '0 0 12px 0', textAlign: 'left' },
-  descriptionText: { fontSize: '13px', color: '#4a5568', lineHeight: '1.4', margin: '0 0 20px 0', textAlign: 'left' },
-  list: { display: 'flex', flexDirection: 'column', gap: '15px' },
-  listItem: { display: 'flex', gap: '12px' },
-  itemTitle: { margin: '0 0 1px 0', color: '#2d3748', fontSize: '14px', fontWeight: '700' },
-  itemDesc: { margin: 0, fontSize: '12px', color: '#718096' },
-  footer: { marginTop: '25px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  btnSkip: { background: 'transparent', padding: '8px 16px', borderRadius: '8px', fontWeight: '800', fontSize: '12px', cursor: 'pointer', transition: '0.2s', color: '#718096' },
-  btnNext: { background: '#004a7c', color: '#ffffff', border: 'none', padding: '12px 28px', borderRadius: '10px', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '8px', cursor: 'pointer' }
+  title: { fontSize: '32px', fontWeight: '800', color: '#1a202c', marginBottom: '12px', lineHeight: '1.2' },
+  subtitle: { fontSize: '18px', color: '#3182ce', fontWeight: '600', marginBottom: '20px' },
+  descriptionText: { fontSize: '15px', color: '#4a5568', lineHeight: '1.6', marginBottom: '30px' },
+  
+  list: { display: 'flex', flexDirection: 'column', gap: '20px' },
+  listItem: { display: 'flex', gap: '15px', alignItems: 'flex-start' },
+  itemTitle: { margin: 0, fontSize: '15px', fontWeight: '700', color: '#2d3748' },
+  itemDesc: { margin: 0, fontSize: '13px', color: '#718096' },
+
+  footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' },
+  btnSkip: { background: 'none', border: 'none', color: '#718096', cursor: 'pointer', fontSize: '14px', fontWeight: '500', padding: '10px 0', transition: 'color 0.2s ease' },
+  btnNext: { background: '#004a7c', color: '#ffffff', border: 'none', padding: '12px 32px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', fontSize: '15px' },
+  
+  disclaimerOutside: { fontSize: '13px', color: '#a0aec0', textAlign: 'center' }
 };
