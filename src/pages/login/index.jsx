@@ -29,38 +29,47 @@ export default function Login() {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!email || !password) {
-      setError('Por favor, preencha todos os campos.');
-      return;
+  if (!email || !password) {
+    setError("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const loginResponse = await authService.login({
+      email,
+      password,
+    });
+
+    console.log("Login OK:", loginResponse);
+
+    // 🔑 backend CONFIRMADO
+    localStorage.setItem("authToken", loginResponse.access_token);
+
+    const onboardingCompleted =
+      localStorage.getItem("onboardingCompleted") === "true";
+
+    navigate(onboardingCompleted ? "/dashboard" : "/onboarding");
+  } catch (err) {
+    console.error("Erro login:", err.response);
+
+    if (err.response?.status === 401) {
+      setError("Email ou senha incorretos.");
+    } else if (err.response?.data?.detail) {
+      setError(err.response.data.detail);
+    } else {
+      setError("Erro ao conectar com o servidor.");
     }
+  } finally {
+    setLoading(false);
+  }
+};
 
-    setLoading(true);
-    setError('');
-
-    try {
-      // 🔐 Login real (ou mock)
-      //const loginResponse = await authService.login({ email, password });
-
-      // ✅ Fonte única de autenticação
-      //localStorage.setItem('authToken', loginResponse.access_token);
-
-      // 🔐 LOGIN FAKE PARA DESENVOLVIMENTO
-      localStorage.setItem('authToken', 'dev-token');
-
-      // ❗ onboardingCompleted NÃO deve ser setado aqui
-      const onboardingCompleted =
-        localStorage.getItem('onboardingCompleted') === 'true';
-
-      navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
-    } catch (err) {
-      setError(err.message || 'Email ou senha inválidos.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="login-page-wrapper">

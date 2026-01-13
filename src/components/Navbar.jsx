@@ -15,9 +15,19 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path
 
   function handleLogout() {
-    localStorage.removeItem('isAuthenticated')
-    navigate('/')
-  }
+  console.log("🟥 Logout clicado");
+
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('onboardingCompleted');
+
+  console.log(
+    "🧹 Token após logout:",
+    localStorage.getItem('authToken')
+  );
+
+  navigate('/', { replace: true });
+}
+
 
   return (
     <header className="navbar">
