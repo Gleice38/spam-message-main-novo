@@ -55,17 +55,27 @@ export default function Login() {
       localStorage.getItem("onboardingCompleted") === "true";
 
     navigate(onboardingCompleted ? "/dashboard" : "/onboarding");
-  } catch (err) {
-    console.error("Erro login:", err.response);
+  } catch (error) {
+  console.error("Erro login:", error);
 
-    if (err.response?.status === 401) {
-      setError("Email ou senha incorretos.");
-    } else if (err.response?.data?.detail) {
-      setError(err.response.data.detail);
+  if (error.response?.status === 401) {
+    setError("Email ou senha incorretos.");
+  } else if (error.response?.data?.detail) {
+    // FastAPI geralmente retorna array
+    const detail = error.response.data.detail;
+
+    if (Array.isArray(detail)) {
+      setError(detail[0]?.msg || "Erro de validação.");
+    } else if (typeof detail === "string") {
+      setError(detail);
     } else {
-      setError("Erro ao conectar com o servidor.");
+      setError("Erro de validação.");
     }
-  } finally {
+  } else {
+    setError("Erro ao conectar com o servidor.");
+  }
+}
+finally {
     setLoading(false);
   }
 };
