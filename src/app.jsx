@@ -5,6 +5,7 @@ import Onboarding from './pages/onboarding'
 import Dashboard from './pages/dashboard'
 import Contacts from './pages/contacts/Contacts'
 import AppLayout from './layouts/AppLayout'
+import NewContact from "./pages/contacts/NewContact";
 
 import ProtectedRoute from './routes/ProtectedRoute'
 
@@ -45,6 +46,16 @@ export default function App() {
       </ProtectedRoute>
     }
   />
+
+   <Route
+          path="/contacts/new"
+          element={
+            <AppLayout>
+              <NewContact />
+            </AppLayout>
+          }
+        />
+        
 </Routes>
 
     </BrowserRouter>

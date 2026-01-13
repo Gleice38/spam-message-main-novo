@@ -1,7 +1,10 @@
 import "./Contacts.css";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Contacts() {
+  const navigate = useNavigate();
+
   const contacts = [
     {
       id: 1,
@@ -26,17 +29,21 @@ export default function Contacts() {
   return (
     <div className="contacts-page">
       {/* HEADER */}
-      <div className="contacts-header">
-        <div>
-          <h1>Gerenciar Contatos</h1>
-          <p>Cadastre e organize contatos do banco de dados</p>
-        </div>
+     <div className="contacts-header">
+    <div>
+      <h1>Gerenciar Contatos</h1>
+      <p>Cadastre e organize contatos do banco de dados</p>
+    </div>
 
-        <button className="btn-primary">
-          <Plus size={16} />
-          Novo Contato
-        </button>
-      </div>
+    <button
+      className="btn-primary"
+      onClick={() => navigate("/contacts/new")}
+    >
+      <Plus size={16} />
+      Novo Contato
+    </button>
+  </div>
+
 
       {/* CARD */}
       <div className="contacts-card">
