@@ -7,6 +7,8 @@ import {
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
+import softexLogo from "../softex-logo.png";
+
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -33,13 +35,23 @@ export default function Navbar() {
     <header className="navbar">
       {/* LOGO */}
       <div className="navbar-brand">
-        <div className="logo-circle">MC</div>
+  <div className="logo-wrapper">
+  <img
+    src={softexLogo}
+    alt="Softex"
+    className="brand-logo"
+  />
 
-        <div className="brand-text">
-          <strong>Mensagens Cooperativa</strong>
-          <span>Comunicação Acadêmica</span>
-        </div>
-      </div>
+  <div className="logo-circle">MC</div>
+</div>
+
+
+  <div className="brand-text">
+    <strong>Mensagens Cooperativa</strong>
+    <span>Comunicação Acadêmica</span>
+  </div>
+</div>
+
 
       {/* MENU */}
       <nav className="navbar-menu">
