@@ -9,9 +9,6 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src')
     }
   },
-  test: {
-    environment: 'node'
-  },
   server: {
     proxy: {
       '/api': {

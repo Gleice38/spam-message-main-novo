@@ -3,8 +3,7 @@ import {
   Send,
   Users,
   Settings,
-  LogOut,
-  MessageSquare
+  LogOut
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
@@ -24,9 +23,7 @@ export default function Navbar() {
     <header className="navbar">
       {/* LOGO */}
       <div className="navbar-brand">
-        <div className="logo-circle">
-          MC
-        </div>
+        <div className="logo-circle">MC</div>
 
         <div className="brand-text">
           <strong>Mensagens Cooperativa</strong>
@@ -44,12 +41,18 @@ export default function Navbar() {
           Dashboard
         </button>
 
-        <button className="nav-item">
+        <button
+          className={`nav-item ${isActive('/campaigns') ? 'active' : ''}`}
+          onClick={() => navigate('/campaigns')}
+        >
           <Send size={16} />
           Nova Campanha
         </button>
 
-        <button className="nav-item">
+        <button
+          className={`nav-item ${isActive('/contacts') ? 'active' : ''}`}
+          onClick={() => navigate('/contacts')}
+        >
           <Users size={16} />
           Gerenciar Contatos
         </button>
