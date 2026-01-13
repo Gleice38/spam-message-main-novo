@@ -1,49 +1,60 @@
 import "./Contacts.css";
 import { Plus, Search, Pencil, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { contactsService } from "../../services/contacts/contacts.service";
 
 export default function Contacts() {
+  const [contacts, setContacts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const contacts = [
-    {
-      id: 1,
-      name: "Dr. João Silva",
-      phone: "(11) 98765-4321",
-      state: "SP",
-      city: "São Paulo",
-      campus: "USP - Campus Capital",
-      faculty: "Faculdade de Medicina",
-    },
-    {
-      id: 2,
-      name: "Dra. Maria Santos",
-      phone: "(21) 99876-5432",
-      state: "RJ",
-      city: "Rio de Janeiro",
-      campus: "UFRJ - Ilha do Fundão",
-      faculty: "Faculdade de Engenharia",
-    },
-  ];
+  async function loadContacts() {
+    try {
+      const data = await contactsService.getAll();
+      setContacts(data);
+    } catch (error) {
+      console.error("Erro ao carregar contatos", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleDelete(id) {
+    const confirm = window.confirm("Deseja realmente excluir este contato?");
+    if (!confirm) return;
+
+    try {
+      await contactsService.remove(id);
+      setContacts((prev) => prev.filter((c) => c.id !== id));
+    } catch (error) {
+      console.error("Erro ao excluir contato", error);
+    }
+  }
+
+  useEffect(() => {
+    loadContacts();
+  }, []);
+
+  if (loading) return <p>Carregando contatos...</p>;
 
   return (
     <div className="contacts-page">
       {/* HEADER */}
-     <div className="contacts-header">
-    <div>
-      <h1>Gerenciar Contatos</h1>
-      <p>Cadastre e organize contatos do banco de dados</p>
-    </div>
+      <div className="contacts-header">
+        <div>
+          <h1>Gerenciar Contatos</h1>
+          <p>Cadastre e organize contatos do banco de dados</p>
+        </div>
 
-    <button
-      className="btn-primary"
-      onClick={() => navigate("/contacts/new")}
-    >
-      <Plus size={16} />
-      Novo Contato
-    </button>
-  </div>
-
+        <button
+          className="btn-primary"
+          onClick={() => navigate("/contacts/new")}
+        >
+          <Plus size={16} />
+          Novo Contato
+        </button>
+      </div>
 
       {/* CARD */}
       <div className="contacts-card">
@@ -65,8 +76,7 @@ export default function Contacts() {
             <tr>
               <th>Nome</th>
               <th>Telefone</th>
-              <th>Estado</th>
-              <th>Cidade</th>
+              <th>Perfil</th>
               <th>Campus</th>
               <th>Faculdade</th>
               <th>Ações</th>
@@ -79,16 +89,22 @@ export default function Contacts() {
                 <td>{c.name}</td>
                 <td>{c.phone}</td>
                 <td>
-                  <span className="state-badge">{c.state}</span>
+                  <span className="state-badge">{c.role}</span>
                 </td>
-                <td>{c.city}</td>
-                <td>{c.campus}</td>
-                <td>{c.faculty}</td>
+                <td>{c.campus_id}</td>
+                <td>{c.academic_area_id}</td>
                 <td className="actions">
-                  <button className="icon-btn edit">
+                  <button
+                    className="icon-btn edit"
+                    onClick={() => navigate(`/contacts/edit/${c.id}`)}
+                  >
                     <Pencil size={16} />
                   </button>
-                  <button className="icon-btn delete">
+
+                  <button
+                    className="icon-btn delete"
+                    onClick={() => handleDelete(c.id)}
+                  >
                     <Trash2 size={16} />
                   </button>
                 </td>

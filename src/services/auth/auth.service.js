@@ -3,11 +3,13 @@ import api from "../api";
 
 export const authService = {
   login: async ({ email, password }) => {
-    const response = await api.post("/api/v1/auth/login", {
+    const response = await api.post("/auth/login", {
       email,
       password,
     });
-
+ 
+    localStorage.setItem("authToken", response.data.access_token);
+ 
     return response.data;
   },
 

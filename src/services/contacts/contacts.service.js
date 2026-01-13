@@ -1,13 +1,26 @@
 import api from "../api";
 
 export const contactsService = {
+  // GET /contacts/
   getAll: async () => {
-    const response = await api.get("/contacts");
-    return response.data;
+    const { data } = await api.get("/contacts/");
+    return data;
   },
 
-  create: async (data) => {
-    const response = await api.post("/contacts", data);
-    return response.data;
+  // POST /contacts/
+  create: async (contact) => {
+    const { data } = await api.post("/contacts/", contact);
+    return data;
+  },
+
+  // PUT /contacts/{id}
+  update: async (id, contact) => {
+    const { data } = await api.put(`/contacts/${id}`, contact);
+    return data;
+  },
+
+  // DELETE /contacts/{id}
+  remove: async (id) => {
+    await api.delete(`/contacts/${id}`);
   },
 };
