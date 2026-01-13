@@ -12,39 +12,41 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+  <Route path="/" element={<Login />} />
+  <Route path="/login" element={<Login />} />
 
-        <Route
-          path="/onboarding"
-          element={
-            <ProtectedRoute>
-              <Onboarding />
-            </ProtectedRoute>
-          }
-        />
+  <Route
+    path="/onboarding"
+    element={
+      <ProtectedRoute>
+        <Onboarding />
+      </ProtectedRoute>
+    }
+  />
 
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Dashboard />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
+  <Route
+    path="/dashboard"
+    element={
+      <ProtectedRoute>
+        <AppLayout>
+          <Dashboard />
+        </AppLayout>
+      </ProtectedRoute>
+    }
+  />
 
-        <Route
-          path="/contacts"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Contacts />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+  <Route
+    path="/contacts"
+    element={
+      <ProtectedRoute>
+        <AppLayout>
+          <Contacts />
+        </AppLayout>
+      </ProtectedRoute>
+    }
+  />
+</Routes>
+
     </BrowserRouter>
   )
 }
