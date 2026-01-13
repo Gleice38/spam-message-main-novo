@@ -20,6 +20,19 @@
   min-width: 320px;
 }
 
+.logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+
 .logo-circle {
   position: relative;
   width: 44px;
