@@ -12,6 +12,7 @@ export default function Contacts() {
   async function loadContacts() {
     try {
       const data = await contactsService.getAll();
+      console.log("Contatos carregados:", data); // DEBUG: ver estrutura dos dados
       setContacts(data);
     } catch (error) {
       console.error("Erro ao carregar contatos", error);
@@ -91,8 +92,8 @@ export default function Contacts() {
                 <td>
                   <span className="state-badge">{c.role}</span>
                 </td>
-                <td>{c.campus_id}</td>
-                <td>{c.academic_area_id}</td>
+                <td>{c.campus}</td>
+                <td>{c.course}</td>
                 <td className="actions">
                   <button
                     className="icon-btn edit"

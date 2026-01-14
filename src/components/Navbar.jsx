@@ -3,13 +3,14 @@ import {
   Send,
   Users,
   Settings,
-  LogOut
+  LogOut,
+  User,
+  Bell,
+  Cog
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import softexLogo from "../softex-logo.png";
-import { Profiler } from 'react';
-
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -18,18 +19,18 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path
 
   function handleLogout() {
-  console.log("🟥 Logout clicado");
+    console.log("🟥 Logout clicado");
 
-  localStorage.removeItem('authToken');
-  localStorage.removeItem('onboardingCompleted');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('onboardingCompleted');
 
-  console.log(
-    "🧹 Token após logout:",
-    localStorage.getItem('authToken')
-  );
+    console.log(
+      "🧹 Token após logout:",
+      localStorage.getItem('authToken')
+    );
 
-  navigate('/', { replace: true });
-}
+    navigate('/', { replace: true });
+  }
 
 
   return (
@@ -65,8 +66,8 @@ export default function Navbar() {
         </button>
 
         <button
-          className={`nav-item ${isActive('/campaigns') ? 'active' : ''}`}
-          onClick={() => navigate('/campaigns')}
+          className={`nav-item ${isActive('/campaigns/new') ? 'active' : ''}`}
+          onClick={() => navigate('/campaigns/new')}
         >
           <Send size={16} />
           Nova Campanha
@@ -83,21 +84,21 @@ export default function Navbar() {
           className={`nav-item ${isActive('/perfil') ? 'active' : ''}`}
           onClick={() => navigate('/perfil')}
         >
-          <Profiler size={16} />
+          <User size={16} />
           Perfil
         </button>
         <button
           className={`nav-item ${isActive('/preferencias') ? 'active' : ''}`}
           onClick={() => navigate('/preferencias')}
         >
-          <Profiler size={16} />
+          <Cog size={16} />
           Preferências de Envio
         </button>
          <button
           className={`nav-item ${isActive('/notificacoes') ? 'active' : ''}`}
           onClick={() => navigate('/notificacoes')}
         >
-          <Profiler size={16} />
+          <Bell size={16} />
           Notificações
         </button>
       </nav>
