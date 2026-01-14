@@ -8,6 +8,7 @@ import {
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import softexLogo from "../softex-logo.png";
+import { Profiler } from 'react';
 
 
 export default function Navbar() {
@@ -77,6 +78,13 @@ export default function Navbar() {
         >
           <Users size={16} />
           Gerenciar Contatos
+        </button>
+        <button
+          className={`nav-item ${isActive('/perfil') ? 'active' : ''}`}
+          onClick={() => navigate('/perfil')}
+        >
+          <Profiler size={16} />
+          Perfil
         </button>
       </nav>
 
