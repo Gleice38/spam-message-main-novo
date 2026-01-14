@@ -82,7 +82,9 @@ export default function App() {
           path="/preferencias"
           element={
             <ProtectedRoute>
-              <Preferencias />
+              <AppLayout>
+                <Preferencias />
+              </AppLayout>
             </ProtectedRoute>
           }
         />
@@ -91,7 +93,9 @@ export default function App() {
           path="/notificacoes"
           element={
             <ProtectedRoute>
-              <Notificacoes />
+              <AppLayout>
+                <Notificacoes />
+              </AppLayout>
             </ProtectedRoute>
           }
         />
