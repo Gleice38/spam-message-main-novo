@@ -12,18 +12,14 @@ export default function StepWelcome({ onNext, onSkip }) {
         <div style={styles.visualSide}>
           <div style={styles.circleTop}></div>
           <div style={styles.circleBottom}></div>
-
           <div style={styles.iconCard}>
             <div style={styles.iconCircle}>
-              {/* Ícone de Balão de Chat conforme protótipo */}
               <div style={styles.chatIconBase}>
                 <div style={styles.chatIconTail}></div>
               </div>
             </div>
           </div>
-          
           <div style={styles.stepBadge}>Passo 1 de 7</div>
-          
           <div style={styles.dotsRow}>
             <div style={styles.activeDot}></div>
             {[...Array(6)].map((_, i) => (
@@ -50,6 +46,7 @@ export default function StepWelcome({ onNext, onSkip }) {
               Envie mensagens individuais sobre eventos acadêmicos regionais e nacionais para contatos de pós-graduação em todo o Brasil de forma organizada e profissional.
             </p>
 
+            {/* LISTA COMPACTADA PARA NÃO EMPURRAR O RODAPÉ */}
             <div style={styles.list}>
               <div style={styles.listItem}>
                 <CheckCircle2 size={18} color="#10b981" />
@@ -76,14 +73,14 @@ export default function StepWelcome({ onNext, onSkip }) {
           </div>
 
           <div style={styles.footer}>
-            {/* Pular Tutorial alinhado à esquerda e funcional */}
-           <button 
+            <button 
               onClick={onSkip} 
-              onMouseEnter={() => setIsHovered(true)} // Ativa o hover
-              onMouseLeave={() => setIsHovered(false)} // Desativa o hover
+              onMouseEnter={() => setIsHovered(true)} 
+              onMouseLeave={() => setIsHovered(false)} 
               style={{
                 ...styles.btnSkip,
-                color: isHovered ? '#2d3748' : '#718096', // Muda de cinza claro para cinza escuro
+                color: isHovered ? '#2d3748' : '#718096', 
+                backgroundColor: isHovered ? '#f1f5f9' : 'transparent',
               }}
             >
               Pular Tutorial
@@ -96,7 +93,6 @@ export default function StepWelcome({ onNext, onSkip }) {
         </div>
       </div>
 
-      {/* Frase posicionada fora do card conforme protótipo */}
       <p style={styles.disclaimerOutside}>
         Você pode acessar este tutorial novamente nas Configurações
       </p>
@@ -107,40 +103,45 @@ export default function StepWelcome({ onNext, onSkip }) {
 const styles = {
   wrapper: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#f4f7f9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999 },
   container: { width: '950px', height: '580px', backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', marginBottom: '30px' },
-  
   visualSide: { width: '42%', background: 'linear-gradient(135deg, #005a96 0%, #003e6b 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
   circleTop: { position: 'absolute', top: '-50px', left: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
   circleBottom: { position: 'absolute', bottom: '-80px', right: '-40px', width: '250px', height: '250px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
-  
   iconCard: { width: '140px', height: '140px', backgroundColor: 'rgba(255, 255, 255, 0.15)', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: '30px', zIndex: 2 },
   iconCircle: { width: '85px', height: '85px', border: '3px solid #ffffff', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' },
   chatIconBase: { width: '38px', height: '28px', border: '3px solid #ffffff', borderRadius: '6px', position: 'relative' },
   chatIconTail: { position: 'absolute', bottom: '-10px', left: '6px', width: 0, height: 0, borderLeft: '8px solid transparent', borderRight: '8px solid transparent', borderTop: '10px solid #ffffff' },
-  
   stepBadge: { backgroundColor: 'rgba(255, 255, 255, 0.2)', color: '#ffffff', padding: '8px 22px', borderRadius: '20px', fontSize: '14px', fontWeight: '600', marginBottom: '25px', zIndex: 2 },
   dotsRow: { display: 'flex', gap: '8px', zIndex: 2 },
   dot: { width: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: '50%' },
   activeDot: { width: '30px', height: '8px', backgroundColor: '#ffffff', borderRadius: '10px' },
-
-  contentSide: { width: '58%', padding: '50px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left' },
-  header: { display: 'flex', alignItems: 'center', marginBottom: '30px' },
+  
+  contentSide: { width: '58%', padding: '40px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left', position: 'relative' },
+  header: { display: 'flex', alignItems: 'center', marginBottom: '20px' },
   logoCircle: { width: '45px', height: '45px', backgroundColor: '#004a7c', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '800', marginRight: '15px' },
   brandName: { margin: 0, color: '#004a7c', fontSize: '18px', fontWeight: '700' },
-  brandSub: { margin: 0, fontSize: '12px', color: '#718096' },
+  brandSub: { margin: 0, fontSize: '12px', color: '#647286' },
   
-  body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' },
-  title: { fontSize: '32px', fontWeight: '800', color: '#1a202c', marginBottom: '12px', lineHeight: '1.2' },
-  subtitle: { fontSize: '18px', color: '#3182ce', fontWeight: '600', marginBottom: '20px' },
-  descriptionText: { fontSize: '15px', color: '#4a5568', lineHeight: '1.6', marginBottom: '30px' },
+  body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' },
+  title: { fontSize: '30px', fontWeight: '800', color: '#1a202c', marginBottom: '8px', lineHeight: '1.2' },
+  subtitle: { fontSize: '17px', color: '#3182ce', fontWeight: '600', marginBottom: '12px' },
+  descriptionText: { fontSize: '14px', color: '#414a5a', lineHeight: '1.4', marginBottom: '20px' },
   
-  list: { display: 'flex', flexDirection: 'column', gap: '20px' },
-  listItem: { display: 'flex', gap: '15px', alignItems: 'flex-start' },
-  itemTitle: { margin: 0, fontSize: '15px', fontWeight: '700', color: '#2d3748' },
-  itemDesc: { margin: 0, fontSize: '13px', color: '#718096' },
+  // AQUI: Reduzi o GAP para os itens ficarem mais próximos e não empurrarem o footer
+  list: { display: 'flex', flexDirection: 'column', gap: '14px' }, 
+  listItem: { display: 'flex', gap: '12px', alignItems: 'flex-start' },
+  itemTitle: { margin: 0, fontSize: '14px', fontWeight: '700', color: '#2d3748' },
+  itemDesc: { margin: 0, fontSize: '12px', color: '#718096' },
 
-  footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' },
-  btnSkip: { background: 'none', border: 'none', color: '#718096', cursor: 'pointer', fontSize: '14px', fontWeight: '500', padding: '10px 0', transition: 'color 0.2s ease' },
+  // AQUI: Ajuste fixo no rodapé para ele não descer mais
+  footer: { 
+    display: 'flex', 
+    justifyContent: 'space-between', 
+    alignItems: 'center', 
+    marginTop: 'auto', 
+    paddingTop: '20px',
+    paddingBottom: '5px' 
+  },
+  btnSkip: { background: 'none', border: 'none', cursor: 'pointer', fontSize: '14px', fontWeight: '600', padding: '10px 20px', borderRadius: '10px', transition: 'all 0.2s ease', marginLeft: '-20px' },
   btnNext: { background: '#004a7c', color: '#ffffff', border: 'none', padding: '12px 32px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', fontSize: '15px' },
-  
   disclaimerOutside: { fontSize: '13px', color: '#a0aec0', textAlign: 'center' }
 };

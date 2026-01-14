@@ -29,38 +29,57 @@ export default function Login() {
     }
   }, [navigate]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+ const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!email || !password) {
-      setError('Por favor, preencha todos os campos.');
-      return;
+  if (!email || !password) {
+    setError("Por favor, preencha todos os campos.");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    const loginResponse = await authService.login({
+      email,
+      password,
+    });
+
+    console.log("Login OK:", loginResponse);
+
+    // 🔑 backend CONFIRMADO
+    localStorage.setItem("authToken", loginResponse.access_token);
+
+    const onboardingCompleted =
+      localStorage.getItem("onboardingCompleted") === "true";
+
+    navigate(onboardingCompleted ? "/dashboard" : "/onboarding");
+  } catch (error) {
+  console.error("Erro login:", error);
+
+  if (error.response?.status === 401) {
+    setError("Email ou senha incorretos.");
+  } else if (error.response?.data?.detail) {
+    // FastAPI geralmente retorna array
+    const detail = error.response.data.detail;
+
+    if (Array.isArray(detail)) {
+      setError(detail[0]?.msg || "Erro de validação.");
+    } else if (typeof detail === "string") {
+      setError(detail);
+    } else {
+      setError("Erro de validação.");
     }
+  } else {
+    setError("Erro ao conectar com o servidor.");
+  }
+}
+finally {
+    setLoading(false);
+  }
+};
 
-    setLoading(true);
-    setError('');
-
-    try {
-      // 🔐 Login real (ou mock)
-      //const loginResponse = await authService.login({ email, password });
-
-      // ✅ Fonte única de autenticação
-      //localStorage.setItem('authToken', loginResponse.access_token);
-
-      // 🔐 LOGIN FAKE PARA DESENVOLVIMENTO
-      localStorage.setItem('authToken', 'dev-token');
-
-      // ❗ onboardingCompleted NÃO deve ser setado aqui
-      const onboardingCompleted =
-        localStorage.getItem('onboardingCompleted') === 'true';
-
-      navigate(onboardingCompleted ? '/dashboard' : '/onboarding');
-    } catch (err) {
-      setError(err.message || 'Email ou senha inválidos.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="login-page-wrapper">

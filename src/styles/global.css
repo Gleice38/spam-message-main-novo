@@ -20,3 +20,8 @@ body, html, #root {
   height: auto;
   overflow: visible;
 }
+
+.app-content {
+  padding: 24px;
+  padding-top: 96px; /* altura da navbar */
+}

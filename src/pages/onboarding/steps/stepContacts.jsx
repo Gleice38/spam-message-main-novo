@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Database, ChevronRight, ChevronLeft } from 'lucide-react';
 
 export default function StepContacts({ onNext, onPrev, onSkip }) {
+  // Estado necessário para o efeito de hover
+  const [isHovered, setIsHovered] = useState(false);
+
   return (
     <div style={styles.wrapper}>
       <div style={styles.container}>
@@ -47,8 +50,17 @@ export default function StepContacts({ onNext, onPrev, onSkip }) {
           </div>
 
           <div style={styles.footer}>
-            {/* Pular Tutorial posicionado conforme protótipo */}
-            <button onClick={onSkip} style={styles.btnSkip}>
+            {/* BOTÃO COM EFEITO DE HOVER CORRIGIDO */}
+            <button 
+              onClick={onSkip} 
+              onMouseEnter={() => setIsHovered(true)} 
+              onMouseLeave={() => setIsHovered(false)} 
+              style={{
+                ...styles.btnSkip,
+                color: isHovered ? '#2d3748' : '#718096', 
+                backgroundColor: isHovered ? '#f1f5f9' : 'transparent',
+              }}
+            >
               Pular Tutorial
             </button>
             
@@ -64,7 +76,6 @@ export default function StepContacts({ onNext, onPrev, onSkip }) {
         </div>
       </div>
 
-      {/* Frase posicionada FORA do card conforme solicitado */}
       <p style={styles.disclaimerOutside}>
         Você pode acessar este tutorial novamente nas Configurações
       </p>
@@ -73,10 +84,11 @@ export default function StepContacts({ onNext, onPrev, onSkip }) {
 }
 
 const styles = {
+  // CORREÇÃO: Corrigido o valor de backgroundColor que causava erro na imagem image_01ae0d.jpg
   wrapper: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#f4f7f9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999 },
   container: { width: '950px', height: '580px', backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', marginBottom: '30px' },
   
-  visualSide: { width: '42%', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
+  visualSide: { width: '42%', background: 'linear-gradient(135deg, #005a96 0%, #003e6b 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
   circleTop: { position: 'absolute', top: '-50px', left: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
   circleBottom: { position: 'absolute', bottom: '-80px', right: '-40px', width: '250px', height: '250px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
   
@@ -87,22 +99,34 @@ const styles = {
   dot: { width: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: '50%' },
   activeDot: { width: '30px', height: '8px', backgroundColor: '#ffffff', borderRadius: '10px' },
 
-  contentSide: { width: '58%', padding: '50px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left' },
-  header: { display: 'flex', alignItems: 'center', marginBottom: '40px' },
+  contentSide: { width: '58%', padding: '40px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left' },
+  header: { display: 'flex', alignItems: 'center', marginBottom: '30px' },
   logoCircle: { width: '45px', height: '45px', backgroundColor: '#004a7c', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '800', marginRight: '15px' },
   brandName: { margin: 0, color: '#004a7c', fontSize: '18px', fontWeight: '700' },
   brandSub: { margin: 0, fontSize: '12px', color: '#718096' },
   
-  body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' },
-  title: { fontSize: '34px', fontWeight: '800', color: '#1a202c', marginBottom: '12px' },
+  body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' },
+  title: { fontSize: '32px', fontWeight: '800', color: '#1a202c', marginBottom: '12px', lineHeight: '1.2' },
   subtitle: { fontSize: '18px', color: '#3182ce', fontWeight: '600', marginBottom: '20px' },
-  descriptionText: { fontSize: '15px', color: '#4a5568', lineHeight: '1.7', maxWidth: '480px' },
+  descriptionText: { fontSize: '15px', color: '#4a5568', lineHeight: '1.6', maxWidth: '480px' },
 
-  footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' },
-  btnSkip: { background: 'none', border: 'none', color: '#718096', cursor: 'pointer', fontSize: '14px', fontWeight: '500', padding: '10px 0' },
+  footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingBottom: '10px' },
+  
+  btnSkip: { 
+    background: 'none', 
+    border: 'none', 
+    cursor: 'pointer', 
+    fontSize: '14px', 
+    fontWeight: '600', 
+    padding: '10px 20px', 
+    borderRadius: '10px', 
+    transition: 'all 0.2s ease', 
+    marginLeft: '-20px' 
+  },
+  
   navButtons: { display: 'flex', gap: '12px' },
-  btnPrev: { border: '1px solid #e2e8f0', background: '#ffffff', padding: '12px 24px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#4a5568', fontWeight: '600' },
-  btnNext: { background: '#004a7c', color: '#ffffff', border: 'none', padding: '12px 28px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600' },
+  btnPrev: { border: '1px solid #e2e8f0', background: '#ffffff', padding: '12px 24px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', color: '#4a5568', fontWeight: '600', transition: 'all 0.2s ease' },
+  btnNext: { background: '#004a7c', color: '#ffffff', border: 'none', padding: '12px 28px', borderRadius: '10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '8px', fontWeight: '600', transition: 'all 0.2s ease' },
   
   disclaimerOutside: { fontSize: '13px', color: '#a0aec0', textAlign: 'center' }
 };

@@ -1,15 +1,26 @@
-import { httpClient } from '../api/httpClient'
-import { endpoints } from '../api/endpoints'
+import api from "../api";
 
 export const contactsService = {
-  getAll: () => httpClient.get(endpoints.contacts),
+  // GET /contacts/
+  getAll: async () => {
+    const { data } = await api.get("/contacts/");
+    return data;
+  },
 
-  create: (data) =>
-    httpClient.post(endpoints.contacts, data),
+  // POST /contacts/
+  create: async (contact) => {
+    const { data } = await api.post("/contacts/", contact);
+    return data;
+  },
 
-  update: (id, data) =>
-    httpClient.put(`${endpoints.contacts}/${id}`, data),
+  // PUT /contacts/{id}
+  update: async (id, contact) => {
+    const { data } = await api.put(`/contacts/${id}`, contact);
+    return data;
+  },
 
-  remove: (id) =>
-    httpClient.delete(`${endpoints.contacts}/${id}`)
-}
+  // DELETE /contacts/{id}
+  remove: async (id) => {
+    await api.delete(`/contacts/${id}`);
+  },
+};

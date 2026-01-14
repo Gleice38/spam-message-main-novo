@@ -1,15 +1,25 @@
-import { httpClient } from '../api/httpClient';
-import { endpoints } from '../api/endpoints';
+// src/services/auth/auth.service.js
+import api from "../api";
 
-class AuthService {
-  async login(credentials) {
-    try {
-      const response = await httpClient.post(endpoints.login, credentials);
-      return response;
-    } catch (error) {
-      throw error;
-    }
-  }
-}
+export const authService = {
+  login: async ({ email, password }) => {
+    const response = await api.post("/auth/login", {
+      email,
+      password,
+    });
+ 
+    localStorage.setItem("authToken", response.data.access_token);
+ 
+    return response.data;
+  },
 
-export const authService = new AuthService();
+
+ logout: () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("onboardingCompleted");
+  },
+
+  isAuthenticated: () => {
+    return !!localStorage.getItem("authToken");
+  },
+};
