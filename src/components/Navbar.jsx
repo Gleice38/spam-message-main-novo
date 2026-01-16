@@ -88,13 +88,6 @@ export default function Navbar() {
           <User size={16} />
           Perfil
         </button>
-        <button
-          className={`nav-item ${isActive('/preferencias') ? 'active' : ''}`}
-          onClick={() => navigate('/preferencias')}
-        >
-          <Zap size={16} />
-          Preferências de Envio
-        </button>
          <button
           className={`nav-item ${isActive('/notificacoes') ? 'active' : ''}`}
           onClick={() => navigate('/notificacoes')}

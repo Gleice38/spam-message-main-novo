@@ -9,7 +9,6 @@ import NewContact from "./pages/contacts/NewContact";
 import NewCampaign from "./pages/campaigns/NewCampaign";
 
 import Perfil from "./pages/perfil";
-import Preferencias from "./pages/preferencias";
 import Notificacoes from "./pages/notificacoes";
 
 import AppLayout from "./layouts/AppLayout";
@@ -85,17 +84,6 @@ export default function App() {
             <ProtectedRoute>
               <AppLayout>
                 <Perfil />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/preferencias"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Preferencias />
               </AppLayout>
             </ProtectedRoute>
           }

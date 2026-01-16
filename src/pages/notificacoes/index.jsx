@@ -8,7 +8,6 @@ export default function Notificacoes() {
   const location = useLocation();
 
   const activeMenuId = useMemo(() => {
-    if (location.pathname.startsWith("/preferencias")) return "preferencias";
     if (location.pathname.startsWith("/perfil")) return "perfil";
     return "notificacoes";
   }, [location.pathname]);

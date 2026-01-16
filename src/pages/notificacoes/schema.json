@@ -3,7 +3,6 @@
     "titulo": "Menu",
     "itens": [
       { "id": "perfil", "label": "Perfil", "route": "/perfil" },
-      { "id": "preferencias", "label": "Preferências de Envio", "route": "/preferencias" },
       { "id": "notificacoes", "label": "Notificações", "route": "/notificacoes" }
     ]
   },

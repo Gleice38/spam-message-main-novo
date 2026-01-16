@@ -85,14 +85,6 @@ export default function Perfil() {
             </>
           )}
 
-          {/* Preferências */}
-          {activeTab === 'preferencias' && (
-            <div className="card-header">
-              <h2>Preferências de Envio</h2>
-              <p>Configurações de envio (em construção).</p>
-            </div>
-          )}
-
           {/* Notificações */}
           {activeTab === 'notificacoes' && (
             <div className="card-header">

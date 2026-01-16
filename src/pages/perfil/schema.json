@@ -5,7 +5,6 @@
     "titulo": "Menu",
     "itens": [
       { "id": "perfil", "label": "Perfil", "icone": "user" },
-      { "id": "preferencias", "label": "Preferências de Envio", "icone": "clock" },
       { "id": "notificacoes", "label": "Notificações", "icone": "bell" }
     ]
   },
