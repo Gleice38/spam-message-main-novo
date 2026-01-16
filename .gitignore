@@ -1,8 +1,4 @@
 # dependencies
-<<<<<<< HEAD
-# Ignorar o diretório node_modules
-=======
->>>>>>> develop2
 node_modules/
 
 # build
