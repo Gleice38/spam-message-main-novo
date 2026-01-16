@@ -7,8 +7,11 @@ import Dashboard from "./pages/dashboard";
 import Contacts from "./pages/contacts/Contacts";
 import NewContact from "./pages/contacts/NewContact";
 
+<<<<<<< HEAD
 import NewCampaign from "./pages/campaigns/NewCampaign";
 
+=======
+>>>>>>> develop2
 import Perfil from "./pages/perfil";
 import Preferencias from "./pages/preferencias";
 import Notificacoes from "./pages/notificacoes";
@@ -68,6 +71,7 @@ export default function App() {
           }
         />
 
+<<<<<<< HEAD
         <Route
           path="/campaigns/new"
           element={
@@ -79,6 +83,8 @@ export default function App() {
           }
         />
 
+=======
+>>>>>>> develop2
         {/* PROTEGIDAS (SEM NAVBAR) */}
         <Route
           path="/perfil"

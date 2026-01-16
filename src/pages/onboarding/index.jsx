@@ -90,4 +90,8 @@ export default function Onboarding() {
 
     </div>
   )
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> develop2
