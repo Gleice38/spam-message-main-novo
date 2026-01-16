@@ -1,21 +1,13 @@
-import { httpClient } from '../api/httpClient'
-import { endpoints } from '../api/endpoints'
-
-const USE_MOCK = true
-
-async function mockSend(payload) {
-  if (!payload?.message) {
-    throw new Error('Mensagem obrigatória')
-  }
-
-  return { success: true }
-}
-
-async function realSend(payload) {
-  return httpClient.post(endpoints.campaigns, payload)
-}
+import api from '../api'
 
 export const campaignsService = {
-  send: USE_MOCK ? mockSend : realSend,
-  getAll: () => httpClient.get(endpoints.campaigns)
+  async send(payload) {
+    const response = await api.post('/campaigns/send', payload)
+    return response.data
+  },
+
+  async getAll() {
+    const response = await api.get('/campaigns/')
+    return response.data
+  }
 }

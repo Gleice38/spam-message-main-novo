@@ -6,11 +6,12 @@ import {
   LogOut,
   User,
   Bell,
-  Cog
+  Sliders
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import softexLogo from "../softex-logo.png";
+
 
 export default function Navbar() {
   const navigate = useNavigate()
@@ -19,18 +20,11 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path
 
   function handleLogout() {
-    console.log("🟥 Logout clicado");
+  localStorage.removeItem('authToken');
+  localStorage.removeItem('onboardingCompleted');
 
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('onboardingCompleted');
-
-    console.log(
-      "🧹 Token após logout:",
-      localStorage.getItem('authToken')
-    );
-
-    navigate('/', { replace: true });
-  }
+  navigate('/', { replace: true });
+}
 
 
   return (
@@ -66,8 +60,8 @@ export default function Navbar() {
         </button>
 
         <button
-          className={`nav-item ${isActive('/campaigns/new') ? 'active' : ''}`}
-          onClick={() => navigate('/campaigns/new')}
+          className={`nav-item ${isActive('/campaigns') ? 'active' : ''}`}
+          onClick={() => navigate('/campaigns')}
         >
           <Send size={16} />
           Nova Campanha
@@ -91,7 +85,7 @@ export default function Navbar() {
           className={`nav-item ${isActive('/preferencias') ? 'active' : ''}`}
           onClick={() => navigate('/preferencias')}
         >
-          <Cog size={16} />
+          <Sliders size={16} />
           Preferências de Envio
         </button>
          <button
@@ -105,7 +99,10 @@ export default function Navbar() {
 
       {/* AÇÕES */}
       <div className="navbar-actions">
-        <button className="nav-item subtle">
+        <button
+          className={`nav-item subtle ${isActive('/configuracoes') ? 'active' : ''}`}
+          onClick={() => navigate('/configuracoes')}
+        >
           <Settings size={16} />
           Configurações
         </button>

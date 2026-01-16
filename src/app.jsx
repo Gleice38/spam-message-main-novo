@@ -1,24 +1,46 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 
 import Login from "./pages/login";
-import Onboarding from "./pages/onboarding";
-import Dashboard from "./pages/dashboard";
-
-import Contacts from "./pages/contacts/Contacts";
-import NewContact from "./pages/contacts/NewContact";
-
-import NewCampaign from "./pages/campaigns/NewCampaign";
-
-// import Perfil from "./pages/perfil";
-// import Preferencias from "./pages/preferencias";
-// import Notificacoes from "./pages/notificacoes";
-
 import AppLayout from "./layouts/AppLayout";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import { ErrorBoundary } from "./components/ErrorBoundary";
+import { ToastContainer } from "./components/Toast/ToastContainer";
+import { ThemeProvider } from "./contexts/ThemeContext";
+
+// Lazy loaded pages
+const Onboarding = lazy(() => import("./pages/onboarding"));
+const Dashboard = lazy(() => import("./pages/dashboard"));
+const Contacts = lazy(() => import("./pages/contacts/Contacts"));
+const NewContact = lazy(() => import("./pages/contacts/NewContact"));
+const EditContact = lazy(() => import("./pages/contacts/EditContact"));
+const NewCampaign = lazy(() => import("./pages/campaigns/NewCampaign"));
+const Configuracoes = lazy(() => import("./pages/configuracoes"));
+const Perfil = lazy(() => import("./pages/perfil"));
+const Preferencias = lazy(() => import("./pages/preferencias"));
+const Notificacoes = lazy(() => import("./pages/notificacoes"));
+
+// Loading component
+const PageLoader = () => (
+  <div style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: '100vh',
+    fontSize: '1.2rem',
+    color: '#666'
+  }}>
+    Carregando...
+  </div>
+);
 
 export default function App() {
   return (
+    <ErrorBoundary>
+    <ThemeProvider>
     <BrowserRouter>
+      <ToastContainer />
+      <Suspense fallback={<PageLoader />}>
       <Routes>
         {/* PÚBLICAS */}
         <Route path="/" element={<Login />} />
@@ -69,7 +91,18 @@ export default function App() {
         />
 
         <Route
-          path="/campaigns/new"
+          path="/contacts/edit/:id"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <EditContact />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/campaigns"
           element={
             <ProtectedRoute>
               <AppLayout>
@@ -80,7 +113,6 @@ export default function App() {
         />
 
         {/* PROTEGIDAS (SEM NAVBAR) */}
-        {/* 
         <Route
           path="/perfil"
           element={
@@ -113,8 +145,21 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        */}
+
+        <Route
+          path="/configuracoes"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <Configuracoes />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
       </Routes>
+      </Suspense>
     </BrowserRouter>
+    </ThemeProvider>
+    </ErrorBoundary>
   );
 }

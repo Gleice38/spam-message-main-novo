@@ -1,0 +1,10 @@
+{
+  "name": "João Silva Teste Swagger",
+  "phone": "5581987654321",
+  "email": "joao.swagger@teste.com",
+  "role": "PROFESSOR",
+  "state": "PE",
+  "city": "Recife",
+  "campus": "Campus Recife",
+  "course": "Engenharia de Software"
+}

@@ -1,134 +1,208 @@
-import React, { useState } from 'react';
-import { MessageSquare, Lock, Eye, EyeOff, Mail, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { MessageSquare, Lock, Eye, EyeOff, Mail } from 'lucide-react';
 import './style.css';
+
 import softexLogo from '../../softex-logo.png';
 import { authService } from '../../services/auth/auth.service';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('admin@admin');
-  const [password, setPassword] = useState('admin');
-  const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  async function handleLogin(e) {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  // 🔁 Se já estiver autenticado, redireciona corretamente
+  useEffect(() => {
+    const token = localStorage.getItem('authToken');
 
-    try {
-      await authService.login({ email, password });
-      navigate('/dashboard');
-    } catch (err) {
-      setError('Email ou senha inválidos');
-      console.error('Erro ao fazer login:', err);
-    } finally {
-      setLoading(false);
+    if (token) {
+      const onboardingCompleted =
+        localStorage.getItem('onboardingCompleted') === 'true';
+
+      navigate(onboardingCompleted ? '/dashboard' : '/onboarding', {
+        replace: true,
+      });
     }
+  }, [navigate]);
+
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!email || !password) {
+    setError("Por favor, preencha todos os campos.");
+    return;
   }
 
+  setLoading(true);
+  setError("");
+
+  try {
+    const loginResponse = await authService.login({
+      email,
+      password,
+    });
+
+    // 🔑 backend CONFIRMADO
+    localStorage.setItem("authToken", loginResponse.access_token);
+
+    const onboardingCompleted =
+      localStorage.getItem("onboardingCompleted") === "true";
+
+    navigate(onboardingCompleted ? "/dashboard" : "/onboarding");
+  } catch (error) {
+  if (error.response?.status === 401) {
+    setError("Email ou senha incorretos.");
+  } else if (error.response?.data?.detail) {
+    // FastAPI geralmente retorna array
+    const detail = error.response.data.detail;
+
+    if (Array.isArray(detail)) {
+      setError(detail[0]?.msg || "Erro de validação.");
+    } else if (typeof detail === "string") {
+      setError(detail);
+    } else {
+      setError("Erro de validação.");
+    }
+  } else {
+    setError("Erro ao conectar com o servidor.");
+  }
+}
+finally {
+    setLoading(false);
+  }
+};
+
+
   return (
-    <div className="login-container-root">
-      {/* SEÇÃO ESQUERDA: BRANDING */}
-      <aside className="brand-side">
-        <div className="brand-content">
-          <div className="brand-header-group">
-            <div className="mc-logo-box">
+    <div className="login-page-wrapper">
+      <section className="login-brand">
+        <div className="branding-inner">
+          <div className="logo-group">
+            <div className="logo-circle">
               MC
-              <div className="wa-badge">
-                <MessageSquare size={12} fill="white" color="white" />
+              <div className="logo-float-icon">
+                <MessageSquare size={14} fill="currentColor" />
               </div>
             </div>
-            <div className="brand-titles">
+            <div className="logo-titles">
               <h1>Mensagens Cooperativa</h1>
               <p>Plataforma de Comunicação Acadêmica</p>
             </div>
           </div>
 
-          <h2 className="headline-hero">
-            Plataforma de disparo de mensagens individuais para contatos de pós-graduação em todo o Brasil
+          <h2 className="headline-text">
+            Plataforma de disparo de mensagens individuais para contatos de
+            pós-graduação em todo o Brasil
           </h2>
 
-          <ul className="feature-list-aligned">
-            <li>
-              <div className="icon-wrap sky"><MapPin size={20} /></div>
-              <span>Alcance contatos acadêmicos em diversas regiões</span>
-            </li>
-            <li>
-              <div className="icon-wrap emerald"><Calendar size={20} /></div>
-              <span>Divulgue eventos acadêmicos via WhatsApp</span>
-            </li>
-            <li>
-              <div className="icon-wrap indigo"><TrendingUp size={20} /></div>
-              <span>Gerencie suas campanhas de forma eficiente</span>
-            </li>
+          <ul className="features-bullets">
+            <li>Alcance contatos acadêmicos em diversas regiões</li>
+            <li>Divulgue eventos acadêmicos via WhatsApp</li>
+            <li>Gerencie suas campanhas de forma eficiente</li>
           </ul>
         </div>
-      </aside>
+      </section>
 
-      {/* SEÇÃO DIREITA: FORMULÁRIO */}
-      <main className="form-side">
-        <div className="login-card">
-          <div className="realization-box">
-            <span className="label-realizacao">REALIZAÇÃO</span>
-            <img src={softexLogo} alt="Softex" className="softex-large" />
-          </div>
+      <section className="form-section">
+        <div className="realization-header">
+          <span>REALIZAÇÃO</span>
+          <img
+            src={softexLogo}
+            alt="Softex Recife"
+            className="logo-softex-img"
+          />
+        </div>
 
-          <div className="welcome-text">
-            <h3>Acesse a plataforma de Mensagens Cooperativa</h3>
-            <p>Faça login para continuar.</p>
-          </div>
+        <div className="auth-card">
+          <header className="card-header">
+            <h2>Acesse a plataforma de Mensagens Cooperativa</h2>
+            <p>Faça login ou crie uma conta para continuar.</p>
+          </header>
 
-          <form className="actual-form" onSubmit={handleLogin}>
-            <div className="field-group">
-              <label>E-mail</label>
-              <div className="input-with-icon">
-                <Mail className="inner-icon-left" size={18} />
-                <input 
-                  type="email" 
-                  placeholder="seu@email.com" 
+          <form className="login-form" onSubmit={handleSubmit}>
+            {error && (
+              <div
+                style={{
+                  backgroundColor: '#fef2f2',
+                  border: '1px solid #fee2e2',
+                  color: '#991b1b',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontWeight: '500',
+                  marginBottom: '20px',
+                  textAlign: 'center',
+                }}
+              >
+                {error}
+              </div>
+            )}
+
+            <div className="input-field">
+              <label htmlFor="email">Email</label>
+              <div className="input-container">
+                <Mail className="icon-left" size={18} />
+                <input
+                  id="email"
+                  type="email"
+                  placeholder="seu@email.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError('');
+                  }}
+                  disabled={loading}
                 />
               </div>
             </div>
 
-            <div className="field-group">
-              <label>Senha</label>
-              <div className="input-with-icon">
-                <Lock className="inner-icon-left" size={18} />
-                <input 
-                  type={showPassword ? "text" : "password"} 
-                  placeholder="••••••••" 
+            <div className="input-field">
+              <label htmlFor="password">Senha</label>
+              <div className="input-container">
+                <Lock className="icon-left" size={18} />
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError('');
+                  }}
+                  disabled={loading}
                 />
-                <button 
-                  type="button" 
-                  className="toggle-password-btn" 
+                <button
+                  type="button"
+                  className="icon-right"
                   onClick={() => setShowPassword(!showPassword)}
+                  disabled={loading}
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
             </div>
 
-            {error && <p className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
+            <div className="form-actions">
+              <label className="checkbox-area">
+                <input type="checkbox" disabled={loading} />
+                <span>Lembrar-me</span>
+              </label>
+            </div>
 
-            <button type="submit" className="login-btn" disabled={loading}>
+            <button type="submit" className="btn-submit" disabled={loading}>
               {loading ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
         </div>
-        
-        <footer className="copyright-footer">
-          © 2026 Mensagens Cooperativa. Todos os direitos reservados.
+
+        <footer className="footer-copyright">
+          © 2025 Mensagens Cooperativa. Todos os direitos reservados.
         </footer>
-      </main>
+      </section>
     </div>
   );
 }

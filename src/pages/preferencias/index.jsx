@@ -21,8 +21,7 @@ export default function Preferencias() {
     if (!startTime || !endTime) return alert("Preencha os horários.");
     if (Number.isNaN(interval) || interval < 1) return alert("Intervalo inválido.");
 
-    console.log({ startTime, endTime, intervalSeconds: interval });
-
+    // TODO: Salvar no backend
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   }

@@ -32,9 +32,7 @@ export default function Notificacoes() {
   function handleSave() {
     setSaved(false);
 
-    // aqui você enviaria para API
-    console.log("Notificações:", options);
-
+    // TODO: Salvar no backend
     setSaved(true);
     setTimeout(() => setSaved(false), 1600);
   }

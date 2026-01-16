@@ -108,11 +108,31 @@
 
 /* BADGE */
 .state-badge {
-  background: #e0f2fe;
-  color: #0369a1;
   padding: 4px 10px;
   border-radius: 999px;
   font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.state-badge.badge-student {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.state-badge.badge-professor {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.state-badge.badge-coordinator {
+  background: #e9d5ff;
+  color: #6b21a8;
+}
+
+.state-badge.badge-visitor {
+  background: #f3f4f6;
+  color: #374151;
 }
 
 /* ACTIONS */

@@ -1,12 +1,14 @@
 import "./NewContact.css";
 import { Phone, Mail, User, GraduationCap } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { contactsService } from "../../services/contacts/contacts.service";
 
-export default function NewContact() {
+export default function EditContact() {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -16,15 +18,44 @@ export default function NewContact() {
     academic_area_id: null,
   });
 
+  useEffect(() => {
+    loadContact();
+  }, [id]);
+
+  async function loadContact() {
+    try {
+      const contacts = await contactsService.getAll();
+      const contact = contacts.find(c => c.id === Number(id));
+
+      if (!contact) {
+        alert("Contato não encontrado");
+        navigate("/contacts");
+        return;
+      }
+
+      setFormData({
+        name: contact.name || "",
+        phone: contact.phone || "",
+        email: contact.email || "",
+        role: contact.role || "STUDENT",
+        campus_id: contact.campus_id || null,
+        academic_area_id: contact.academic_area_id || null,
+      });
+    } catch (error) {
+      alert("Erro ao carregar contato");
+      navigate("/contacts");
+    } finally {
+      setLoadingData(false);
+    }
+  }
+
   function handleChange(e) {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
   function validatePhone(phone) {
-    // Remove tudo que não é número
     const cleaned = phone.replace(/\D/g, '');
-    // Deve ter 10 ou 11 dígitos
     return cleaned.length >= 10 && cleaned.length <= 11;
   }
 
@@ -46,22 +77,32 @@ export default function NewContact() {
     try {
       const payload = {
         name: formData.name.trim(),
-        phone: formData.phone.replace(/\D/g, ''), // Remove caracteres especiais
+        phone: formData.phone.replace(/\D/g, ''),
         email: formData.email.trim() || null,
         role: formData.role,
         campus_id: formData.campus_id ? Number(formData.campus_id) : null,
         academic_area_id: formData.academic_area_id ? Number(formData.academic_area_id) : null,
       };
 
-      await contactsService.create(payload);
-      alert("Contato cadastrado com sucesso!");
+      await contactsService.update(id, payload);
+      alert("Contato atualizado com sucesso!");
       navigate("/contacts");
     } catch (error) {
-      const errorMsg = error.response?.data?.detail || "Erro ao cadastrar contato. Tente novamente.";
+      const errorMsg = error.response?.data?.detail || "Erro ao atualizar contato. Tente novamente.";
       alert(errorMsg);
     } finally {
       setLoading(false);
     }
+  }
+
+  if (loadingData) {
+    return (
+      <div className="contacts-page">
+        <div className="contacts-header">
+          <h1>Carregando contato...</h1>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -69,8 +110,8 @@ export default function NewContact() {
       {/* HEADER */}
       <div className="contacts-header">
         <div>
-          <h1>Novo Contato</h1>
-          <p>Preencha os dados para adicionar o contato ao banco de dados</p>
+          <h1>Editar Contato</h1>
+          <p>Atualize os dados do contato</p>
         </div>
       </div>
 
@@ -156,9 +197,6 @@ export default function NewContact() {
                 onChange={handleChange}
                 placeholder="Ex: 1"
               />
-              <small style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem', display: 'block' }}>
-                Deixe em branco se não souber
-              </small>
             </div>
           </div>
 
@@ -172,15 +210,12 @@ export default function NewContact() {
               onChange={handleChange}
               placeholder="Ex: 5"
             />
-            <small style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem', display: 'block' }}>
-              Deixe em branco se não souber
-            </small>
           </div>
 
           {/* Ações */}
           <div className="form-actions">
             <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? "Cadastrando..." : "Cadastrar Contato"}
+              {loading ? "Salvando..." : "Salvar Alterações"}
             </button>
 
             <button

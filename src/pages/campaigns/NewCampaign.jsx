@@ -1,10 +1,59 @@
 import "./NewCampaign.css";
 import { MessageSquare, Filter, Calendar } from "lucide-react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { campaignsService } from "../../services/campaigns/campaigns.service";
 
 export default function NewCampaign() {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    message_body: "",
+    scheduled_at: null,
+  });
+  const [scheduleEnabled, setScheduleEnabled] = useState(false);
+  const [scheduleDate, setScheduleDate] = useState("");
+  const [scheduleTime, setScheduleTime] = useState("");
+
+  const isFormValid = formData.name.trim() && formData.message_body.trim();
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    if (!isFormValid) {
+      alert("Preencha todos os campos obrigatórios");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const payload = { ...formData };
+
+      // Se agendamento estiver habilitado
+      if (scheduleEnabled && scheduleDate && scheduleTime) {
+        payload.scheduled_at = `${scheduleDate}T${scheduleTime}:00`;
+      }
+
+      await campaignsService.send(payload);
+      alert("Campanha criada com sucesso!");
+      navigate("/dashboard");
+    } catch (error) {
+      alert("Erro ao criar campanha. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <div className="page-container">
-      
+
       {/* HEADER DA PÁGINA */}
       <div className="page-header">
         <h1>Nova Campanha de Mensagens</h1>
@@ -12,7 +61,7 @@ export default function NewCampaign() {
       </div>
 
       {/* GRID PRINCIPAL */}
-      <div className="campaign-grid">
+      <form className="campaign-grid" onSubmit={handleSubmit}>
 
         {/* COLUNA ESQUERDA */}
         <div className="campaign-left">
@@ -29,12 +78,22 @@ export default function NewCampaign() {
 
             <div className="card-content">
               <label>Nome do Evento *</label>
-              <input placeholder="Ex: Congresso Nacional de Medicina 2025" />
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Ex: Congresso Nacional de Medicina 2025"
+                required
+              />
 
               <label>Mensagem *</label>
               <textarea
+                name="message_body"
+                value={formData.message_body}
+                onChange={handleChange}
                 placeholder="Digite a mensagem que será enviada via WhatsApp..."
                 rows={6}
+                required
               />
 
               <div className="helper-text">
@@ -83,9 +142,35 @@ export default function NewCampaign() {
 
             <div className="card-content">
               <label className="checkbox">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={scheduleEnabled}
+                  onChange={(e) => setScheduleEnabled(e.target.checked)}
+                />
                 Agendar envio para depois
               </label>
+
+              {scheduleEnabled && (
+                <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem' }}>
+                  <div style={{ flex: 1 }}>
+                    <label>Data</label>
+                    <input
+                      type="date"
+                      value={scheduleDate}
+                      onChange={(e) => setScheduleDate(e.target.value)}
+                      min={new Date().toISOString().split('T')[0]}
+                    />
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <label>Hora</label>
+                    <input
+                      type="time"
+                      value={scheduleTime}
+                      onChange={(e) => setScheduleTime(e.target.value)}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -98,23 +183,33 @@ export default function NewCampaign() {
 
             <div className="summary-box">
               <span>Total de Destinatários</span>
-              <strong>0</strong>
+              <strong>Todos os contatos</strong>
             </div>
 
             <ul className="summary-list">
-              <li>Nome do evento definido</li>
-              <li>Mensagem escrita</li>
-              <li>Destinatários selecionados</li>
+              <li style={{ opacity: formData.name ? 1 : 0.5 }}>
+                {formData.name ? '✓' : '○'} Nome do evento definido
+              </li>
+              <li style={{ opacity: formData.message_body ? 1 : 0.5 }}>
+                {formData.message_body ? '✓' : '○'} Mensagem escrita
+              </li>
+              <li style={{ opacity: scheduleEnabled ? 1 : 0.5 }}>
+                {scheduleEnabled ? '✓' : '○'} {scheduleEnabled ? 'Agendado' : 'Envio imediato'}
+              </li>
             </ul>
 
             <div className="summary-footer">
-              <button disabled>Revisar e Enviar</button>
-              <small>Preencha todos os campos obrigatórios</small>
+              <button type="submit" disabled={!isFormValid || loading}>
+                {loading ? "Enviando..." : "Revisar e Enviar"}
+              </button>
+              <small>
+                {isFormValid ? "Pronto para enviar" : "Preencha todos os campos obrigatórios"}
+              </small>
             </div>
           </div>
         </div>
 
-      </div>
+      </form>
     </div>
   );
 }
