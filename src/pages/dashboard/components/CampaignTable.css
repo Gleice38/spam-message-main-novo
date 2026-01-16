@@ -1,0 +1,63 @@
+.campaign-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.campaign-table thead th {
+  text-align: left;
+  font-size: 13px;
+  color: #667;
+  font-weight: 500;
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.campaign-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.campaign-table tbody tr:last-child {
+  border-bottom: none;
+}
+
+.campaign-table td {
+  padding: 16px 8px;
+  font-size: 14px;
+  color: #333;
+  vertical-align: middle;
+}
+
+.event-name {
+  font-weight: 500;
+  color: #0b3c5d;
+}
+
+.datetime {
+  font-size: 13px;
+  color: #667;
+  line-height: 1.4;
+}
+
+/* Status badges */
+.status-badge {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.status-badge.finished {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.scheduled {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.status-badge.active {
+  background: #e0f2fe;
+  color: #0369a1;
+}

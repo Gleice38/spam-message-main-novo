@@ -1,0 +1,32 @@
+.stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  position: relative;
+  min-height: 120px;
+}
+
+.stat-card__icon {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  color: #1c6ea4;
+}
+
+.stat-card__title {
+  font-size: 13px;
+  color: #667;
+  margin-bottom: 12px;
+}
+
+.stat-card__value {
+  font-size: 28px;
+  font-weight: 600;
+  color: #0b3c5d;
+  margin-bottom: 6px;
+}
+
+.stat-card__subtitle {
+  font-size: 12px;
+}

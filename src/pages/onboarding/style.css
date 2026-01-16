@@ -1,0 +1,61 @@
+/* Container principal para garantir o alinhamento */
+.onboarding-step-container {
+  display: flex;
+  width: 900px;
+  height: 550px;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+/* Estilo do Botão Anterior (Branco com borda e seta) */
+.btn-prev-onboarding {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-prev-onboarding:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+/* Estilo do Botão Próximo (Azul escuro) */
+.btn-next-onboarding {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #003366;
+  color: white;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-next-onboarding:hover {
+  opacity: 0.9;
+}
+
+/* Lembrete de rodapé centralizado */
+.tutorial-reminder {
+  position: absolute;
+  bottom: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 11px;
+  color: #a0aec0;
+}

@@ -1,0 +1,7 @@
+{
+  "preferences": {
+    "startTime": "08:00",
+    "endTime": "18:00",
+    "intervalSeconds": 5
+  }
+}
