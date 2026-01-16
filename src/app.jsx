@@ -6,6 +6,7 @@ import Dashboard from "./pages/dashboard";
 
 import Contacts from "./pages/contacts/Contacts";
 import NewContact from "./pages/contacts/NewContact";
+import NewCampaign from "./pages/campaigns/NewCampaign";
 
 import Perfil from "./pages/perfil";
 import Preferencias from "./pages/preferencias";
@@ -61,6 +62,17 @@ export default function App() {
             <ProtectedRoute>
               <AppLayout>
                 <NewContact />
+              </AppLayout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/campaigns"
+          element={
+            <ProtectedRoute>
+              <AppLayout>
+                <NewCampaign />
               </AppLayout>
             </ProtectedRoute>
           }

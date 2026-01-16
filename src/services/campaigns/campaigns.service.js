@@ -1,7 +1,7 @@
 import { httpClient } from '../api/httpClient'
 import { endpoints } from '../api/endpoints'
 
-const USE_MOCK = true
+const USE_MOCK = false
 
 async function mockSend(payload) {
   if (!payload?.message) {

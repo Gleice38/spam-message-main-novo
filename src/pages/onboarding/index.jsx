@@ -6,7 +6,7 @@ import StepWelcome from './steps/stepWelcome';
 import StepContacts from './steps/stepContacts';
 import StepSegmentation from './steps/StepSegmentation';
 import StepCampaigns from './steps/stepCampaigns';
-import StepSchedule from './steps/stepSchedule';
+import StepSchedule from './steps/StepSchedule';
 import StepAnalytics from './steps/StepAnalytics';
 import StepFinish from './steps/stepFinish';
  

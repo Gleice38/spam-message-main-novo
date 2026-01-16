@@ -3,12 +3,14 @@ import {
   Send,
   Users,
   Settings,
-  LogOut
+  LogOut,
+  User,
+  Bell,
+  Zap
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import './Navbar.css'
 import softexLogo from "../softex-logo.png";
-import { Profiler } from 'react';
 
 
 export default function Navbar() {
@@ -83,21 +85,21 @@ export default function Navbar() {
           className={`nav-item ${isActive('/perfil') ? 'active' : ''}`}
           onClick={() => navigate('/perfil')}
         >
-          <Profiler size={16} />
+          <User size={16} />
           Perfil
         </button>
         <button
           className={`nav-item ${isActive('/preferencias') ? 'active' : ''}`}
           onClick={() => navigate('/preferencias')}
         >
-          <Profiler size={16} />
+          <Zap size={16} />
           Preferências de Envio
         </button>
          <button
           className={`nav-item ${isActive('/notificacoes') ? 'active' : ''}`}
           onClick={() => navigate('/notificacoes')}
         >
-          <Profiler size={16} />
+          <Bell size={16} />
           Notificações
         </button>
       </nav>
