@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
 import { MessageSquare, Lock, Eye, EyeOff, Mail, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import './style.css';
 import softexLogo from '../../softex-logo.png';
+import { authService } from '../../services/auth/auth.service';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('admin@admin');
+  const [password, setPassword] = useState('admin');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  async function handleLogin(e) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      await authService.login({ email, password });
+      navigate('/dashboard');
+    } catch (err) {
+      setError('Email ou senha inválidos');
+      console.error('Erro ao fazer login:', err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="login-container-root">
@@ -58,12 +81,18 @@ export default function Login() {
             <p>Faça login para continuar.</p>
           </div>
 
-          <form className="actual-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="actual-form" onSubmit={handleLogin}>
             <div className="field-group">
               <label>E-mail</label>
               <div className="input-with-icon">
                 <Mail className="inner-icon-left" size={18} />
-                <input type="email" placeholder="seu@email.com" />
+                <input 
+                  type="email" 
+                  placeholder="seu@email.com" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
               </div>
             </div>
 
@@ -71,7 +100,13 @@ export default function Login() {
               <label>Senha</label>
               <div className="input-with-icon">
                 <Lock className="inner-icon-left" size={18} />
-                <input type={showPassword ? "text" : "password"} placeholder="••••••••" />
+                <input 
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="••••••••" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
                 <button 
                   type="button" 
                   className="toggle-password-btn" 
@@ -82,7 +117,11 @@ export default function Login() {
               </div>
             </div>
 
-            <button type="submit" className="login-btn">Entrar</button>
+            {error && <p className="error-message" style={{ color: 'red', marginBottom: '1rem' }}>{error}</p>}
+
+            <button type="submit" className="login-btn" disabled={loading}>
+              {loading ? 'Entrando...' : 'Entrar'}
+            </button>
           </form>
         </div>
         
