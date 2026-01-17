@@ -1,16 +1,12 @@
 import "./NewContact.css";
 import { Phone, MapPin, GraduationCap, Building2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import { useState } from "react";
 import { contactsService } from "@/services/contacts/contacts.service";
-=======
->>>>>>> develop2
 
 export default function NewContact() {
   const navigate = useNavigate();
 
-<<<<<<< HEAD
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -40,13 +36,6 @@ export default function NewContact() {
     } finally {
       setLoading(false);
     }
-=======
-  function handleSubmit(e) {
-    e.preventDefault();
-    // depois entra integração com backend
-    console.log("Contato cadastrado");
-    navigate("/contacts");
->>>>>>> develop2
   }
 
   return (
@@ -66,11 +55,7 @@ export default function NewContact() {
           {/* Nome */}
           <div className="form-group">
             <label>Nome Completo *</label>
-<<<<<<< HEAD
             <input name="name" value={formData.name} onChange={handleChange} placeholder="Ex: Dr. João Silva" required />
-=======
-            <input placeholder="Ex: Dr. João Silva" required />
->>>>>>> develop2
           </div>
 
           {/* Linha 2 */}
@@ -79,11 +64,7 @@ export default function NewContact() {
               <label>Telefone / WhatsApp *</label>
               <div className="input-icon">
                 <Phone size={16} />
-<<<<<<< HEAD
                 <input name="phone" value={formData.phone} onChange={handleChange} placeholder="(11) 98765-4321" required />
-=======
-                <input placeholder="(11) 98765-4321" required />
->>>>>>> develop2
               </div>
             </div>
 
@@ -91,7 +72,6 @@ export default function NewContact() {
               <label>Estado *</label>
               <div className="input-icon">
                 <MapPin size={16} />
-<<<<<<< HEAD
                 <select name="state" value={formData.state} onChange={handleChange} required>
                   <option value="">Selecione o Estado</option>
                   <option value="AC">AC - Acre</option>
@@ -121,13 +101,6 @@ export default function NewContact() {
                   <option value="SP">SP - São Paulo</option>
                   <option value="SE">SE - Sergipe</option>
                   <option value="TO">TO - Tocantins</option>
-=======
-                <select required>
-                  <option value="">Selecione o Estado</option>
-                  <option value="SP">SP</option>
-                  <option value="RJ">RJ</option>
-                  <option value="MG">MG</option>
->>>>>>> develop2
                 </select>
               </div>
             </div>
@@ -137,27 +110,17 @@ export default function NewContact() {
           <div className="form-row">
             <div className="form-group">
               <label>Cidade *</label>
-<<<<<<< HEAD
               <div className="input-icon">
                 <MapPin size={16} />
                 <input name="city" value={formData.city} onChange={handleChange} placeholder="Ex: São Paulo" required />
               </div>
-=======
-              <select required>
-                <option value="">Selecione a Cidade</option>
-              </select>
->>>>>>> develop2
             </div>
 
             <div className="form-group">
               <label>Campus Universitário *</label>
               <div className="input-icon">
                 <GraduationCap size={16} />
-<<<<<<< HEAD
                 <input name="campus" value={formData.campus} onChange={handleChange} placeholder="Ex: USP - Campus Capital" required />
-=======
-                <input placeholder="Ex: USP - Campus Capital" required />
->>>>>>> develop2
               </div>
             </div>
           </div>
@@ -167,23 +130,14 @@ export default function NewContact() {
             <label>Faculdade / Curso *</label>
             <div className="input-icon">
               <Building2 size={16} />
-<<<<<<< HEAD
               <input name="course" value={formData.course} onChange={handleChange} placeholder="Ex: Faculdade de Medicina" required />
-=======
-              <input placeholder="Ex: Faculdade de Medicina" required />
->>>>>>> develop2
             </div>
           </div>
 
           {/* Ações */}
           <div className="form-actions">
-<<<<<<< HEAD
             <button type="submit" className="btn-primary" disabled={loading}>
               {loading ? 'Cadastrando...' : 'Cadastrar Contato'}
-=======
-            <button type="submit" className="btn-primary">
-              Cadastrar Contato
->>>>>>> develop2
             </button>
 
             <button
