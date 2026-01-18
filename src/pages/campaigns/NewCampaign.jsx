@@ -1,12 +1,15 @@
 import "./NewCampaign.css";
-import { MessageSquare, Filter, Calendar } from "lucide-react";
-import { useState } from "react";
+import { MessageSquare, Filter, Calendar, History } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
+import { contactsService } from "../../services/contacts/contacts.service";
+import { REGIONS, CAMPUSES } from "../../constants/data";
 
 export default function NewCampaign() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [contactsCount, setContactsCount] = useState({});
   const [formData, setFormData] = useState({
     name: "",
     message_body: "",
@@ -17,6 +20,32 @@ export default function NewCampaign() {
   const [scheduleTime, setScheduleTime] = useState("");
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
+
+  useEffect(() => {
+    async function loadCounts() {
+      try {
+        const contacts = await contactsService.getAll();
+        const counts = {};
+        
+        // Initialize counts
+        REGIONS.forEach(r => counts[r.name] = 0);
+
+        contacts.forEach(c => {
+          const campus = CAMPUSES.find(camp => camp.id === c.campus_id);
+          if (campus) {
+            const region = REGIONS.find(r => r.states.includes(campus.state));
+            if (region) {
+              counts[region.name] = (counts[region.name] || 0) + 1;
+            }
+          }
+        });
+        setContactsCount(counts);
+      } catch (error) {
+        console.error("Erro ao carregar contagem de contatos", error);
+      }
+    }
+    loadCounts();
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -56,8 +85,14 @@ export default function NewCampaign() {
 
       {/* HEADER DA PÁGINA */}
       <div className="page-header">
-        <h1>Nova Campanha de Mensagens</h1>
-        <p>Crie e envie mensagens personalizadas via WhatsApp</p>
+        <div>
+          <h1>Nova Campanha de Mensagens</h1>
+          <p>Crie e envie mensagens personalizadas via WhatsApp</p>
+        </div>
+        <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
+          <History size={16} />
+          Ver Histórico
+        </button>
       </div>
 
       {/* GRID PRINCIPAL */}
@@ -118,11 +153,11 @@ export default function NewCampaign() {
               <strong>Regiões do Brasil</strong>
 
               <div className="region-grid">
-                <div className="region-item">Sudeste <span>7.500 contatos</span></div>
-                <div className="region-item">Sul <span>3.200 contatos</span></div>
-                <div className="region-item">Nordeste <span>2.147 contatos</span></div>
-                <div className="region-item">Centro-Oeste <span>1.800 contatos</span></div>
-                <div className="region-item">Norte <span>1.200 contatos</span></div>
+                {REGIONS.map(region => (
+                  <div key={region.id} className="region-item">
+                    {region.name} <span>{contactsCount[region.name] || 0} contatos</span>
+                  </div>
+                ))}
               </div>
 
               <strong>Áreas Acadêmicas</strong>
