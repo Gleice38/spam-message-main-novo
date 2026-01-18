@@ -1,0 +1,11 @@
+node_modules
+dist
+build
+.git
+.idea
+__pycache__
+*.pyc
+.env
+venv
+.pytest_cache
+coverage
