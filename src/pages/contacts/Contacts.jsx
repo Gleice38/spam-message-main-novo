@@ -6,6 +6,7 @@ import { contactsService } from "../../services/contacts/contacts.service";
 import { EmptyState } from "../../components/EmptyState/EmptyState";
 import { SkeletonTable } from "../../components/Skeleton/SkeletonTable";
 import { toast } from "../../hooks/useToast";
+import { ROLES, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 
 export default function Contacts() {
   const [contacts, setContacts] = useState([]);
@@ -19,9 +20,20 @@ export default function Contacts() {
       'STUDENT': 'badge-student',
       'PROFESSOR': 'badge-professor',
       'COORDINATOR': 'badge-coordinator',
-      'VISITOR': 'badge-visitor'
+      'VISITOR': 'badge-visitor',
+      'RESEARCHER': 'badge-professor' // Map researcher to professor style
     };
     return roleMap[role] || 'badge-visitor';
+  };
+
+  const getCampusName = (id) => {
+    const campus = CAMPUSES.find(c => c.id === id);
+    return campus ? campus.name : id;
+  };
+
+  const getAreaName = (id) => {
+    const area = ACADEMIC_AREAS.find(a => a.id === id);
+    return area ? area.name : id;
   };
 
   async function loadContacts() {
@@ -140,7 +152,7 @@ export default function Contacts() {
                 <th>Telefone</th>
                 <th>Perfil</th>
                 <th>Campus</th>
-                <th>Faculdade</th>
+                <th>Área Acadêmica</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -151,10 +163,12 @@ export default function Contacts() {
                   <td>{c.name}</td>
                   <td>{c.phone}</td>
                   <td>
-                    <span className={`state-badge ${getRoleBadgeClass(c.role)}`}>{c.role}</span>
+                    <span className={`state-badge ${getRoleBadgeClass(c.role)}`}>
+                      {ROLES[c.role] || c.role}
+                    </span>
                   </td>
-                  <td>{c.campus_id}</td>
-                  <td>{c.academic_area_id}</td>
+                  <td>{getCampusName(c.campus_id)}</td>
+                  <td>{getAreaName(c.academic_area_id)}</td>
                   <td className="actions">
                     <button
                       className="icon-btn edit"
