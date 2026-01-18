@@ -10,7 +10,7 @@ import {
 
 import './lineChart.css'
 
-const data = [
+const defaultData = [
   { month: 'Jul', value: 1800 },
   { month: 'Ago', value: 2100 },
   { month: 'Set', value: 2450 },
@@ -19,11 +19,13 @@ const data = [
   { month: 'Dez', value: 3300 }
 ]
 
-export default function LineChart() {
+export default function LineChart({ data }) {
+  const chartData = data && data.length > 0 ? data : defaultData;
+
   return (
     <div className="line-chart-wrapper">
       <ResponsiveContainer width="100%" height={260}>
-        <ReLineChart data={data}>
+        <ReLineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" vertical={false} />
           <XAxis
             dataKey="month"

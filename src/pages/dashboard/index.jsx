@@ -17,7 +17,8 @@ export default function Dashboard() {
     nextDispatch,
     contactsByRegion,
     contactsByArea,
-    lastCampaigns
+    lastCampaigns,
+    messageHistory
   } = useDashboardData();
 
   return (
@@ -41,7 +42,7 @@ export default function Dashboard() {
           <div className="card">
             <h3 className="card-title">Histórico de Mensagens Enviadas</h3>
             <p className="card-subtitle">Evolução nos últimos meses</p>
-            <LineChart />
+            <LineChart data={messageHistory} />
           </div>
 
           <div className="card">

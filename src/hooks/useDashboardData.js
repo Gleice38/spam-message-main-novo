@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { contactsService } from '@/services/contacts/contacts.service'
 import { campaignsService } from '@/services/campaigns/campaigns.service'
+import { CAMPUSES, ACADEMIC_AREAS, REGIONS } from '@/constants/data'
 
 const REGION_COLORS = {
   Sudeste: '#0b3c5d',
@@ -12,17 +13,32 @@ const REGION_COLORS = {
 
 const AREA_COLORS = {
   'Ciências Humanas': '#0b3c5d',
-  'Ciências Exatas': '#145374',
+  'Ciências Exatas e da Terra': '#145374',
   'Ciências Biológicas': '#1c6ea4',
-  Engenharias: '#2a9df4',
-  'Ciências da Saúde': '#6ec1e4'
+  'Engenharias': '#2a9df4',
+  'Ciências da Saúde': '#6ec1e4',
+  'Ciências Agrárias': '#88d8b0',
+  'Ciências Sociais Aplicadas': '#ff6f69',
+  'Linguística, Letras e Artes': '#ffcc5c'
 };
 
-function aggregateData(items, key, colorMap) {
+function getRegionByCampusId(campusId) {
+  const campus = CAMPUSES.find(c => c.id === campusId);
+  if (!campus) return 'Não definido';
+  const region = REGIONS.find(r => r.states.includes(campus.state));
+  return region ? region.name : 'Não definido';
+}
+
+function getAreaNameById(areaId) {
+  const area = ACADEMIC_AREAS.find(a => a.id === areaId);
+  return area ? area.name : 'Não definido';
+}
+
+function aggregateData(items, keyExtractor, colorMap) {
   if (!items || items.length === 0) return [];
 
   const aggregation = items.reduce((acc, item) => {
-    const value = item[key] || 'Não definido';
+    const value = keyExtractor(item);
     if (!acc[value]) {
       acc[value] = 0;
     }
@@ -49,6 +65,14 @@ export function useDashboardData() {
   const [messagesThisMonth, setMessagesThisMonth] = useState(0)
   const [activeCampaigns, setActiveCampaigns] = useState(0)
   const [nextDispatch, setNextDispatch] = useState('')
+  const [messageHistory, setMessageHistory] = useState([
+    { month: 'Jul', value: 1800 },
+    { month: 'Ago', value: 2100 },
+    { month: 'Set', value: 2450 },
+    { month: 'Out', value: 2200 },
+    { month: 'Nov', value: 2900 },
+    { month: 'Dez', value: 3300 }
+  ])
 
   useEffect(() => {
     async function loadDashboardData() {
@@ -64,8 +88,8 @@ export function useDashboardData() {
         
         setTotalContacts(contacts.length);
         
-        setContactsByRegion(aggregateData(contacts, 'region', REGION_COLORS));
-        setContactsByArea(aggregateData(contacts, 'area', AREA_COLORS));
+        setContactsByRegion(aggregateData(contacts, (c) => getRegionByCampusId(c.campus_id), REGION_COLORS));
+        setContactsByArea(aggregateData(contacts, (c) => getAreaNameById(c.academic_area_id), AREA_COLORS));
 
         setLastCampaigns(campaigns);
         
@@ -74,6 +98,7 @@ export function useDashboardData() {
 
         // MOCK REMAINS: API data structure for these is unknown.
         setMessagesThisMonth(3245);
+        // setMessageHistory(...) // Could be fetched here if API existed
         
         const scheduled = campaigns
           .filter(c => c.status === 'scheduled' && new Date(c.datetime) > new Date())
@@ -105,7 +130,8 @@ export function useDashboardData() {
   nextDispatch,
   contactsByRegion,
   contactsByArea,
-  lastCampaigns
+  lastCampaigns,
+  messageHistory
 }
 
 }
