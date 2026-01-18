@@ -74,27 +74,6 @@ export default function Navbar() {
           <Users size={16} />
           Gerenciar Contatos
         </button>
-        <button
-          className={`nav-item ${isActive('/perfil') ? 'active' : ''}`}
-          onClick={() => navigate('/perfil')}
-        >
-          <User size={16} />
-          Perfil
-        </button>
-        <button
-          className={`nav-item ${isActive('/preferencias') ? 'active' : ''}`}
-          onClick={() => navigate('/preferencias')}
-        >
-          <Sliders size={16} />
-          Preferências de Envio
-        </button>
-         <button
-          className={`nav-item ${isActive('/notificacoes') ? 'active' : ''}`}
-          onClick={() => navigate('/notificacoes')}
-        >
-          <Bell size={16} />
-          Notificações
-        </button>
       </nav>
 
       {/* AÇÕES */}

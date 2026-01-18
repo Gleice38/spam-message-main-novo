@@ -16,9 +16,6 @@ const NewContact = lazy(() => import("./pages/contacts/NewContact"));
 const EditContact = lazy(() => import("./pages/contacts/EditContact"));
 const NewCampaign = lazy(() => import("./pages/campaigns/NewCampaign"));
 const Configuracoes = lazy(() => import("./pages/configuracoes"));
-const Perfil = lazy(() => import("./pages/perfil"));
-const Preferencias = lazy(() => import("./pages/preferencias"));
-const Notificacoes = lazy(() => import("./pages/notificacoes"));
 
 // Loading component
 const PageLoader = () => (
@@ -107,40 +104,6 @@ export default function App() {
             <ProtectedRoute>
               <AppLayout>
                 <NewCampaign />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        {/* PROTEGIDAS (SEM NAVBAR) */}
-        <Route
-          path="/perfil"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Perfil />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/preferencias"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Preferencias />
-              </AppLayout>
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/notificacoes"
-          element={
-            <ProtectedRoute>
-              <AppLayout>
-                <Notificacoes />
               </AppLayout>
             </ProtectedRoute>
           }
