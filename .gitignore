@@ -7,3 +7,17 @@ dist/
 
 # env
 .env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+*.db
+*.sqlite3
+
+# OS
+.DS_Store
+Thumbs.db
+nul
