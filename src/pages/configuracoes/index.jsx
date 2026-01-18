@@ -1,9 +1,30 @@
-import { Moon, Sun, Monitor, User, Bell, Shield, Info } from 'lucide-react';
+import { Moon, Sun, Monitor, User, Bell, Shield, Info, CheckCircle } from 'lucide-react';
 import { useTheme } from '../../hooks/useTheme';
+import { useState, useEffect } from 'react';
+import TwoFactorModal from '../../components/TwoFactorModal/TwoFactorModal';
 import './style.css';
 
 export default function Configuracoes() {
   const { theme, setTheme, isDark } = useTheme();
+  const [is2FAModalOpen, setIs2FAModalOpen] = useState(false);
+  const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+
+  useEffect(() => {
+    const enabled = localStorage.getItem('2fa_enabled') === 'true';
+    setIs2FAEnabled(enabled);
+  }, []);
+
+  const handleEnable2FA = () => {
+    localStorage.setItem('2fa_enabled', 'true');
+    setIs2FAEnabled(true);
+  };
+
+  const handleDisable2FA = () => {
+    if (window.confirm('Tem certeza que deseja desativar a autenticação em dois fatores?')) {
+      localStorage.removeItem('2fa_enabled');
+      setIs2FAEnabled(false);
+    }
+  };
 
   const themeOptions = [
     { value: 'light', label: 'Claro', icon: Sun, description: 'Tema claro para ambientes iluminados' },
@@ -13,6 +34,12 @@ export default function Configuracoes() {
 
   return (
     <div className="configuracoes-page">
+      <TwoFactorModal 
+        isOpen={is2FAModalOpen} 
+        onClose={() => setIs2FAModalOpen(false)} 
+        onEnable={handleEnable2FA}
+      />
+
       <div className="configuracoes-header">
         <div>
           <h1>Configurações</h1>
@@ -21,55 +48,6 @@ export default function Configuracoes() {
       </div>
 
       <div className="configuracoes-container">
-        {/* SEÇÃO: APARÊNCIA */}
-        <section className="config-section">
-          <div className="section-header">
-            <div className="section-icon">
-              <Monitor size={20} />
-            </div>
-            <div>
-              <h2>Aparência</h2>
-              <p>Escolha como o sistema deve ser exibido</p>
-            </div>
-          </div>
-
-          <div className="config-card">
-            <div className="config-item-header">
-              <h3>Tema da Interface</h3>
-              <span className="config-badge">{isDark ? 'Escuro' : 'Claro'}</span>
-            </div>
-            <p className="config-description">
-              Selecione entre tema claro ou escuro para personalizar a aparência do sistema
-            </p>
-
-            <div className="theme-options">
-              {themeOptions.map((option) => {
-                const Icon = option.icon;
-                const isActive = theme === option.value;
-
-                return (
-                  <button
-                    key={option.value}
-                    className={`theme-option ${isActive ? 'active' : ''}`}
-                    onClick={() => setTheme(option.value)}
-                  >
-                    <div className="theme-option-icon">
-                      <Icon size={24} />
-                    </div>
-                    <div className="theme-option-content">
-                      <span className="theme-option-label">{option.label}</span>
-                      <span className="theme-option-description">{option.description}</span>
-                    </div>
-                    {isActive && (
-                      <div className="theme-option-check">✓</div>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
         {/* SEÇÃO: CONTA */}
         <section className="config-section">
           <div className="section-header">
@@ -172,8 +150,21 @@ export default function Configuracoes() {
               <div className="config-item-info">
                 <h3>Autenticação em Dois Fatores</h3>
                 <p>Adicione uma camada extra de segurança</p>
+                {is2FAEnabled && (
+                  <span style={{ color: 'var(--success-500)', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '4px', marginTop: '4px' }}>
+                    <CheckCircle size={14} /> Ativado
+                  </span>
+                )}
               </div>
-              <button className="btn-secondary">Configurar</button>
+              {is2FAEnabled ? (
+                <button className="btn-secondary" onClick={handleDisable2FA} style={{ color: 'var(--danger-500)', borderColor: 'var(--danger-200)' }}>
+                  Desativar
+                </button>
+              ) : (
+                <button className="btn-secondary" onClick={() => setIs2FAModalOpen(true)}>
+                  Configurar
+                </button>
+              )}
             </div>
 
             <div className="config-divider"></div>
