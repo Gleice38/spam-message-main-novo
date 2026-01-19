@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
 import { contactsService } from "../../services/contacts/contacts.service";
 import { REGIONS, CAMPUSES } from "../../constants/data";
-
+import softexlogo from '../../public/softex-logo.png';
 export default function NewCampaign() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -82,7 +82,6 @@ export default function NewCampaign() {
 
   return (
     <div className="page-container">
-
       {/* HEADER DA PÁGINA */}
       <div className="page-header">
         <div>
@@ -256,6 +255,19 @@ export default function NewCampaign() {
         </div>
 
       </form>
+      {/* FOOTER */}
+            <footer className="dashboard-footer">
+              <div className="dashboard-footer__content">
+                <img
+                  src="/softex-logo.png"
+                  alt="Softex"
+                  className="dashboard-footer__logo"
+                />
+                <span>
+                  ©2025 Mensagens Cooperativa. Todos os direitos reservados.
+                </span>
+                  </div>
+      </footer>
     </div>
   );
 }
