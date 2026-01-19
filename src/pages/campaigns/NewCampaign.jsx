@@ -214,31 +214,42 @@ export default function NewCampaign() {
         {/* COLUNA DIREITA */}
         <div className="campaign-right">
           <div className="card sticky">
-            <h2>Resumo do Envio</h2>
-
-            <div className="summary-box">
-              <span>Total de Destinatários</span>
-              <strong>Todos os contatos</strong>
+            <h2 style={{ textAlign: 'center', marginBottom: 16 }}>Checklist do Envio</h2>
+            <div className="summary-list checklist">
+              <div className="check-item">
+                <span className="check-icon">📅</span>
+                <span className="check-label">Tipo de envio:</span>
+                <span className="check-status badge-success">✔️ {scheduleEnabled ? 'Agendado' : 'Imediato'}</span>
+              </div>
+              <div className="check-item">
+                <span className="check-icon">👥</span>
+                <span className="check-label">Total de contatos:</span>
+                <span className="check-status badge-success">✔️ {Object.values(contactsCount).reduce((a, b) => a + b, 0)}</span>
+              </div>
+              <div className="check-item">
+                <span className="check-icon">📍</span>
+                <span className="check-label">Regiões:</span>
+                <span className="check-status badge-success">
+                  ✔️ {
+                    Object.entries(contactsCount)
+                      .filter(([region, count]) => count > 0)
+                      .map(([region]) => region)
+                      .join(', ') || 'Nenhuma'
+                  }
+                </span>
+              </div>
+              <div className="check-item">
+                <span className="check-icon">📨</span>
+                <span className="check-label">Mensagem:</span>
+                <span className="check-status badge-success">✔️ {formData.message_body ? 'Definida' : 'Pendente'}</span>
+              </div>
             </div>
-
-            <ul className="summary-list">
-              <li style={{ opacity: formData.name ? 1 : 0.5 }}>
-                {formData.name ? '✓' : '○'} Nome do evento definido
-              </li>
-              <li style={{ opacity: formData.message_body ? 1 : 0.5 }}>
-                {formData.message_body ? '✓' : '○'} Mensagem escrita
-              </li>
-              <li style={{ opacity: scheduleEnabled ? 1 : 0.5 }}>
-                {scheduleEnabled ? '✓' : '○'} {scheduleEnabled ? 'Agendado' : 'Envio imediato'}
-              </li>
-            </ul>
-
             <div className="summary-footer">
               <button type="submit" disabled={!isFormValid || loading}>
-                {loading ? "Enviando..." : "Revisar e Enviar"}
+                {loading ? "Enviando..." : "Enviar Agora"}
               </button>
-              <small>
-                {isFormValid ? "Pronto para enviar" : "Preencha todos os campos obrigatórios"}
+              <small style={{ textAlign: 'center' }}>
+                {isFormValid ? "Tudo pronto para enviar!" : "Preencha todos os campos obrigatórios"}
               </small>
             </div>
           </div>
