@@ -101,25 +101,40 @@
   cursor: pointer;
 }
 
-.nav-item:hover {
-  background: #f3f4f6;
-}
 
-/* ATIVO (PILL AZUL) */
-.nav-item.active {
-  background: #0b3c5d;
-  color: #ffffff;
-}
-
-/* AÇÕES DIREITA */
-.navbar-actions {
+.nav-item {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #374151;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.18s, color 0.18s;
 }
-
-.nav-item.subtle {
-  color: #111827;
+.nav-item svg {
+  transition: color 0.18s;
+  color: #9ca3af;
+}
+.nav-item.active {
+  background: #6366f1;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+}
+.nav-item.active svg {
+  color: #fff;
+}
+.nav-item:hover {
+  background: #e0e7ff;
+  color: #3730a3;
+}
+.nav-item:hover svg {
+  color: #3730a3;
+}
 }
 
 .divider {

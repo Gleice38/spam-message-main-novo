@@ -69,20 +69,19 @@ export default function Navbar() {
           <Users size={16} />
           Gerenciar Contatos
         </button>
-      </nav>
 
-      {/* AÇÕES */}
-      <div className="navbar-actions">
         <button
-          className={`nav-item subtle ${isActive('/configuracoes') ? 'active' : ''}`}
+          className={`nav-item ${isActive('/configuracoes') ? 'active' : ''}`}
           onClick={() => navigate('/configuracoes')}
         >
           <Settings size={16} />
           Configurações
         </button>
+      </nav>
 
+      {/* AÇÕES */}
+      <div className="navbar-actions">
         <div className="divider" />
-
         <button className="nav-item logout" onClick={handleLogout}>
           <LogOut size={16} />
           Sair

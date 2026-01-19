@@ -1,13 +1,16 @@
 import { Moon, Sun, Monitor, User, Bell, Shield, Info, CheckCircle } from 'lucide-react';
+import softexlogo from '../../public/softex-logo.png';
 import { useTheme } from '../../hooks/useTheme';
 import { useState, useEffect } from 'react';
 import TwoFactorModal from '../../components/TwoFactorModal/TwoFactorModal';
+import DocumentacaoOnboarding from './DocumentacaoOnboarding';
 import './style.css';
 
 export default function Configuracoes() {
   const { theme, setTheme, isDark } = useTheme();
   const [is2FAModalOpen, setIs2FAModalOpen] = useState(false);
   const [is2FAEnabled, setIs2FAEnabled] = useState(false);
+  const [showDoc, setShowDoc] = useState(false);
 
   useEffect(() => {
     const enabled = localStorage.getItem('2fa_enabled') === 'true';
@@ -218,11 +221,32 @@ export default function Configuracoes() {
                 <h3>Documentação</h3>
                 <p>Guias e tutoriais de uso do sistema</p>
               </div>
-              <button className="btn-secondary">Acessar</button>
+              <button className="btn-secondary" onClick={() => setShowDoc(v => !v)}>
+                {showDoc ? 'Fechar' : 'Acessar'}
+              </button>
             </div>
+            {showDoc && (
+              <div style={{marginTop: '32px'}}>
+                <DocumentacaoOnboarding />
+              </div>
+            )}
           </div>
         </section>
       </div>
-    </div>
+
+    {/* FOOTER */}
+    <footer className="dashboard-footer">
+      <div className="dashboard-footer__content">
+        <img
+          src={softexlogo}
+          alt="Softex"
+          className="dashboard-footer__logo"
+        />
+        <span>
+          ©2025 Mensagens Cooperativa. Todos os direitos reservados.
+        </span>
+      </div>
+    </footer>
+  </div>
   );
 }

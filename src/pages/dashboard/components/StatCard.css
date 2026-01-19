@@ -4,13 +4,12 @@
   padding: 20px 20px 18px;
   box-shadow: 0 4px 16px rgba(24, 49, 83, 0.08);
   position: relative;
-
   width: 100%;
   min-height: 120px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  border-left: 6px solid #3b82f6;
 }
 
 /* Header: título + ícone */
