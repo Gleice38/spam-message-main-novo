@@ -31,11 +31,10 @@ export default function Dashboard() {
         </header>
 
         {/* Estatísticas Principais conforme protótipo */}
-        <section className="dashboard-section">
-          <StatCard title="Total de Contatos" value={totalContacts} icon={<Database size={20} />} trend="+342 novos este mês" />
-          <StatCard title="Mensagens (Dezembro)" value={messagesThisMonth} icon={<Send size={20} />} trend="+12.2% vs mês anterior" />
-          <StatCard title="Campanhas Ativas" value={activeCampaigns} icon={<TrendingUp size={20} />} trend="Em andamento" />
-          <StatCard title="Próximo Disparo" value={nextDispatch} icon={<Clock size={20} />} trend="Workshop de IA" />
+        <section className="dashboard-section dashboard-section--centered">
+          <StatCard title="Total de Contatos" value={totalContacts} icon={<Database size={24} />} trend="+342 novos este mês" />
+          <StatCard title="Campanhas Ativas" value={activeCampaigns} icon={<TrendingUp size={24} />} trend="Em andamento" />
+          <StatCard title="Próximo Disparo" value={nextDispatch} icon={<Clock size={24} />} trend="Workshop de IA" />
         </section>
 
         <section className="dashboard-section--charts">
