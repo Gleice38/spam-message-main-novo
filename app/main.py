@@ -99,7 +99,6 @@ origins = [
     "http://localhost:5174",
     "http://89.117.33.220:3002",
     "http://89.117.33.220",
-    "*",
 ]
 
 app.add_middleware(
@@ -114,10 +113,11 @@ app.add_middleware(
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"])
 app.include_router(webhooks.router, prefix="/api/v1/webhooks", tags=["Webhooks"])
 
-# Rotas PROTEGIDAS
-app.include_router(contacts.router, prefix="/api/v1/contacts", tags=["Contacts"], dependencies=[Depends(get_current_user)])
-app.include_router(campaigns.router, prefix="/api/v1/campaigns", tags=["Campaigns"], dependencies=[Depends(get_current_user)])
-app.include_router(dashboard.router, prefix="/api/v1/dashboard", tags=["Dashboard"], dependencies=[Depends(get_current_user)])
+
+# Rotas SEM AUTENTICAÇÃO (auth desativado temporariamente)
+app.include_router(contacts.router, prefix="/api/v1/contacts", tags=["Contacts"])
+app.include_router(campaigns.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
+app.include_router(dashboard.router, prefix="/api/v1/dashboard", tags=["Dashboard"])
 
 @app.get(
     "/",

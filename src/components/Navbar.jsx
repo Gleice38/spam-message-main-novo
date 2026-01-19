@@ -9,8 +9,7 @@ import {
   Sliders
 } from 'lucide-react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import './Navbar.css'
-import softexLogo from "../softex-logo.png";
+import './Navbar.css';
 
 
 export default function Navbar() {
@@ -32,11 +31,7 @@ export default function Navbar() {
       {/* LOGO */}
       <div className="navbar-brand">
   <div className="logo-wrapper">
-  <img
-    src={softexLogo}
-    alt="Softex"
-    className="brand-logo"
-  />
+  
 
   <div className="logo-circle">MC</div>
 </div>

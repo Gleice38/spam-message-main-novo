@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Lock, Eye, EyeOff, Mail, ShieldCheck } from 'lucide-react';
 import './style.css';
 
-import softexLogo from '../../softex-logo.png';
+import softexLogo from '../../public/softex-logo.png';
 import { authService } from '../../services/auth/auth.service';
 
 export default function Login() {
