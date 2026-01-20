@@ -35,7 +35,7 @@ export default function Dashboard() {
           title="Total de Contatos"
           value={totalContacts}
           icon={<Database size={24} />}
-          subtitle="+342 novos este mês"
+          subtitle=""
         />
 
         <StatCard
