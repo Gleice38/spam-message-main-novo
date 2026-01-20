@@ -36,7 +36,7 @@ class CampaignService:
         for contact in contacts:
             payload = {
                 "phone": contact.phone,
-                "message": data.message_body
+                "message": f"{data.name}\n{data.message_body}"
             }
             zapi_message_id = None
             try:
