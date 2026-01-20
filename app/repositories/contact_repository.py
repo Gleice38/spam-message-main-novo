@@ -72,15 +72,24 @@ class ContactRepository:
         if filters.get("role"):
             query = query.filter(Contact.role == filters["role"])
 
-        if filters.get("state") or filters.get("city"):
+        # Permitir múltiplos estados (regiões)
+        states = filters.get("states") or filters.get("state")
+        if states or filters.get("city"):
             query = query.join(Contact.campus)
-
-            if filters.get("state"):
-                query = query.filter(Campus.state == filters["state"])
+            if states:
+                if isinstance(states, list):
+                    query = query.filter(Campus.state.in_(states))
+                else:
+                    query = query.filter(Campus.state == states)
             if filters.get("city"):
                 query = query.filter(Campus.city == filters["city"])
 
-        if filters.get("academic_area_id"):
-            query = query.filter(Contact.academic_area_id == filters["academic_area_id"])
+        # Permitir múltiplas áreas acadêmicas
+        academic_area_ids = filters.get("academic_area_ids") or filters.get("academic_area_id")
+        if academic_area_ids:
+            if isinstance(academic_area_ids, list):
+                query = query.filter(Contact.academic_area_id.in_(academic_area_ids))
+            else:
+                query = query.filter(Contact.academic_area_id == academic_area_ids)
 
         return query.all()

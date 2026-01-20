@@ -44,12 +44,17 @@
   font-weight: 500;
   color: #183153;
 }
-.check-status {
+.check-value {
   font-weight: 600;
   font-size: 16px;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+}
+.check-status {
+  color: #22c55e;
+  font-size: 18px;
+  margin-left: 4px;
 }
 .badge-success {
   color: #22c55e;

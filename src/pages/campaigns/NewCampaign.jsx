@@ -9,6 +9,7 @@ import softexlogo from '../../public/softex-logo.png';
 export default function NewCampaign() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [contacts, setContacts] = useState([]);
   const [contactsCount, setContactsCount] = useState({});
   const [formData, setFormData] = useState({
     name: "",
@@ -24,31 +25,47 @@ export default function NewCampaign() {
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
+  // Carrega todos os contatos uma vez
   useEffect(() => {
-    async function loadCounts() {
+    async function loadContacts() {
       try {
-        const contacts = await contactsService.getAll();
-        const counts = {};
-        
-        // Initialize counts
-        REGIONS.forEach(r => counts[r.name] = 0);
-
-        contacts.forEach(c => {
-          const campus = CAMPUSES.find(camp => camp.id === c.campus_id);
-          if (campus) {
-            const region = REGIONS.find(r => r.states.includes(campus.state));
-            if (region) {
-              counts[region.name] = (counts[region.name] || 0) + 1;
-            }
-          }
-        });
-        setContactsCount(counts);
+        const allContacts = await contactsService.getAll();
+        setContacts(allContacts);
       } catch (error) {
-        console.error("Erro ao carregar contagem de contatos", error);
+        console.error("Erro ao carregar contatos", error);
       }
     }
-    loadCounts();
+    loadContacts();
   }, []);
+
+  // Atualiza a contagem de contatos segmentados sempre que filtros mudam
+  useEffect(() => {
+    const counts = {};
+    REGIONS.forEach(r => counts[r.name] = 0);
+    // Filtra contatos por região e área acadêmica
+    const filteredContacts = contacts.filter(c => {
+      const campus = CAMPUSES.find(camp => camp.id === c.campus_id);
+      if (!campus) return false;
+      const region = REGIONS.find(r => r.states.includes(campus.state));
+      if (!region) return false;
+      // Se regiões selecionadas, filtra
+      if (selectedRegions.length && !selectedRegions.includes(region.name)) return false;
+      // Se áreas acadêmicas selecionadas, filtra
+      if (selectedAcademicAreas.length && !selectedAcademicAreas.includes(c.academic_area_id)) return false;
+      return true;
+    });
+    // Conta por região
+    filteredContacts.forEach(c => {
+      const campus = CAMPUSES.find(camp => camp.id === c.campus_id);
+      if (campus) {
+        const region = REGIONS.find(r => r.states.includes(campus.state));
+        if (region) {
+          counts[region.name] = (counts[region.name] || 0) + 1;
+        }
+      }
+    });
+    setContactsCount(counts);
+  }, [contacts, selectedRegions, selectedAcademicAreas]);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -89,7 +106,8 @@ export default function NewCampaign() {
         payload.scheduled_at = `${scheduleDate}T${scheduleTime}:00`;
       }
 
-      // Enviar regiões e áreas acadêmicas selecionadas no filtro
+
+      // Enviar regiões e áreas acadêmicas selecionadas no filtro (formato anterior)
       payload.filters_snapshot = {
         ...payload.filters_snapshot,
         regions: selectedRegions,
@@ -270,35 +288,59 @@ export default function NewCampaign() {
               <div className="check-item">
                 <span className="check-icon">📅</span>
                 <span className="check-label">Tipo de envio:</span>
-                <span className="check-status badge-success">✔️ {scheduleEnabled ? 'Agendado' : 'Imediato'}</span>
+                <span className="check-value">
+                  {scheduleEnabled ? 'Agendado' : 'Imediato'}
+                  <span className="check-status badge-success">✔️</span>
+                </span>
               </div>
               <div className="check-item">
                 <span className="check-icon">👥</span>
-                <span className="check-label">Total de contatos:</span>
-                <span className="check-status badge-success">✔️ {Object.values(contactsCount).reduce((a, b) => a + b, 0)}</span>
+                <span className="check-label">Total de contatos segmentados:</span>
+                <span className="check-value">
+                  {Object.values(contactsCount).reduce((a, b) => a + b, 0)}
+                  <span className="check-status badge-success">✔️</span>
+                </span>
               </div>
               <div className="check-item">
                 <span className="check-icon">📍</span>
-                <span className="check-label">Regiões:</span>
-                <span className="check-status badge-success">
-                  ✔️ {
-                    Object.entries(contactsCount)
-                      .filter(([region, count]) => count > 0)
-                      .map(([region]) => region)
-                      .join(', ') || 'Nenhuma'
-                  }
+                <span className="check-label">Regiões selecionadas:</span>
+                <span className="check-value">
+                  {selectedRegions.length ? selectedRegions.join(', ') : 'Nenhuma'}
+                  <span className="check-status badge-success">✔️</span>
+                </span>
+              </div>
+              <div className="check-item">
+                <span className="check-icon">🎓</span>
+                <span className="check-label">Áreas acadêmicas selecionadas:</span>
+                <span className="check-value">
+                  {selectedAcademicAreas.length ?
+                    ACADEMIC_AREAS.filter(a => selectedAcademicAreas.includes(a.id)).map(a => a.name).join(', ')
+                    : 'Nenhuma'}
+                  <span className="check-status badge-success">✔️</span>
                 </span>
               </div>
               <div className="check-item">
                 <span className="check-icon">📨</span>
                 <span className="check-label">Mensagem:</span>
-                <span className="check-status badge-success">✔️ {formData.message_body ? 'Definida' : 'Pendente'}</span>
+                <span className="check-value">
+                  {formData.message_body ? 'Definida' : 'Pendente'}
+                  <span className="check-status badge-success">✔️</span>
+                </span>
               </div>
             </div>
             <div className="summary-footer">
-              <button type="submit" disabled={!isFormValid || loading}>
-                {loading ? "Enviando..." : "Enviar Agora"}
-              </button>
+              {scheduleEnabled ? (
+                <button
+                  type="submit"
+                  disabled={!isFormValid || loading || !scheduleDate || !scheduleTime}
+                >
+                  {loading ? "Agendando..." : "Agendar Campanha"}
+                </button>
+              ) : (
+                <button type="submit" disabled={!isFormValid || loading}>
+                  {loading ? "Enviando..." : "Enviar Agora"}
+                </button>
+              )}
               <small style={{ textAlign: 'center' }}>
                 {isFormValid ? "Tudo pronto para enviar!" : "Preencha todos os campos obrigatórios"}
               </small>
