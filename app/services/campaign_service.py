@@ -35,19 +35,21 @@ class CampaignService:
         from app.constants.data import REGIONS, ACADEMIC_AREAS
         if "regions" in filters:
             selected_states = []
-            for region_name in filters["regions"]:
-                for region in REGIONS:
-                    if region["name"] == region_name:
-                        selected_states.extend(region["states"])
+            for region in filters["regions"]:
+                # Aceita tanto nome quanto id
+                for reg in REGIONS:
+                    if reg["name"] == region or reg["id"] == region:
+                        selected_states.extend(reg["states"])
             filters["states"] = selected_states
 
         # Converter academic_areas para academic_area_ids se necessário
         if "academic_areas" in filters:
             selected_ids = []
-            for area_name in filters["academic_areas"]:
-                for area in ACADEMIC_AREAS:
-                    if area["name"] == area_name:
-                        selected_ids.append(area["id"])
+            for area in filters["academic_areas"]:
+                # Aceita tanto nome quanto id
+                for a in ACADEMIC_AREAS:
+                    if a["name"] == area or a["id"] == area:
+                        selected_ids.append(a["id"])
             filters["academic_area_ids"] = selected_ids
 
         contacts = contact_repo.get_by_filters(filters)
