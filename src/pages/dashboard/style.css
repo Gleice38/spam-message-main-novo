@@ -49,10 +49,18 @@
    GRÁFICOS PRINCIPAIS
 ========================= */
 
+
+
 .dashboard-section--charts {
   display: grid;
-  grid-template-columns: 2fr 1.3fr;
+  grid-template-columns: 1fr 1fr;
   gap: 28px;
+}
+
+.dashboard-section--charts .card {
+  max-width: none;
+  width: 100%;
+  margin: 0;
 }
 
 @media (max-width: 900px) {

@@ -53,23 +53,14 @@ export default function Dashboard() {
         />
       </section>
 
+
       {/* GRÁFICOS PRINCIPAIS */}
       <section className="dashboard-section dashboard-section--charts">
-        <div className="card">
-          <h3 className="card-title">Histórico de Mensagens Enviadas</h3>
-          <p className="card-subtitle">Evolução nos últimos meses</p>
-          <LineChart data={messageHistory} />
-        </div>
-
         <div className="card">
           <h3 className="card-title">Contatos por Região</h3>
           <p className="card-subtitle">Distribuição geográfica da base</p>
           <PieChart data={contactsByRegion} />
         </div>
-      </section>
-
-      {/* GRÁFICO DE BARRAS */}
-      <section className="dashboard-section">
         <div className="card">
           <h3 className="card-title">Contatos por Área Acadêmica</h3>
           <p className="card-subtitle">Distribuição por campo de estudo</p>
@@ -77,16 +68,7 @@ export default function Dashboard() {
         </div>
       </section>
 
-      {/* TABELA */}
-      <section className="dashboard-section">
-        <div className="card">
-          <h3 className="card-title">Últimas Campanhas</h3>
-          <p className="card-subtitle">
-            Histórico de eventos divulgados via WhatsApp
-          </p>
-          <CampaignTable campaigns={lastCampaigns} />
-        </div>
-      </section>
+
 
       {/* FOOTER */}
       <footer className="dashboard-footer">
