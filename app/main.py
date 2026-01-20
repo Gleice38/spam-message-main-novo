@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from app.core.config import settings
 from app.db.session import engine
 from app.db.base import Base
-from app.api import campaigns, contacts, dashboard, webhooks, auth, zapi
+from app.api import campaigns, contacts, dashboard, webhooks, auth, zapi, media
 from app.api.deps import get_current_user
 
 
@@ -78,6 +79,10 @@ Configure as credenciais no arquivo `.env`.
             "name": "Webhooks",
             "description": "🔗 Endpoints públicos para receber callbacks da Z-API. Processam status de envio das mensagens.",
         },
+        {
+            "name": "Media",
+            "description": "🖼️ Gerenciamento de arquivos de mídia. Faça upload e associe arquivos às campanhas e contatos.",
+        },
     ],
     docs_url="/docs",
     redoc_url="/redoc",
@@ -123,6 +128,8 @@ app.include_router(zapi.router, prefix="/api/v1/zapi", tags=["ZAPI"])
 app.include_router(contacts.router, prefix="/api/v1/contacts", tags=["Contacts"])
 app.include_router(campaigns.router, prefix="/api/v1/campaigns", tags=["Campaigns"])
 app.include_router(dashboard.router, prefix="/api/v1/dashboard", tags=["Dashboard"])
+app.include_router(media.router, prefix="/api/v1/media", tags=["Media"])
+app.mount("/uploaded_media", StaticFiles(directory="uploaded_media"), name="uploaded_media")
 
 @app.get(
     "/",

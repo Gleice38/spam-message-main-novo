@@ -54,19 +54,46 @@ class CampaignService:
 
         contacts = contact_repo.get_by_filters(filters)
 
+        import mimetypes
         zapi_results = []
         for contact in contacts:
-            payload = {
-                "phone": contact.phone,
-                "message": f"{data.name}\n{data.message_body}"
-            }
+            caption = f"{data.name}\n{data.message_body}"
+            media_url = getattr(data, 'media_url', None)
             zapi_message_id = None
             try:
-                url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"
                 headers = {
                     "Client-Token": self.zapi_client_token,
                     "Content-Type": "application/json"
                 }
+                if media_url:
+                    mime, _ = mimetypes.guess_type(media_url)
+                    if mime and mime.startswith('image/'):
+                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-image"
+                        payload = {
+                            "phone": contact.phone,
+                            "image": media_url,
+                            "caption": caption
+                        }
+                    elif mime == 'application/pdf':
+                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-document"
+                        payload = {
+                            "phone": contact.phone,
+                            "document": media_url,
+                            "filename": media_url.split('/')[-1],
+                            "caption": caption
+                        }
+                    else:
+                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"
+                        payload = {
+                            "phone": contact.phone,
+                            "message": caption
+                        }
+                else:
+                    url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"
+                    payload = {
+                        "phone": contact.phone,
+                        "message": caption
+                    }
                 print(f"[ZAPI] Enviando para: {url}")
                 print(f"[ZAPI] Payload: {payload}")
                 resp = requests.post(url, json=payload, headers=headers, timeout=10)

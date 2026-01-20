@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
 import { contactsService } from "../../services/contacts/contacts.service";
+import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import softexlogo from '../../public/softex-logo.png';
 export default function NewCampaign() {
@@ -22,6 +23,9 @@ export default function NewCampaign() {
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [selectedAcademicAreas, setSelectedAcademicAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
+  const [mediaFile, setMediaFile] = useState(null);
+  const [mediaUrl, setMediaUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
@@ -88,6 +92,21 @@ export default function NewCampaign() {
     );
   }
 
+  async function handleFileChange(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    try {
+      const result = await mediaService.upload(file);
+      setMediaUrl(result.url);
+      setMediaFile(file);
+    } catch (err) {
+      alert("Erro ao fazer upload do arquivo");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -113,6 +132,11 @@ export default function NewCampaign() {
         regions: selectedRegions,
         academic_areas: selectedAcademicAreas
       };
+
+      // Incluir URL da mídia se existir
+      if (mediaUrl) {
+        payload.media_url = mediaUrl;
+      }
 
       await campaignsService.send(payload);
       alert("Campanha criada com sucesso!");
@@ -273,6 +297,27 @@ export default function NewCampaign() {
                       onChange={(e) => setScheduleTime(e.target.value)}
                     />
                   </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CARD 4 - UPLOAD DE ARQUIVO */}
+          <div className="card">
+            <div className="card-header">
+              <span role="img" aria-label="Arquivo">📎</span>
+              <div>
+                <h2>Anexar Imagem ou PDF</h2>
+                <span>Opcional: envie uma imagem ou PDF junto com a campanha</span>
+              </div>
+            </div>
+            <div className="card-content">
+              <input type="file" accept="image/*,application/pdf" onChange={handleFileChange} />
+              {uploading && <span>Enviando arquivo...</span>}
+              {mediaUrl && (
+                <div style={{ marginTop: 8 }}>
+                  <span>Arquivo enviado: </span>
+                  <a href={mediaUrl} target="_blank" rel="noopener noreferrer">{mediaFile?.name}</a>
                 </div>
               )}
             </div>
