@@ -57,7 +57,7 @@ class CampaignService:
         import mimetypes
         zapi_results = []
         for contact in contacts:
-            caption = f"{data.name}\n{data.message_body}"
+            caption = f"{data.name}\n\n{data.message_body}"
             media_url = getattr(data, 'media_url', None)
             zapi_message_id = None
             try:
