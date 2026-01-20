@@ -17,6 +17,13 @@ class ContactRepository:
             campus_id=contact.campus_id,
             academic_area_id=contact.academic_area_id
         )
+        # Salva campos extras se existirem
+        if hasattr(contact, "state") and contact.state:
+            setattr(db_contact, "state", contact.state)
+        if hasattr(contact, "city") and contact.city:
+            setattr(db_contact, "city", contact.city)
+        if hasattr(contact, "course") and contact.course:
+            setattr(db_contact, "course", contact.course)
         self.db.add(db_contact)
         self.db.commit()
         self.db.refresh(db_contact)
@@ -40,7 +47,13 @@ class ContactRepository:
             db_contact.role = contact.role
             db_contact.campus_id = contact.campus_id
             db_contact.academic_area_id = contact.academic_area_id
-
+            # Atualiza campos extras se existirem
+            if hasattr(contact, "state") and contact.state:
+                db_contact.state = contact.state
+            if hasattr(contact, "city") and contact.city:
+                db_contact.city = contact.city
+            if hasattr(contact, "course") and contact.course:
+                db_contact.course = contact.course
             self.db.commit()
             self.db.refresh(db_contact)
         return db_contact

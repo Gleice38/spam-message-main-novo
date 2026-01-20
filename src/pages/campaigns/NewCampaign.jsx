@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
 import { contactsService } from "../../services/contacts/contacts.service";
-import { REGIONS, CAMPUSES } from "../../constants/data";
+import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import softexlogo from '../../public/softex-logo.png';
 export default function NewCampaign() {
   const navigate = useNavigate();
@@ -18,6 +18,9 @@ export default function NewCampaign() {
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
   const [scheduleDate, setScheduleDate] = useState("");
   const [scheduleTime, setScheduleTime] = useState("");
+  const [selectedRegions, setSelectedRegions] = useState([]);
+  const [selectedAcademicAreas, setSelectedAcademicAreas] = useState([]);
+  const [areaSearch, setAreaSearch] = useState("");
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
@@ -52,6 +55,22 @@ export default function NewCampaign() {
     setFormData(prev => ({ ...prev, [name]: value }));
   }
 
+  function toggleRegion(regionName) {
+    setSelectedRegions(prev =>
+      prev.includes(regionName)
+        ? prev.filter(r => r !== regionName)
+        : [...prev, regionName]
+    );
+  }
+
+  function toggleAcademicArea(areaId) {
+    setSelectedAcademicAreas(prev =>
+      prev.includes(areaId)
+        ? prev.filter(id => id !== areaId)
+        : [...prev, areaId]
+    );
+  }
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -69,6 +88,13 @@ export default function NewCampaign() {
       if (scheduleEnabled && scheduleDate && scheduleTime) {
         payload.scheduled_at = `${scheduleDate}T${scheduleTime}:00`;
       }
+
+      // Enviar regiões e áreas acadêmicas selecionadas no filtro
+      payload.filters_snapshot = {
+        ...payload.filters_snapshot,
+        regions: selectedRegions,
+        academic_areas: selectedAcademicAreas
+      };
 
       await campaignsService.send(payload);
       alert("Campanha criada com sucesso!");
@@ -153,14 +179,40 @@ export default function NewCampaign() {
 
               <div className="region-grid">
                 {REGIONS.map(region => (
-                  <div key={region.id} className="region-item">
+                  <button
+                    type="button"
+                    key={region.id}
+                    className={`region-item${selectedRegions.includes(region.name) ? " selected" : ""}`}
+                    onClick={() => toggleRegion(region.name)}
+                    style={{ cursor: "pointer" }}
+                  >
                     {region.name} <span>{contactsCount[region.name] || 0} contatos</span>
-                  </div>
+                  </button>
                 ))}
               </div>
 
               <strong>Áreas Acadêmicas</strong>
-              <input placeholder="Digite para buscar área acadêmica..." />
+              <input
+                placeholder="Digite para buscar área acadêmica..."
+                value={areaSearch}
+                onChange={e => setAreaSearch(e.target.value)}
+                style={{ marginBottom: 8 }}
+              />
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+                {ACADEMIC_AREAS.filter(a =>
+                  a.name.toLowerCase().includes(areaSearch.toLowerCase())
+                ).map(area => (
+                  <button
+                    type="button"
+                    key={area.id}
+                    className={`region-item${selectedAcademicAreas.includes(area.id) ? " selected" : ""}`}
+                    onClick={() => toggleAcademicArea(area.id)}
+                    style={{ minWidth: 0, padding: "8px 12px", fontSize: 13 }}
+                  >
+                    {area.name}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -1,9 +1,11 @@
 from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
+
 from app.db.session import get_db
 from app.schemas.campaign import CampaignCreate, CampaignResponse, MessageResponse
 from app.services.campaign_service import CampaignService
+from app.api.deps import get_current_user
 
 router = APIRouter()
 
@@ -48,7 +50,11 @@ router = APIRouter()
         }
     }
 )
-def create_and_send_campaign(data: CampaignCreate, db: Session = Depends(get_db)):
+def create_and_send_campaign(
+    data: CampaignCreate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
     """
     ## Criar e Enviar Campanha
 

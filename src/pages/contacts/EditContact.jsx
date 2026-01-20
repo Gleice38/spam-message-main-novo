@@ -1,21 +1,23 @@
 import "./NewContact.css";
-import { Phone, Mail, User, GraduationCap } from "lucide-react";
+import { Phone, Mail, User, GraduationCap, MapPin, BookOpen } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { contactsService } from "../../services/contacts/contacts.service";
+import { REGIONS, ACADEMIC_AREAS, CAMPUSES } from "../../constants/data";
 
 export default function EditContact() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
+  const [selectedRegion, setSelectedRegion] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
     role: "STUDENT",
-    campus_id: null,
-    academic_area_id: null,
+    campus_id: "",
+    academic_area_id: "",
   });
 
   useEffect(() => {
@@ -38,8 +40,8 @@ export default function EditContact() {
         phone: contact.phone || "",
         email: contact.email || "",
         role: contact.role || "STUDENT",
-        campus_id: contact.campus_id || null,
-        academic_area_id: contact.academic_area_id || null,
+        campus_id: contact.campus_id ? String(contact.campus_id) : "",
+        academic_area_id: contact.academic_area_id ? String(contact.academic_area_id) : "",
       });
     } catch (error) {
       alert("Erro ao carregar contato");
@@ -75,6 +77,9 @@ export default function EditContact() {
     setLoading(true);
 
     try {
+
+      // Busca campus selecionado para preencher state/city
+      const campusObj = CAMPUSES.find(c => String(c.id) === String(formData.campus_id));
       const payload = {
         name: formData.name.trim(),
         phone: formData.phone.replace(/\D/g, ''),
@@ -82,6 +87,8 @@ export default function EditContact() {
         role: formData.role,
         campus_id: formData.campus_id ? Number(formData.campus_id) : null,
         academic_area_id: formData.academic_area_id ? Number(formData.academic_area_id) : null,
+        state: campusObj?.state || null,
+        city: campusObj?.city || null,
       };
 
       await contactsService.update(id, payload);
@@ -105,6 +112,14 @@ export default function EditContact() {
     );
   }
 
+  // Filtro de campus por região
+  const filteredCampuses = (() => {
+    if (!selectedRegion) return CAMPUSES;
+    const region = REGIONS.find(r => r.id === selectedRegion);
+    if (!region) return CAMPUSES;
+    return CAMPUSES.filter(c => region.states.includes(c.state));
+  })();
+
   return (
     <div className="contacts-page">
       {/* HEADER */}
@@ -118,7 +133,6 @@ export default function EditContact() {
       {/* CARD */}
       <div className="contacts-card">
         <form className="contact-form" onSubmit={handleSubmit}>
-
           {/* Nome */}
           <div className="form-group">
             <label>Nome Completo *</label>
@@ -189,27 +203,59 @@ export default function EditContact() {
             </div>
 
             <div className="form-group">
-              <label>ID do Campus (opcional)</label>
-              <input
-                name="campus_id"
-                type="number"
-                value={formData.campus_id || ""}
-                onChange={handleChange}
-                placeholder="Ex: 1"
-              />
+              <label>Região (Filtro)</label>
+              <div className="input-icon">
+                <MapPin size={16} />
+                <select
+                  value={selectedRegion}
+                  onChange={e => setSelectedRegion(e.target.value)}
+                >
+                  <option value="">Todas as Regiões</option>
+                  {REGIONS.map(r => (
+                    <option key={r.id} value={r.id}>{r.name}</option>
+                  ))}
+                </select>
+              </div>
             </div>
           </div>
 
-          {/* Área Acadêmica */}
-          <div className="form-group">
-            <label>ID da Área Acadêmica (opcional)</label>
-            <input
-              name="academic_area_id"
-              type="number"
-              value={formData.academic_area_id || ""}
-              onChange={handleChange}
-              placeholder="Ex: 5"
-            />
+          {/* Linha 4 */}
+          <div className="form-row">
+            <div className="form-group">
+              <label>Campus / Universidade *</label>
+              <div className="input-icon">
+                <MapPin size={16} />
+                <select
+                  name="campus_id"
+                  value={formData.campus_id}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Selecione um Campus</option>
+                  {filteredCampuses.map(c => (
+                    <option key={c.id} value={String(c.id)}>{c.name} ({c.state})</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Área Acadêmica *</label>
+              <div className="input-icon">
+                <BookOpen size={16} />
+                <select
+                  name="academic_area_id"
+                  value={formData.academic_area_id}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Selecione uma Área</option>
+                  {ACADEMIC_AREAS.map(a => (
+                    <option key={a.id} value={String(a.id)}>{a.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
 
           {/* Ações */}

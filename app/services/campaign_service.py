@@ -1,19 +1,76 @@
+
 from sqlalchemy.orm import Session
+
 from app.schemas.campaign import CampaignCreate
+from app.core.config import settings
+from app.repositories.contact_repository import ContactRepository
+import requests
+
 
 class CampaignService:
     def __init__(self, db: Session):
         self.db = db
+        # Z-API config for WhatsApp integration
+        self.zapi_instance_id = settings.ZAPI_INSTANCE_ID
+        self.zapi_instance_token = settings.ZAPI_INSTANCE_TOKEN
+        self.zapi_client_token = settings.ZAPI_CLIENT_TOKEN
+
+    def _to_response(self, campaign):
+        # Garante que todos os campos esperados estejam presentes na resposta
+        return {
+            "id": campaign.id,
+            "name": campaign.name,
+            "message_body": campaign.message_body,
+            "scheduled_at": campaign.scheduled_at,
+            "filters_snapshot": getattr(campaign, "filters_snapshot", None),
+            "status": campaign.status,
+        }
 
     def create_and_launch(self, data: CampaignCreate):
-        # Mock implementation
+        # Busca contatos pelo filtro
+        contact_repo = ContactRepository(self.db)
+        filters = data.filters_snapshot or {}
+        contacts = contact_repo.get_by_filters(filters)
+
+        zapi_results = []
+        for contact in contacts:
+            payload = {
+                "phone": contact.phone,
+                "message": data.message_body
+            }
+            zapi_message_id = None
+            try:
+                url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"
+                headers = {
+                    "Client-Token": self.zapi_client_token,
+                    "Content-Type": "application/json"
+                }
+                print(f"[ZAPI] Enviando para: {url}")
+                print(f"[ZAPI] Payload: {payload}")
+                resp = requests.post(url, json=payload, headers=headers, timeout=10)
+                print(f"[ZAPI] Status: {resp.status_code}")
+                print(f"[ZAPI] Resposta: {resp.text}")
+                if resp.ok:
+                    resp_json = resp.json()
+                    zapi_message_id = resp_json.get("messageId")
+            except Exception as e:
+                print(f"[ZAPI] Erro ao enviar: {e}")
+                zapi_message_id = None
+            zapi_results.append({
+                "contact_id": contact.id,
+                "status": "SENT" if zapi_message_id else "FAILED",
+                "zapi_message_id": zapi_message_id
+            })
+
+        # Retorno padrão (mock id de campanha)
         return {
             "id": 1,
             "name": data.name,
             "message_body": data.message_body,
             "status": "PENDING",
             "scheduled_at": data.scheduled_at,
-            "filters_snapshot": data.filters_snapshot
+            "filters_snapshot": data.filters_snapshot,
+            "messages": zapi_results
         }
 
     def list_messages(self, campaign_id: int):

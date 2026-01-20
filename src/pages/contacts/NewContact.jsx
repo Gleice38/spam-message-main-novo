@@ -56,6 +56,9 @@ export default function NewContact() {
       // Assumindo que o backend não suporta RESEARCHER, mapeamos para PROFESSOR
       const roleToSend = formData.role === 'RESEARCHER' ? 'PROFESSOR' : formData.role;
 
+
+      // Busca campus selecionado para preencher state/city
+      const campusObj = CAMPUSES.find(c => String(c.id) === String(formData.campus_id));
       const payload = {
         name: formData.name.trim(),
         phone: formData.phone.replace(/\D/g, ''),
@@ -63,6 +66,8 @@ export default function NewContact() {
         role: roleToSend,
         campus_id: formData.campus_id ? Number(formData.campus_id) : null,
         academic_area_id: formData.academic_area_id ? Number(formData.academic_area_id) : null,
+        state: campusObj?.state || null,
+        city: campusObj?.city || null,
       };
 
       await contactsService.create(payload);

@@ -126,15 +126,14 @@ export default function Contacts() {
   }
 
   /* ===============================
-     GROUP BY REGION (FRONT-END)
+     GROUP BY CAMPUS (FRONT-END)
   =============================== */
 
   const groupedContacts = filteredContacts.reduce((acc, contact) => {
-    const region = getRegionByState(contact.state);
-
-    if (!acc[region]) acc[region] = [];
-    acc[region].push(contact);
-
+    const campus = CAMPUSES.find(c => c.id === contact.campus_id);
+    const campusName = campus ? campus.name : 'Sem Campus';
+    if (!acc[campusName]) acc[campusName] = [];
+    acc[campusName].push(contact);
     return acc;
   }, {});
 
@@ -205,31 +204,31 @@ export default function Contacts() {
           />
         ) : (
           <div className="contacts-groups">
-            {Object.entries(groupedContacts).map(([region, items]) => (
-              <div key={region} className="contacts-group" data-region={region}>
+            {Object.entries(groupedContacts).map(([campusName, items]) => (
+              <div key={campusName} className="contacts-group" data-campus={campusName}>
                 {/* ACCORDION HEADER */}
                 <button
                   className="contacts-group-header"
-                  onClick={() => toggleRegion(region)}
+                  onClick={() => toggleRegion(campusName)}
                 >
                   <div className="group-title">
                     <span className="group-location-icon">
                       <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C7.03 2 3 6.03 3 11c0 5.25 7.11 10.61 8.13 11.36a1 1 0 0 0 1.13 0C13.89 21.61 21 16.25 21 11c0-4.97-4.03-9-9-9Zm0 18.54C9.14 18.07 5 14.39 5 11c0-3.87 3.13-7 7-7s7 3.13 7 7c0 3.39-4.14 7.07-7 9.54ZM12 6a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
                     </span>
-                    <span className="group-uf">{region}</span>
+                    <span className="group-uf">{campusName}</span>
                     <span className="group-count">
                       ({items.length} contato{items.length > 1 ? "s" : ""})
                     </span>
                   </div>
                   <span
                     className={`arrow ${
-                      openRegion === region ? "open" : ""
+                      openRegion === campusName ? "open" : ""
                     }`}
                   />
                 </button>
 
                 {/* TABLE */}
-                {openRegion === region && (
+                {openRegion === campusName && (
                   <table className="contacts-table">
                     <thead>
                       <tr>

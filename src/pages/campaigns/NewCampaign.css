@@ -1,3 +1,24 @@
+/* =========================
+   FOOTER (igual dashboard)
+========================= */
+.dashboard-footer {
+  margin-top: 48px;
+  padding: 20px 0;
+  border-top: 1px solid #e5eaf0;
+}
+.dashboard-footer__content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #6b7280;
+}
+.dashboard-footer__logo {
+  height: 28px;
+  opacity: 0.85;
+}
 .checklist {
   display: flex;
   flex-direction: column;
@@ -144,7 +165,16 @@
   align-items: center;
   font-size: 14px;
   background: #f9fafb;
+  transition: background 0.2s, border 0.2s;
+  cursor: pointer;
 }
+.region-item.selected {
+  background: #2563eb;
+  color: #fff;
+  border: 2px solid #2563eb;
+  font-weight: 600;
+}
+
 
 .summary-box {
   background: #f0f7ff;

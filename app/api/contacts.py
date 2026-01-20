@@ -1,9 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
+
 from app.db.session import get_db
 from app.schemas.contact import ContactCreate, ContactResponse
 from app.services.contact_service import ContactService
+from app.api.deps import get_current_user
 
 router = APIRouter()
 
@@ -56,7 +58,11 @@ router = APIRouter()
         }
     }
 )
-def create_contact(data: ContactCreate, db: Session = Depends(get_db)):
+def create_contact(
+    data: ContactCreate,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user)
+):
     """
     ## Criar Novo Contato Acadêmico
 

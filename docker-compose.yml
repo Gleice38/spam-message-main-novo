@@ -26,6 +26,9 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=mensagens_db
       - SQLALCHEMY_DATABASE_URI=postgresql://postgres:password@db/mensagens_db
+      - ZAPI_CLIENT_TOKEN=F46f0bb95d1c042f9857c8121a0aca437S
+      - ZAPI_INSTANCE_TOKEN=E325327D0022DDAC914CA15B
+      - ZAPI_INSTANCE_ID=3ECD22C8F0D83341D160DAD6DC7CFA85
     depends_on:
       - db
 

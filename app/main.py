@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
 from app.db.session import engine
 from app.db.base import Base
-from app.api import campaigns, contacts, dashboard, webhooks, auth
+from app.api import campaigns, contacts, dashboard, webhooks, auth, zapi
 from app.api.deps import get_current_user
 
 
@@ -97,6 +97,10 @@ origins = [
     "http://localhost:3002",
     "http://localhost:5173",
     "http://localhost:5174",
+    "http://127.0.0.1",
+    "http://127.0.0.1:3000",
+    "http://0.0.0.0",
+    "http://0.0.0.0:3000",
     "http://89.117.33.220:3002",
     "http://89.117.33.220",
 ]
@@ -112,6 +116,7 @@ app.add_middleware(
 # Rotas PÚBLICAS
 app.include_router(auth.router, prefix="/api/v1/auth", tags=["Auth"])
 app.include_router(webhooks.router, prefix="/api/v1/webhooks", tags=["Webhooks"])
+app.include_router(zapi.router, prefix="/api/v1/zapi", tags=["ZAPI"])
 
 
 # Rotas SEM AUTENTICAÇÃO (auth desativado temporariamente)
