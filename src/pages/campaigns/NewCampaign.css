@@ -1,3 +1,23 @@
+  .schedule-label {
+    font-size: 15px;
+    color: #222;
+    font-weight: 400;
+    padding-left: 8px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    display: inline-block;
+    margin-left: 0;
+  }
+/* =========================
+   HELPER TEXT STYLES
+========================= */
+.helper-text {
+  margin-top: 16px;
+  display: block;
+  font-size: 15px;
+  color: #222;
+}
 /* =========================
    FOOTER (igual dashboard)
 ========================= */
