@@ -80,12 +80,12 @@ export function useDashboardData() {
       try {
         setLoading(true)
 
-        // NOTE: The API does not exist, so this will fail.
-        // We are preparing the frontend for when the API is ready.
-        const [contacts, campaigns] = await Promise.all([
+        const [contactsRaw, campaignsRaw] = await Promise.all([
           contactsService.getAll(),
           campaignsService.getAll()
         ]);
+        const contacts = Array.isArray(contactsRaw) ? contactsRaw : [];
+        const campaigns = Array.isArray(campaignsRaw) ? campaignsRaw : [];
 
         setTotalContacts(contacts.length);
         setContactsByRegion(aggregateData(contacts, (c) => getRegionByCampusId(c.campus_id), REGION_COLORS));
@@ -109,7 +109,12 @@ export function useDashboardData() {
           .filter(c => c.status === 'SCHEDULED' && c.scheduled_at && new Date(c.scheduled_at) > new Date())
           .sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at));
 
+        // Log para depuração: campanhas agendadas e seus horários
         if (scheduled.length > 0) {
+          console.log('Campanhas agendadas (ordenadas):');
+          scheduled.forEach(c => {
+            console.log(`Nome: ${c.name} | scheduled_at: ${c.scheduled_at} | Data local: ${new Date(c.scheduled_at).toLocaleString('pt-BR')}`);
+          });
           const next = new Date(scheduled[0].scheduled_at);
           setNextDispatch(next.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
           setNextDispatchName(scheduled[0].name || '');

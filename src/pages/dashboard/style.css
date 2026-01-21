@@ -1,8 +1,9 @@
 /* =========================
    CONTAINER GERAL
 ========================= */
+
 .dashboard-container {
-  padding: 32px;
+  padding: 2.5rem 1.5rem;
   min-height: 100vh;
   background: linear-gradient(120deg, #f6faff 0%, #f8fafc 100%);
 }
@@ -10,18 +11,22 @@
 /* =========================
    HEADER
 ========================= */
+
 .dashboard-header {
-  max-width: 1200px;
-  margin: 0 auto 32px auto;
+  max-width: 90vw;
+  max-width: 75rem;
+  margin: 0 auto 2rem auto;
 }
+
 
 .dashboard-header h1 {
   color: #183153;
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 700;
-  margin-bottom: 6px;
-  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.06rem;
 }
+
 
 .dashboard-header p {
   color: #4a6073;
@@ -31,18 +36,21 @@
 /* =========================
    SEÇÕES BASE
 ========================= */
+
 .dashboard-section {
-  max-width: 1200px;
-  margin: 0 auto 40px auto;
+  max-width: 90vw;
+  max-width: 75rem;
+  margin: 0 auto 2.5rem auto;
 }
 
 /* =========================
    KPIs (CARDS DO TOPO)
 ========================= */
+
 .dashboard-section--stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1.5rem;
 }
 
 /* =========================
@@ -51,10 +59,11 @@
 
 
 
+
 .dashboard-section--charts {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 28px;
+  gap: 1.75rem;
 }
 
 .dashboard-section--charts .card {

@@ -179,8 +179,8 @@ class CampaignService:
 
     def process_scheduled_campaigns(self):
         from app.models.campaign import Campaign
-        from datetime import datetime
-        now = datetime.now()
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
         # Busca campanhas agendadas que já passaram do horário
         campaigns = self.db.query(Campaign).filter(
             Campaign.status == "SCHEDULED",

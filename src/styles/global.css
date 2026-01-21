@@ -25,3 +25,33 @@ body, html, #root {
   padding: 24px;
   padding-top: 96px; /* altura da navbar */
 }
+
+/* ====== MEDIA QUERIES GLOBAIS ====== */
+@media (max-width: 900px) {
+  .app-content {
+    padding: 12px;
+    padding-top: 72px;
+  }
+  .dashboard-container, .login-page-wrapper, .onboarding-wrapper {
+    padding: 0 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-content {
+    padding: 4px;
+    padding-top: 56px;
+  }
+  .dashboard-container, .login-page-wrapper, .onboarding-wrapper {
+    padding: 0 2px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .app-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
