@@ -65,6 +65,7 @@ export function useDashboardData() {
   const [messagesThisMonth, setMessagesThisMonth] = useState(0)
   const [activeCampaigns, setActiveCampaigns] = useState(0)
   const [nextDispatch, setNextDispatch] = useState('')
+  const [nextDispatchName, setNextDispatchName] = useState('')
   const [messageHistory, setMessageHistory] = useState([
     { month: 'Jul', value: 1800 },
     { month: 'Ago', value: 2100 },
@@ -111,8 +112,10 @@ export function useDashboardData() {
         if (scheduled.length > 0) {
           const next = new Date(scheduled[0].scheduled_at);
           setNextDispatch(next.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
+          setNextDispatchName(scheduled[0].name || '');
         } else {
           setNextDispatch('N/A');
+          setNextDispatchName('');
         }
 
       } catch (err) {
@@ -132,6 +135,7 @@ export function useDashboardData() {
   messagesThisMonth,
   activeCampaigns,
   nextDispatch,
+  nextDispatchName,
   contactsByRegion,
   contactsByArea,
   lastCampaigns,

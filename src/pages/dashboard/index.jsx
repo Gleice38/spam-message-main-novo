@@ -14,6 +14,7 @@ export default function Dashboard() {
     totalContacts,
     activeCampaigns,
     nextDispatch,
+    nextDispatchName,
     contactsByRegion,
     contactsByArea,
     lastCampaigns,
@@ -49,7 +50,7 @@ export default function Dashboard() {
           title="Próximo Disparo"
           value={nextDispatch}
           icon={<Clock size={24} />}
-          subtitle="Workshop de IA"
+          subtitle={nextDispatchName}
         />
       </section>
 
