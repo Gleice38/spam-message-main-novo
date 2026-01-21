@@ -7,6 +7,11 @@ from app.db.base import Base
 from app.api import campaigns, contacts, dashboard, webhooks, auth, zapi, media
 from app.api.deps import get_current_user
 
+import logging
+from app.core.scheduler import start_scheduler
+logging.basicConfig(level=logging.INFO)
+start_scheduler()
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -88,6 +93,7 @@ Configure as credenciais no arquivo `.env`.
     redoc_url="/redoc",
     openapi_url="/openapi.json",
     swagger_ui_parameters={
+
         "defaultModelsExpandDepth": -1,  # Oculta schemas no final da página
         "displayRequestDuration": True,  # Mostra tempo de resposta
         "filter": True,  # Adiciona campo de busca

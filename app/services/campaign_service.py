@@ -73,13 +73,21 @@ class CampaignService:
 
     def create_and_launch(self, data: CampaignCreate):
         from app.repositories.campaign_repository import CampaignRepository
-        from datetime import datetime
+        from datetime import datetime, timezone
         import mimetypes
+        import logging
+        from fastapi import HTTPException
         campaign_repo = CampaignRepository(self.db)
         contact_repo = ContactRepository(self.db)
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
+        logging.info(f"[AGENDAMENTO] now: {now} | scheduled_at: {data.scheduled_at}")
+        # Validação: scheduled_at não pode ser passado
+        if data.scheduled_at and data.scheduled_at < now:
+            logging.warning(f"[AGENDAMENTO] scheduled_at ({data.scheduled_at}) está no passado. Rejeitando campanha.")
+            raise HTTPException(status_code=400, detail="A data de agendamento deve ser futura.")
         # Decide status inicial
         status = "SCHEDULED" if data.scheduled_at and data.scheduled_at > now else "PENDING"
+        logging.info(f"[AGENDAMENTO] Status definido: {status}")
         # Salva campanha no banco
         campaign_data = {
             "name": data.name,
@@ -91,6 +99,7 @@ class CampaignService:
         campaign = campaign_repo.create(campaign_data)
         # Se for agendada, não envia agora
         if status == "SCHEDULED":
+            logging.info(f"[AGENDAMENTO] Campanha agendada, não será enviada agora. ID: {campaign.id}")
             return self._to_response(campaign)
         # Se for envio imediato, processa
         filters = data.filters_snapshot or {}
@@ -169,17 +178,32 @@ class CampaignService:
         return self._to_response(campaign)
 
     def process_scheduled_campaigns(self):
-        from app.repositories.campaign_repository import CampaignRepository
+        from app.models.campaign import Campaign
         from datetime import datetime
-        campaign_repo = CampaignRepository(self.db)
         now = datetime.now()
         # Busca campanhas agendadas que já passaram do horário
-        campaigns = self.db.query(campaign_repo.db.query(CampaignRepository).filter_by(status="SCHEDULED")).all()
+        campaigns = self.db.query(Campaign).filter(
+            Campaign.status == "SCHEDULED",
+            Campaign.scheduled_at != None,
+            Campaign.scheduled_at <= now
+        ).all()
+        from app.repositories.campaign_repository import CampaignRepository
+        campaign_repo = CampaignRepository(self.db)
         for campaign in campaigns:
-            if campaign.scheduled_at and campaign.scheduled_at <= now:
-                # Processa envio (pode chamar create_and_launch com status forçado)
-                # ... implementar envio ...
-                pass
+            # Atualiza status para PENDING antes de enviar
+            campaign.status = "PENDING"
+            self.db.commit()
+            # Reutiliza a lógica de envio imediato
+            data = CampaignCreate(
+                name=campaign.name,
+                message_body=campaign.message_body,
+                scheduled_at=campaign.scheduled_at,
+                filters_snapshot=campaign.filters_snapshot
+            )
+            self.create_and_launch(data)
+            # Atualiza status para SENT após envio (ou RUNNING/COMPLETED conforme sua lógica)
+            campaign.status = "SENT"
+            self.db.commit()
 
     def list_messages(self, campaign_id: int):
         # Mock implementation

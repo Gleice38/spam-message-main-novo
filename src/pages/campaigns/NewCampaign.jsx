@@ -125,7 +125,9 @@ export default function NewCampaign() {
 
       // Se agendamento estiver habilitado
       if (scheduleEnabled && scheduleDate && scheduleTime) {
-        payload.scheduled_at = `${scheduleDate}T${scheduleTime}:00`;
+        // Monta string local e converte para UTC ISO
+        const localDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
+        payload.scheduled_at = localDateTime.toISOString();
       }
 
 

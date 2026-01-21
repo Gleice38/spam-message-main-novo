@@ -4,10 +4,24 @@ export default function CampaignTable({ campaigns = [] }) {
   if (!Array.isArray(campaigns) || !campaigns.length) return null
 
   const getStatusLabel = (status) => {
-    if (status === 'finished') return 'Concluído'
-    if (status === 'scheduled') return 'Agendado'
-    if (status === 'active') return 'Em andamento'
-    return status
+    switch ((status || '').toUpperCase()) {
+      case 'FINISHED':
+      case 'COMPLETED':
+        return 'Concluído';
+      case 'SCHEDULED':
+        return 'Agendado';
+      case 'ACTIVE':
+      case 'RUNNING':
+        return 'Em andamento';
+      case 'PENDING':
+        return 'Pendente';
+      case 'SENT':
+        return 'Enviado';
+      case 'FAILED':
+        return 'Falhou';
+      default:
+        return status;
+    }
   }
 
   return (
@@ -23,32 +37,22 @@ export default function CampaignTable({ campaigns = [] }) {
       </thead>
 
       <tbody>
-        {campaigns.map((item, index) => (
-          <tr key={index}>
-            <td className="event-name">{item.name}</td>
-<td className="datetime">
-  {typeof item.datetime === 'string' && item.datetime.includes('•')
-    ? item.datetime.split('•').map((part, i) => (
-        <div key={i}>{part.trim()}</div>
-      ))
-    : (
-        <div>{item.datetime || '—'}</div>
-      )
-  }
-</td>
-
-
-            <td>{item.region}</td>
-
-            <td>{item.contacts.toLocaleString()}</td>
-
-            <td>
-              <span className={`status-badge ${item.status}`}>
-                {getStatusLabel(item.status)}
-              </span>
-            </td>
-          </tr>
-        ))}
+        {campaigns.map((item, index) => {
+          // Mostra scheduled_at se existir, senão created_at
+          let dateToShow = item.scheduled_at || item.created_at || '';
+          let dateStr = dateToShow ? new Date(dateToShow).toLocaleString('pt-BR') : '—';
+          return (
+            <tr key={index}>
+              <td className="event-name">{item.name}</td>
+              <td className="datetime">{dateStr}</td>
+              <td>{item.region}</td>
+              <td>{item.contacts?.toLocaleString?.() ?? 0}</td>
+              <td>
+                <span className={`status-badge ${item.status?.toLowerCase?.()}`}>{getStatusLabel(item.status)}</span>
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   )
