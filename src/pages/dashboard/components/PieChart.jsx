@@ -8,7 +8,7 @@ import {
 import './PieChart.css'
 
 export default function PieChart({ data = [] }) {
-  if (!data.length) return null
+  if (!Array.isArray(data) || !data.length) return null
 
   
   return (

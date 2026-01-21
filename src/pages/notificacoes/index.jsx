@@ -45,7 +45,7 @@ export default function Notificacoes() {
           <h3 className="menu-title">{schema.menuLateral.titulo}</h3>
 
           <div className="menu-items">
-            {schema.menuLateral.itens.map((item) => {
+            {(Array.isArray(schema.menuLateral?.itens) ? schema.menuLateral.itens : []).map((item) => {
               const isActive = item.id === activeMenuId;
               return (
                 <button
@@ -69,7 +69,7 @@ export default function Notificacoes() {
           </div>
 
           <div className="notif-list">
-            {schema.opcoes.map((op) => (
+            {(Array.isArray(schema?.opcoes) ? schema.opcoes : []).map((op) => (
               <label key={op.id} className="notif-item">
                 <input
                   type="checkbox"

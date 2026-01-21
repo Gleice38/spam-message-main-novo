@@ -35,7 +35,7 @@ function getAreaNameById(areaId) {
 }
 
 function aggregateData(items, keyExtractor, colorMap) {
-  if (!items || items.length === 0) return [];
+  if (!Array.isArray(items) || items.length === 0) return [];
 
   const aggregation = items.reduce((acc, item) => {
     const value = keyExtractor(item);
@@ -83,29 +83,33 @@ export function useDashboardData() {
         // We are preparing the frontend for when the API is ready.
         const [contacts, campaigns] = await Promise.all([
           contactsService.getAll(),
-          Promise.resolve([]) // campaignsService.getAll() is not available on the backend
+          campaignsService.getAll()
         ]);
-        
+
         setTotalContacts(contacts.length);
-        
         setContactsByRegion(aggregateData(contacts, (c) => getRegionByCampusId(c.campus_id), REGION_COLORS));
         setContactsByArea(aggregateData(contacts, (c) => getAreaNameById(c.academic_area_id), AREA_COLORS));
 
-        setLastCampaigns(campaigns);
-        
-        const active = campaigns.filter(c => c.status === 'active');
+        // Exibe todas as campanhas, inclusive agendadas
+        setLastCampaigns(campaigns.map(c => ({
+          ...c,
+          datetime: c.scheduled_at ? new Date(c.scheduled_at).toLocaleString('pt-BR') : '',
+          region: c.filters_snapshot?.regions?.join(', ') || '',
+          contacts: c.contacts_count || 0,
+          status: c.status?.toLowerCase() || ''
+        })));
+
+        const active = campaigns.filter(c => c.status === 'PENDING' || c.status === 'RUNNING');
         setActiveCampaigns(active.length);
 
-        // MOCK REMAINS: API data structure for these is unknown.
         setMessagesThisMonth(3245);
-        // setMessageHistory(...) // Could be fetched here if API existed
-        
+
         const scheduled = campaigns
-          .filter(c => c.status === 'scheduled' && new Date(c.datetime) > new Date())
-          .sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+          .filter(c => c.status === 'SCHEDULED' && c.scheduled_at && new Date(c.scheduled_at) > new Date())
+          .sort((a, b) => new Date(a.scheduled_at) - new Date(b.scheduled_at));
 
         if (scheduled.length > 0) {
-          const next = new Date(scheduled[0].datetime);
+          const next = new Date(scheduled[0].scheduled_at);
           setNextDispatch(next.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }));
         } else {
           setNextDispatch('N/A');

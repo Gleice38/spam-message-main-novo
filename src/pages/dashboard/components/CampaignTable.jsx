@@ -1,7 +1,7 @@
 import './CampaignTable.css'
 
 export default function CampaignTable({ campaigns = [] }) {
-  if (!campaigns.length) return null
+  if (!Array.isArray(campaigns) || !campaigns.length) return null
 
   const getStatusLabel = (status) => {
     if (status === 'finished') return 'Concluído'

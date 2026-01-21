@@ -7,6 +7,9 @@ import { contactsService } from "../../services/contacts/contacts.service";
 import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import softexlogo from '../../public/softex-logo.png';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+
 export default function NewCampaign() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -189,15 +192,25 @@ export default function NewCampaign() {
               />
 
               <label>Mensagem *</label>
-              <textarea
-                name="message_body"
-                value={formData.message_body}
-                onChange={handleChange}
-                placeholder="Digite a mensagem que será enviada via WhatsApp..."
-                rows={6}
-                required
-              />
-
+              <div style={{ position: 'relative' }}>
+                <ReactQuill
+                  value={formData.message_body}
+                  onChange={value => setFormData(prev => ({ ...prev, message_body: value }))}
+                  modules={{
+                    toolbar: [
+                      ['bold', 'italic', 'underline'],
+                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                      ['link'],
+                      ['clean']
+                    ]
+                  }}
+                  formats={['bold', 'italic', 'underline', 'list', 'bullet', 'link']}
+                  style={{ height: 200, marginBottom: 16 }}
+                />
+                <span style={{ position: 'absolute', right: 8, bottom: 8, fontSize: 13, color: '#666' }}>
+                  {formData.message_body.replace(/<[^>]+>/g, '').length} caracteres
+                </span>
+              </div>
               <div className="helper-text">
                 Use quebras de linha para melhor formatação
               </div>
@@ -269,13 +282,14 @@ export default function NewCampaign() {
             </div>
 
             <div className="card-content">
-              <label className="checkbox">
+              <label className="checkbox" style={{ display: 'flex', alignItems: 'center' }}>
                 <input
                   type="checkbox"
                   checked={scheduleEnabled}
                   onChange={(e) => setScheduleEnabled(e.target.checked)}
+                  style={{ marginRight: 8 }}
                 />
-                Agendar envio para depois
+                <span className="schedule-label">Agendar envio para depois</span>
               </label>
 
               {scheduleEnabled && (
@@ -398,7 +412,7 @@ export default function NewCampaign() {
             <footer className="dashboard-footer">
               <div className="dashboard-footer__content">
                 <img
-                  src="/softex-logo.png"
+                  src={softexlogo}
                   alt="Softex"
                   className="dashboard-footer__logo"
                 />

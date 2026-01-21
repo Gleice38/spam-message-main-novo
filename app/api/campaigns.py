@@ -9,6 +9,17 @@ from app.api.deps import get_current_user
 
 router = APIRouter()
 
+@router.get(
+    "/",
+    response_model=List[CampaignResponse],
+    summary="Listar campanhas",
+    description="Retorna todas as campanhas, incluindo agendadas.",
+    response_description="Lista de campanhas"
+)
+def list_campaigns(db: Session = Depends(get_db), user=Depends(get_current_user)):
+    service = CampaignService(db)
+    return service.list_all()
+
 @router.post(
     "/send",
     response_model=CampaignResponse,
