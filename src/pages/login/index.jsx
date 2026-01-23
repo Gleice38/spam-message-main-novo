@@ -47,8 +47,7 @@ export default function Login() {
         <div className="auth-card">
           <div className="realization-group">
             <p className="realization-label">REALIZAÇÃO</p>
-            {/* Texto temporário para não quebrar o código por falta de imagem */}
-            <h3 className="softex-placeholder">SOFTEX RECIFE</h3>
+            <img src="/softex-logo.png" alt="Logo Softex Pernambuco" className="logo-softex-img" />
           </div>
 
           <header className="card-header">
