@@ -1,5 +1,5 @@
 import "./NewCampaign.css";
-import { MessageSquare, Filter, Calendar, History } from "lucide-react";
+import { MessageSquare, Filter, Calendar, History, Paperclip } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
@@ -8,6 +8,7 @@ import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import EmojiPicker from 'emoji-picker-react';
 
 export default function NewCampaign() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function NewCampaign() {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaUrl, setMediaUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
@@ -152,18 +154,22 @@ export default function NewCampaign() {
     }
   }
 
+  // Adiciona emoji ao texto
+  const handleEmojiClick = (emojiData) => {
+    setFormData(prev => ({
+      ...prev,
+      message_body: prev.message_body + emojiData.emoji
+    }));
+  };
+
   return (
     <div className="page-container">
       {/* HEADER DA PÁGINA */}
-      <div className="page-header">
+      <div className="page-header center-header">
         <div>
           <h1>Nova Campanha de Mensagens</h1>
           <p>Crie e envie mensagens personalizadas via WhatsApp</p>
         </div>
-        <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
-          <History size={16} />
-          Ver Histórico
-        </button>
       </div>
 
       {/* GRID PRINCIPAL */}
@@ -172,59 +178,85 @@ export default function NewCampaign() {
         {/* COLUNA ESQUERDA */}
         <div className="campaign-left">
 
-          {/* CARD 1 */}
-          <div className="card">
-            <div className="card-header">
-              <MessageSquare size={18} />
-              <div>
-                <h2>Informações da Campanha</h2>
-                <span>Detalhes sobre o evento que será divulgado</span>
-              </div>
-            </div>
+        {/* CARD 1 */}
+<div className="card">
+  <div className="card-header" style={{ alignItems: 'center', gap: 8}}>
+    <MessageSquare size={22}/>
+    <div className="card-header-title" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#000000', marginLeft: 0 }}>Informações da Campanha</h2>
+      <span style={{ margin: 0, color: '#183153', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Detalhes sobre o evento que será divulgado</span>
+    </div>
+  </div>
 
-            <div className="card-content">
-              <label>Nome do Evento *</label>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Ex: Congresso Nacional de Medicina 2025"
-                required
-              />
+  <div className="card-content">
+    <label>Nome do Evento *</label>
+    <input
+      name="name"
+      value={formData.name}
+      onChange={handleChange}
+      placeholder="Ex: Congresso Nacional de Medicina 2025"
+      required
+    />
 
-              <label>Mensagem *</label>
-              <div style={{ position: 'relative' }}>
-                <ReactQuill
-                  value={formData.message_body}
-                  onChange={value => setFormData(prev => ({ ...prev, message_body: value }))}
-                  modules={{
-                    toolbar: [
-                      ['bold', 'italic', 'underline'],
-                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                      ['link'],
-                      ['clean']
-                    ]
-                  }}
-                  formats={['bold', 'italic', 'underline', 'list', 'bullet', 'link']}
-                  style={{ height: 200, marginBottom: 16 }}
-                />
-                <span style={{ position: 'absolute', right: 8, bottom: 8, fontSize: 13, color: '#666' }}>
-                  {formData.message_body.replace(/<[^>]+>/g, '').length} caracteres
-                </span>
-              </div>
-              <div className="helper-text">
-                Use quebras de linha para melhor formatação
-              </div>
-            </div>
-          </div>
+    <label>Mensagem *</label>
+
+    {/* Wrapper do editor */}
+    <div className="quill-wrapper">
+      <ReactQuill
+        value={formData.message_body}
+        onChange={value =>
+          setFormData(prev => ({ ...prev, message_body: value }))
+        }
+        modules={{
+          toolbar: [
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["clean"]
+          ]
+        }}
+        formats={["bold", "italic", "underline", "list", "bullet"]}
+        // altura padrão do ReactQuill
+        placeholder="Use quebras de linha para melhor formatação"
+      />
+
+      {/* Contador */}
+      <span className="char-counter">
+        {formData.message_body.replace(/<[^>]+>/g, "").length} caracteres
+      </span>
+    </div>
+
+    {/* helper-text removido conforme solicitado */}
+  </div>
+
+  {/* Emoji fixo no canto inferior esquerdo do card */}
+  <button
+    type="button"
+    className="emoji-button"
+    onClick={() => setShowEmojiPicker(v => !v)}
+    aria-label="Adicionar emoji"
+  >
+    😊
+  </button>
+
+  {showEmojiPicker && (
+    <div className="emoji-picker-container">
+      <EmojiPicker
+        onEmojiClick={handleEmojiClick}
+        height={350}
+        width={300}
+      />
+    </div>
+  )}
+</div>
+
 
           {/* CARD 2 */}
           <div className="card">
-            <div className="card-header">
-              <Filter size={18} />
-              <div>
-                <h2>Segmentação de Destinatários</h2>
-                <span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 8 }}>
+              <Filter size={22} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Segmentação de Destinatários</h2>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>
                   Selecione regiões e áreas acadêmicas para segmentar o envio
                 </span>
               </div>
@@ -274,11 +306,11 @@ export default function NewCampaign() {
 
           {/* CARD 3 */}
           <div className="card">
-            <div className="card-header">
-              <Calendar size={18} />
-              <div>
-                <h2>Agendamento (Opcional)</h2>
-                <span>Agende o envio para uma data e hora específica</span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 8 }}>
+              <Calendar size={22} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Agendamento (Opcional)</h2>
+                <span style={{ margin: 0, color: '#0a0a0a', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Agende o envio para uma data e hora específica</span>
               </div>
             </div>
 
@@ -319,11 +351,13 @@ export default function NewCampaign() {
 
           {/* CARD 4 - UPLOAD DE ARQUIVO */}
           <div className="card">
-            <div className="card-header">
-              <span role="img" aria-label="Arquivo">📎</span>
-              <div>
-                <h2>Anexar Imagem ou PDF</h2>
-                <span>Opcional: envie uma imagem ou PDF junto com a campanha</span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 10 }}>
+              <span className="check-icon" style={{ fontSize: 22, color: '#2193b0', background: 'transparent', borderRadius: '8px', padding: '6px 10px', display: 'flex', alignItems: 'center' }}>
+                <Paperclip size={22} />
+              </span>
+              <div className="card-header-title" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#050505', marginLeft: 0 }}>Anexar Imagem ou PDF</h2>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Opcional: envie uma imagem ou PDF junto com a campanha</span>
               </div>
             </div>
             <div className="card-content">
@@ -343,7 +377,25 @@ export default function NewCampaign() {
         {/* COLUNA DIREITA */}
         <div className="campaign-right">
           <div className="card sticky">
-            <h2 style={{ textAlign: 'center', marginBottom: 16 }}>Checklist do Envio</h2>
+            <div className="card-header" style={{ justifyContent: 'flex-start', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <span className="check-icon" style={{ fontSize: 28, color: '#2193b0', background: 'transparent', borderRadius: '8px', padding: '6px 10px', display: 'flex', alignItems: 'center' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="12" fill="url(#gradResumoEnvio)"/>
+                  <g>
+                    <rect x="5" y="7" width="14" height="10" rx="2" stroke="#fff" strokeWidth="1.5" fill="none"/>
+                    <rect x="7.5" y="9.5" width="9" height="1.2" rx="0.6" fill="#fff"/>
+                    <rect x="7.5" y="12" width="6" height="1.2" rx="0.6" fill="#fff"/>
+                  </g>
+                  <defs>
+                    <linearGradient id="gradResumoEnvio" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#2193b0"/>
+                      <stop offset="1" stop-color="#15608a"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
+              </span>
+              <h2 style={{ fontWeight: 700, fontSize: '1.18rem',marlor: '#030303', margin: 0, marginLeft: 0, display: 'inline-block', verticalAlign: 'middle' }}>Resumo do Envio</h2>
+            </div>
             <div className="summary-list checklist">
               <div className="check-item">
                 <span className="check-icon">📅</span>

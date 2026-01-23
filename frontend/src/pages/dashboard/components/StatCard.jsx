@@ -7,7 +7,9 @@ export default function StatCard({ title, value, subtitle, icon, highlight }) {
         <p className="stat-card__title">{title}</p>
         <span className="stat-card__icon">{icon}</span>
       </div>
-      <h2 className="stat-card__value">{value}</h2>
+      {value !== null && value !== undefined && (
+        <h2 className="stat-card__value">{value}</h2>
+      )}
       {subtitle && (
         <p
           className="stat-card__subtitle"

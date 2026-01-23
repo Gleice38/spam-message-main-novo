@@ -22,33 +22,40 @@
   opacity: 0.85;
 }
 .configuracoes-page {
-  padding: 32px;
-  background: var(--bg-page, #f4f7f6);
-  min-height: calc(100vh - 64px);
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #044e75 0%, #046091 60%, #056fb1 100%);
+  margin-top: -96px;
+  padding-top: 96px;
 }
+
+
+
 
 .configuracoes-header {
   margin-bottom: 32px;
+  padding-top: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-
 .configuracoes-header h1 {
-  font-size: 24px;
-  font-weight: 600;
-  color: var(--text-primary, #111827);
-  margin: 0 0 4px 0;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.06rem;
 }
-
 .configuracoes-header p {
-  color: var(--text-secondary, #6b7280);
-  font-size: 14px;
+  color: #fff;
+  font-size: 1.05rem;
   margin: 0;
 }
 
 .configuracoes-container {
-  max-width: 900px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 48px;
 }
 
 /* SEÇÕES */
@@ -64,14 +71,16 @@
 }
 
 .section-icon {
-  width: 40px;
-  height: 40px;
-  background: var(--primary-500, #0d4b73);
-  color: white;
-  border-radius: 10px;
+  width: 56px;
+  height: 56px;
+  background: #2196d3;
+  color: #fff;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 2px 8px rgba(33,150,211,0.10);
 }
 
 .section-header h2 {
@@ -86,14 +95,19 @@
   color: var(--text-secondary, #6b7280);
   margin: 0;
 }
+.configuracoes-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px; /* fixo, previsível */
+}
 
 /* CARDS */
 .config-card {
-  background: var(--bg-card, #ffffff);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.1));
-  border: 1px solid var(--border-color-light, #e5e7eb);
+  width: 100%;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(24,49,83,0.08);
+  padding: 48px;   
 }
 
 .config-item {
@@ -134,16 +148,22 @@
 }
 
 .config-item-info p {
-  font-size: 13px;
+  font-size: 16px;
   color: var(--text-secondary, #6b7280);
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .config-description {
-  font-size: 14px;
+  font-size: 17px;
   color: var(--text-secondary, #6b7280);
   margin: 0 0 20px 0;
   line-height: 1.5;
+  width: 100%;
+  max-width: 100%;
+  word-break: break-word;
 }
 
 .config-divider {

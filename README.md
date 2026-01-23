@@ -23,8 +23,8 @@ Edite o arquivo `.env` na raiz com suas credenciais e URLs.
 ## Rodar local (DEV - localhost)
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build -d
-```
+
+```docker compose -f docker-compose.dev.yml up --build -d
 
 Acesso:
 - Frontend: http://localhost:3000
