@@ -1,5 +1,6 @@
+// Contact.jsx - Ajustado conforme Contacts.css
 import "./Contacts.css";
-import { Plus, Search, Pencil, Trash2, Users } from "lucide-react";
+import { Plus, Search, Pencil, Trash2, Users, MapPin } from "lucide-react"; // Adicionei MapPin para o estilo
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { contactsService } from "../../services/contacts/contacts.service";
@@ -22,10 +23,7 @@ export default function Contacts() {
 
   const navigate = useNavigate();
 
-  /* ===============================
-     HELPERS
-  =============================== */
-
+  /* HELPERS */
   const getRoleBadgeClass = (role) => {
     const roleMap = {
       STUDENT: "badge-student",
@@ -47,86 +45,53 @@ export default function Contacts() {
     return area ? area.name : id;
   };
 
-  // Corrigido para usar o array REGIONS corretamente
-  const getRegionByState = (state) => {
-    const region = REGIONS.find(r => Array.isArray(r.states) && r.states.includes(state));
-    return region ? region.name : 'Sem Região';
-  };
-
-  /* ===============================
-     LOAD
-  =============================== */
-
   async function loadContacts() {
     try {
       const data = await contactsService.getAll();
       setContacts(data);
       setFilteredContacts(data);
     } catch (error) {
-      toast.error("Erro ao carregar contatos. Tente novamente.");
+      toast.error("Erro ao carregar contatos.");
     } finally {
       setLoading(false);
     }
   }
 
-  
-   useEffect(() => {
+  useEffect(() => {
     loadContacts();
   }, []);
- 
-
-  /* ===============================
-     SEARCH
-  =============================== */
 
   function handleSearch(term) {
     setSearchTerm(term);
-
     if (!term.trim()) {
       setFilteredContacts(contacts);
       return;
     }
-
     const filtered = contacts.filter(
       (contact) =>
         contact.name.toLowerCase().includes(term.toLowerCase()) ||
         contact.phone.includes(term) ||
-        (contact.email &&
-          contact.email.toLowerCase().includes(term.toLowerCase()))
+        (contact.email && contact.email.toLowerCase().includes(term.toLowerCase()))
     );
-
     setFilteredContacts(filtered);
   }
-
-  /* ===============================
-     DELETE
-  =============================== */
 
   async function handleDelete(id) {
     const confirm = window.confirm("Deseja realmente excluir este contato?");
     if (!confirm) return;
-
     try {
       await contactsService.remove(id);
       setContacts((prev) => prev.filter((c) => c.id !== id));
       setFilteredContacts((prev) => prev.filter((c) => c.id !== id));
-      toast.success("Contato excluído com sucesso!");
+      toast.success("Contato excluído!");
     } catch (error) {
-      toast.error("Erro ao excluir contato. Tente novamente.");
+      toast.error("Erro ao excluir contato.");
     }
   }
-
-  /* ===============================
-     ACCORDION
-  =============================== */
 
   function toggleRegion(region) {
     setOpenRegion((prev) => (prev === region ? null : region));
   }
-
-  /* ===============================
-     GROUP BY CAMPUS (FRONT-END)
-  =============================== */
 
   const groupedContacts = filteredContacts.reduce((acc, contact) => {
     const campus = CAMPUSES.find(c => c.id === contact.campus_id);
@@ -137,166 +102,135 @@ export default function Contacts() {
   }, {});
 
   return (
-    <div className="contacts-page">
-      {/* HEADER */}
-      <div className="contacts-header">
-        <div>
-          <h1>Gerenciar Contatos</h1>
-          <p>Cadastre e organize contatos do banco de dados</p>
-        </div>
-
-        <button className="btn-primary" onClick={() => navigate("/contacts/new")}>
-          <Plus size={16} />
-          Novo Contato
-        </button>
-      </div>
-
-      {/* CARD */}
-      <div className="contacts-card">
-        <div className="contacts-card-header">
-          <div>
-            <h2>Contatos cadastrados</h2>
-            <span>
-              {searchTerm
-                ? `${filteredContacts.length} de ${contacts.length} contatos`
-                : `${contacts.length} contatos no banco de dados`}
-            </span>
+    <div className="contacts-full-page"> {/* AJUSTADO */}
+      <div className="contacts-content-wrapper"> {/* ADICIONADO WRAPPER */}
+        
+        {/* HEADER */}
+        <header className="page-header"> {/* AJUSTADO */}
+          <div className="header-text-group"> {/* AJUSTADO */}
+            <div>
+              <h1>Gerenciar Contatos</h1>
+              <p>Cadastre e organize contatos do banco de dados</p>
+            </div>
           </div>
 
-          <div className="search-box">
-            <Search size={16} />
-            <input
-              placeholder="Buscar contatos..."
-              value={searchTerm}
-              onChange={(e) => handleSearch(e.target.value)}
-            />
-          </div>
-        </div>
+          <button className="btn-add-new" onClick={() => navigate("/contacts/new")}> {/* AJUSTADO */}
+            <Plus size={16} />
+            Novo Contato
+          </button>
+        </header>
 
-        {/* CONTENT */}
-        {loading ? (
-          <SkeletonTable rows={5} columns={6} />
-        ) : filteredContacts.length === 0 ? (
-          <EmptyState
-            icon={Users}
-            title={
-              searchTerm
-                ? "Nenhum contato encontrado"
-                : "Nenhum contato cadastrado"
-            }
-            description={
-              searchTerm
-                ? `Nenhum resultado para "${searchTerm}".`
-                : "Comece adicionando seu primeiro contato no sistema."
-            }
-            action={
-              !searchTerm && (
-                <button
-                  className="btn-primary"
-                  onClick={() => navigate("/contacts/new")}
-                >
-                  <Plus size={16} />
-                  Adicionar Primeiro Contato
-                </button>
-              )
-            }
-          />
-        ) : (
-          <div className="contacts-groups">
-            {Object.entries(groupedContacts).map(([campusName, items]) => (
-              <div key={campusName} className="contacts-group" data-campus={campusName}>
-                {/* ACCORDION HEADER */}
-                <button
-                  className="contacts-group-header"
-                  onClick={() => toggleRegion(campusName)}
-                >
-                  <div className="group-title">
-                    <span className="group-location-icon">
-                      <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C7.03 2 3 6.03 3 11c0 5.25 7.11 10.61 8.13 11.36a1 1 0 0 0 1.13 0C13.89 21.61 21 16.25 21 11c0-4.97-4.03-9-9-9Zm0 18.54C9.14 18.07 5 14.39 5 11c0-3.87 3.13-7 7-7s7 3.13 7 7c0 3.39-4.14 7.07-7 9.54ZM12 6a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
-                    </span>
-                    <span className="group-uf">{campusName}</span>
-                    <span className="group-count">
-                      ({items.length} contato{items.length > 1 ? "s" : ""})
-                    </span>
-                  </div>
-                  <span
-                    className={`arrow ${
-                      openRegion === campusName ? "open" : ""
-                    }`}
-                  />
-                </button>
-
-                {/* TABLE */}
-                {openRegion === campusName && (
-                  <table className="contacts-table">
-                    <thead>
-                      <tr>
-                        <th>Nome</th>
-                        <th>Telefone</th>
-                        <th>Perfil</th>
-                        <th>Campus</th>
-                        <th>Área Acadêmica</th>
-                        <th>Ações</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {items.map((c) => (
-                        <tr key={c.id}>
-                          <td>{c.name}</td>
-                          <td>{c.phone}</td>
-                          <td>
-                            <span
-                              className={`state-badge ${getRoleBadgeClass(
-                                c.role
-                              )}`}
-                            >
-                              {ROLES[c.role] || c.role}
-                            </span>
-                          </td>
-                          <td>{getCampusName(c.campus_id)}</td>
-                          <td>{getAreaName(c.academic_area_id)}</td>
-                          <td className="actions">
-                            <button
-                              className="icon-btn edit"
-                              onClick={() =>
-                                navigate(`/contacts/edit/${c.id}`)
-                              }
-                            >
-                              <Pencil size={16} />
-                            </button>
-
-                            <button
-                              className="icon-btn delete"
-                              onClick={() => handleDelete(c.id)}
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
+        {/* CARD PRINCIPAL */}
+        <div className="main-card"> {/* AJUSTADO */}
+          <div className="card-header-actions" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px'}}> {/* ADICIONADO ESTILO FLEX */}
+            <div className="card-intro"> {/* AJUSTADO */}
+              <div className="icon-badge"> {/* AJUSTADO */}
+                <Users size={24} />
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+              <div>
+                <h2>Contatos cadastrados</h2>
+                <p> {/* AJUSTADO PARA P */}
+                  {searchTerm
+                    ? `${filteredContacts.length} de ${contacts.length} contatos`
+                    : `${contacts.length} contatos no banco de dados`}
+                </p>
+              </div>
+            </div>
 
-      {/* FOOTER */}
-      <footer className="dashboard-footer">
-        <div className="dashboard-footer__content">
-          <img
-            src="/softex-logo.png"
-            alt="Softex"
-            className="dashboard-footer__logo"
-          />
-          <span>
-            ©2025 Mensagens Cooperativa. Todos os direitos reservados.
-          </span>
+            <div className="search-container"> {/* AJUSTADO */}
+              <Search size={18} />
+              <input
+                placeholder="Buscar contatos..."
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+            </div>
+          </div>
+
+          {/* CONTENT */}
+          {loading ? (
+            <SkeletonTable rows={5} columns={6} />
+          ) : filteredContacts.length === 0 ? (
+            <EmptyState
+              icon={Users}
+              title={searchTerm ? "Nenhum contato encontrado" : "Nenhum contato cadastrado"}
+              description={searchTerm ? `Nenhum resultado para "${searchTerm}".` : "Comece adicionando seu primeiro contato."}
+              action={!searchTerm && (
+                <button className="btn-confirm" onClick={() => navigate("/contacts/new")}>
+                  <Plus size={16} /> Adicionar Primeiro Contato
+                </button>
+              )}
+            />
+          ) : (
+            <div className="accordion-list">
+              {Object.entries(groupedContacts).map(([campusName, items]) => (
+                <div key={campusName} className="accordion-item"> {/* AJUSTADO */}
+                  <button
+                    className="accordion-trigger" /* AJUSTADO */
+                    onClick={() => toggleRegion(campusName)}
+                  >
+                    <div className="trigger-content"> {/* AJUSTADO */}
+                      <MapPin size={18} className="pin" /> {/* ADICIONADO ÍCONE PIN */}
+                      <strong>{campusName}</strong>
+                      <span className="count">({items.length} contato{items.length > 1 ? "s" : ""})</span>
+                    </div>
+                    {/* A seta agora é controlada pela classe ou ícone direto se preferir */}
+                    <Plus size={18} style={{ transform: openRegion === campusName ? 'rotate(45deg)' : 'none', transition: '0.2s' }} />
+                  </button>
+
+                  {openRegion === campusName && (
+                    <div className="table-wrapper" style={{ overflowX: 'auto' }}>
+                      <table className="contacts-table"> {/* Use a classe se tiver, ou apenas <table> */}
+                        <thead>
+                          <tr>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Nome</th>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Telefone</th>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Perfil</th>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Campus</th>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Área Acadêmica</th>
+                            <th style={{ textAlign: 'right', padding: '12px' }}>Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {items.map((c) => (
+                            <tr key={c.id}>
+                              <td style={{ padding: '12px', fontWeight: '700' }}>{c.name}</td>
+                              <td style={{ padding: '12px' }}>{c.phone}</td>
+                              <td style={{ padding: '12px' }}>
+                                <span className={`state-badge ${getRoleBadgeClass(c.role)}`}>
+                                  {ROLES[c.role] || c.role}
+                                </span>
+                              </td>
+                              <td style={{ padding: '12px' }}>{getCampusName(c.campus_id)}</td>
+                              <td style={{ padding: '12px' }}>{getAreaName(c.academic_area_id)}</td>
+                              <td style={{ padding: '12px', textAlign: 'right' }}>
+                                <button className="icon-btn edit" onClick={() => navigate(`/contacts/edit/${c.id}`)}>
+                                  <Pencil size={16} color="#0EA5E9" />
+                                </button>
+                                <button className="icon-btn delete" onClick={() => handleDelete(c.id)}>
+                                  <Trash2 size={16} color="#EF4444" />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      </footer>
+
+        {/* FOOTER */}
+        <footer className="dashboard-footer" style={{ marginTop: '40px' }}>
+          <div className="dashboard-footer__content" style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'white' }}>
+            <img src="/softex-logo.png" alt="Softex" style={{ height: '30px' }} />
+            <span>©2025 Mensagens Cooperativa. Todos os direitos reservados.</span>
+          </div>
+        </footer>
+      </div>
     </div>
   );
 }

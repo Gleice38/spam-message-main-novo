@@ -1,61 +1,97 @@
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+/* NewContact.css */
+
+/* Garante que o fundo e as laterais fiquem limpos como no Contacts.css */
+:global(html), :global(body) {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: linear-gradient(135deg, #044e75 0%, #046091 60%, #0077A3 100%) !important;
 }
 
-.form-row {
+.contacts-full-page {
+  background: linear-gradient(135deg, #044e75 0%, #046091 60%, #0077A3 100%) !important;
+  min-height: 100vh;
+  width: 100%;
+  padding: 120px 20px 40px 20px; /* Ajuste para o menu superior */
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contacts-content-wrapper {
+  width: 100%;
+  max-width: 900px; /* Formulários ficam melhores um pouco mais estreitos que a lista */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Reutilizando o estilo do Card Branco */
+.main-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  padding: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 20px;
+  gap: 24px;
 }
 
-.form-group {
+.input-group {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
-.form-group label {
-  font-weight: 500;
+.input-group label {
+  font-weight: 600;
   font-size: 14px;
+  color: #1E293B;
 }
 
-.form-group input,
-.form-group select {
-  padding: 12px;
-  border-radius: 8px;
-  border: 1px solid #d0d7e2;
-  font-size: 14px;
-}
-
-.input-icon {
+.inner-input {
   position: relative;
 }
 
-.input-icon svg {
+.inner-input svg {
   position: absolute;
-  left: 12px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  color: #7a8699;
+  color: #94A3B8;
 }
 
-.input-icon input,
-.input-icon select {
-  padding-left: 40px;
+.inner-input input,
+.inner-input select {
+  width: 100%;
+  padding: 12px 12px 12px 42px; /* Espaço para o ícone */
+  border-radius: 10px;
+  border: 1px solid #E2E8F0;
+  background: #F8FAF9;
+  font-size: 14px;
+  box-sizing: border-box;
+  transition: all 0.2s;
 }
 
-.form-actions {
+.inner-input input:focus,
+.inner-input select:focus {
+  border-color: #0EA5E9;
+  outline: none;
+  background: #fff;
+}
+
+.full-width {
+  grid-column: span 2;
+}
+
+.form-footer {
   display: flex;
   gap: 12px;
-  margin-top: 12px;
-}
-
-.btn-secondary {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: 1px solid #d0d7e2;
-  background: #fff;
-  cursor: pointer;
+  margin-top: 32px;
+  justify-content: flex-start;
 }
