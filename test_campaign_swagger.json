@@ -1,9 +1,0 @@
-{
-  "name": "Teste Campanha Swagger",
-  "message_body": "Olá! Esta é uma mensagem de teste da documentação Swagger. Sistema funcionando perfeitamente!",
-  "scheduled_at": null,
-  "filters_snapshot": {
-    "state": "PE",
-    "role": "PROFESSOR"
-  }
-}
