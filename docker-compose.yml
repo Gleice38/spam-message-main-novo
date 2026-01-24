@@ -6,36 +6,38 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mensagens_db
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - "5432:5432"
 
   backend:
     build:
-      context: .
+      context: ./backend
       dockerfile: Dockerfile.backend
     volumes:
-      - .:/app
+      - ./backend:/app
     ports:
       - "8000:8000"
     environment:
-      - POSTGRES_SERVER=db
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=mensagens_db
-      - SQLALCHEMY_DATABASE_URI=postgresql://postgres:password@db/mensagens_db
-      - ZAPI_CLIENT_TOKEN=F46f0bb95d1c042f9857c8121a0aca437S
-      - ZAPI_INSTANCE_TOKEN=E325327D0022DDAC914CA15B
-      - ZAPI_INSTANCE_ID=3ECD22C8F0D83341D160DAD6DC7CFA85
+      - POSTGRES_SERVER=${POSTGRES_SERVER}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - SQLALCHEMY_DATABASE_URI=${SQLALCHEMY_DATABASE_URI}
+      - ZAPI_CLIENT_TOKEN=${ZAPI_CLIENT_TOKEN}
+      - ZAPI_INSTANCE_TOKEN=${ZAPI_INSTANCE_TOKEN}
+      - ZAPI_INSTANCE_ID=${ZAPI_INSTANCE_ID}
     depends_on:
       - db
 
   frontend:
     build:
-      context: .
+      context: ./frontend
       dockerfile: Dockerfile.frontend
+      args:
+        - VITE_API_BASE_URL=${VITE_API_BASE_URL}
     ports:
       - "3000:80"
     depends_on:
