@@ -25,7 +25,7 @@ export default function Dashboard() {
 
       {/* HEADER */}
       <header className="dashboard-header">
-        <h1>Bem-vindo ao Dashboard</h1>
+        <h1>Dashboard</h1>
         <p>Gerencie suas campanhas de WhatsApp para contatos de pós-graduação</p>
       </header>
 

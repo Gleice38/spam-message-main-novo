@@ -180,11 +180,11 @@ export default function NewCampaign() {
 
         {/* CARD 1 */}
 <div className="card">
-  <div className="card-header">
-    <MessageSquare size={18} />
-    <div>
-      <h2>Informações da Campanha</h2>
-      <span>Detalhes sobre o evento que será divulgado</span>
+  <div className="card-header" style={{ alignItems: 'center', gap: 8}}>
+    <MessageSquare size={22}/>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#000000', marginLeft: 0 }}>Informações da Campanha</h2>
+      <span style={{ margin: 0, color: '#183153', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Detalhes sobre o evento que será divulgado</span>
     </div>
   </div>
 
@@ -253,11 +253,11 @@ export default function NewCampaign() {
 
           {/* CARD 2 */}
           <div className="card">
-            <div className="card-header">
-              <Filter size={18} />
-              <div>
-                <h2>Segmentação de Destinatários</h2>
-                <span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 8 }}>
+              <Filter size={22} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Segmentação de Destinatários</h2>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>
                   Selecione regiões e áreas acadêmicas para segmentar o envio
                 </span>
               </div>
@@ -307,11 +307,11 @@ export default function NewCampaign() {
 
           {/* CARD 3 */}
           <div className="card">
-            <div className="card-header">
-              <Calendar size={18} />
-              <div>
-                <h2>Agendamento (Opcional)</h2>
-                <span>Agende o envio para uma data e hora específica</span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 8 }}>
+              <Calendar size={22} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Agendamento (Opcional)</h2>
+                <span style={{ margin: 0, color: '#0a0a0a', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Agende o envio para uma data e hora específica</span>
               </div>
             </div>
 
@@ -352,11 +352,11 @@ export default function NewCampaign() {
 
           {/* CARD 4 - UPLOAD DE ARQUIVO */}
           <div className="card">
-            <div className="card-header">
-              <span role="img" aria-label="Arquivo">📎</span>
-              <div>
-                <h2>Anexar Imagem ou PDF</h2>
-                <span>Opcional: envie uma imagem ou PDF junto com a campanha</span>
+            <div className="card-header" style={{ alignItems: 'center', gap: 10 }}>
+              <span role="img" aria-label="Arquivo" className="check-icon" style={{ fontSize: 22 }}>📎</span>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#050505', marginLeft: 0 }}>Anexar Imagem ou PDF</h2>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Opcional: envie uma imagem ou PDF junto com a campanha</span>
               </div>
             </div>
             <div className="card-content">
@@ -376,11 +376,24 @@ export default function NewCampaign() {
         {/* COLUNA DIREITA */}
         <div className="campaign-right">
           <div className="card sticky">
-            <div className="card-header" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 16 }}>
-              <span className="check-icon" style={{ fontSize: 28, color: '#2193b0', background: '#e0f4ff', borderRadius: '8px', padding: '6px 10px', marginRight: 8, display: 'flex', alignItems: 'center' }}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#e0f4ff"/><g><path d="M4 17.5V6.5C4 5.39543 4.89543 4.5 6 4.5H18C19.1046 4.5 20 5.39543 20 6.5V17.5C20 18.6046 19.1046 19.5 18 19.5H6C4.89543 19.5 4 18.6046 4 17.5Z" stroke="#2193b0" strokeWidth="1.5"/><path d="M8 8.5H16M8 12H16M8 15.5H13" stroke="#2193b0" strokeWidth="1.5" strokeLinecap="round"/></g></svg>
+            <div className="card-header" style={{ justifyContent: 'flex-start', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+              <span className="check-icon" style={{ fontSize: 28, color: '#2193b0', background: 'transparent', borderRadius: '8px', padding: '6px 10px', display: 'flex', alignItems: 'center' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="12" fill="url(#gradResumoEnvio)"/>
+                  <g>
+                    <rect x="5" y="7" width="14" height="10" rx="2" stroke="#fff" strokeWidth="1.5" fill="none"/>
+                    <rect x="7.5" y="9.5" width="9" height="1.2" rx="0.6" fill="#fff"/>
+                    <rect x="7.5" y="12" width="6" height="1.2" rx="0.6" fill="#fff"/>
+                  </g>
+                  <defs>
+                    <linearGradient id="gradResumoEnvio" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+                      <stop stop-color="#2193b0"/>
+                      <stop offset="1" stop-color="#15608a"/>
+                    </linearGradient>
+                  </defs>
+                </svg>
               </span>
-              <h2 style={{ fontWeight: 700, fontSize: '1.18rem', color: '#15608a', margin: 0 }}>Resumo do Envio</h2>
+              <h2 style={{ fontWeight: 700, fontSize: '1.18rem', color: '#030303', margin: 0, display: 'inline-block', verticalAlign: 'middle' }}>Resumo do Envio</h2>
             </div>
             <div className="summary-list checklist">
               <div className="check-item">

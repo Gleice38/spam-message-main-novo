@@ -97,7 +97,12 @@
 .page-container {
   padding: 0;
   min-height: 100vh;
-  background: #15608a;
+  background:linear-gradient(
+  135deg,
+  #044e75 0%,
+  #046091 60%,
+  #056fb1 100%
+  );
   width: 100v;
   margin-top: -96px;
   padding-top: 96px;
@@ -188,7 +193,7 @@
 
 .card-header {
   display: flex;
-  gap: 16px;
+  gap: 8px;
   align-items: center;
   margin-bottom: 18px;
 }
@@ -203,15 +208,17 @@
 }
 
 .card-header h2 {
-  font-size: 1.18rem;
+  font-size: 1.35rem;
   margin: 0;
-  color: #183153;
+  color: #080707;
   font-weight: 700;
+  line-height: 1.1;
 }
 
 .card-header span {
   font-size: 13px;
-  color: #183153;
+  color: #0d0d0e;
+  margin-top: 2px;
 }
 
 .card-content {
@@ -223,7 +230,7 @@
 .card-content label {
   font-weight: 600;
   margin-bottom: 4px;
-  color: #183153;
+  color: #101113;
   font-size: 1.08rem;
 }
 .card-content input,

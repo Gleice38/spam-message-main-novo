@@ -1,3 +1,45 @@
+/* Ícones do menu em círculos coloridos */
+
+.nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  margin-right: 8px;
+  background: #2196d3;
+  color: #fff;
+  transition: background 0.18s, color 0.18s;
+  font-size: 1.3rem;
+}
+.nav-item {
+  background: transparent;
+  color: #222;
+  font-weight: 500;
+  box-shadow: none;
+}
+.nav-item .nav-icon {
+  background: #2196d3;
+  color: #fff;
+}
+.nav-item.active {
+  background: transparent;
+  color: #222;
+  border: 2px solid #2196d3;
+  box-shadow: 0 2px 8px rgba(33,150,211,0.08);
+}
+.nav-item.active .nav-icon {
+  background: transparent;
+  color: #2196d3;
+  border: none;
+}
+.nav-item:focus {
+  outline: none;
+}
+.nav-item .nav-icon svg {
+  color: inherit;
+}
 .navbar {
   position: fixed;
   top: 0;
