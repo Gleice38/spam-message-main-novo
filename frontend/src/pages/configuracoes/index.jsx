@@ -1,5 +1,4 @@
 import { Moon, Sun, Monitor, User, Bell, Shield, Info, CheckCircle } from 'lucide-react';
-import softexlogo from '../../public/softex-logo.png';
 import { useTheme } from '../../hooks/useTheme';
 import { useState, useEffect } from 'react';
 import TwoFactorModal from '../../components/TwoFactorModal/TwoFactorModal';
@@ -238,7 +237,7 @@ export default function Configuracoes() {
     <footer className="dashboard-footer">
       <div className="dashboard-footer__content">
         <img
-          src={softexlogo}
+          src="/softex-logo.png"
           alt="Softex"
           className="dashboard-footer__logo"
         />

@@ -6,7 +6,6 @@ import { campaignsService } from "../../services/campaigns/campaigns.service";
 import { contactsService } from "../../services/contacts/contacts.service";
 import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
-import softexlogo from '../../public/softex-logo.png';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -414,7 +413,7 @@ export default function NewCampaign() {
             <footer className="dashboard-footer">
               <div className="dashboard-footer__content">
                 <img
-                  src={softexlogo}
+                  src="/softex-logo.png"
                   alt="Softex"
                   className="dashboard-footer__logo"
                 />

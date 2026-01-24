@@ -1,4 +1,3 @@
-import softexlogo from '../../public/softex-logo.png';
 import "./Contacts.css";
 import { Plus, Search, Pencil, Trash2, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -289,7 +288,7 @@ export default function Contacts() {
       <footer className="dashboard-footer">
         <div className="dashboard-footer__content">
           <img
-            src={softexlogo}
+            src="/softex-logo.png"
             alt="Softex"
             className="dashboard-footer__logo"
           />

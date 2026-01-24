@@ -7,7 +7,6 @@ import CampaignTable from './components/CampaignTable';
 import { Database, TrendingUp, Clock } from 'lucide-react';
 import './style.css';
 import { useDashboardData } from '@/hooks/useDashboardData';
-import softexlogo from '../../public/softex-logo.png'
 
 export default function Dashboard() {
   const {
@@ -75,7 +74,7 @@ export default function Dashboard() {
       <footer className="dashboard-footer">
         <div className="dashboard-footer__content">
           <img
-            src={softexlogo}
+            src="/softex-logo.png"
             alt="Softex"
             className="dashboard-footer__logo"
           />
