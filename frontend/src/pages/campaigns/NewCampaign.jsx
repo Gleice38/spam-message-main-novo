@@ -211,11 +211,10 @@ export default function NewCampaign() {
           toolbar: [
             ["bold", "italic", "underline"],
             [{ list: "ordered" }, { list: "bullet" }],
-            ["link"],
             ["clean"]
           ]
         }}
-        formats={["bold", "italic", "underline", "list", "bullet", "link"]}
+        formats={["bold", "italic", "underline", "list", "bullet"]}
         // altura padrão do ReactQuill
         placeholder="Use quebras de linha para melhor formatação"
       />
@@ -356,7 +355,7 @@ export default function NewCampaign() {
               <span className="check-icon" style={{ fontSize: 22, color: '#2193b0', background: 'transparent', borderRadius: '8px', padding: '6px 10px', display: 'flex', alignItems: 'center' }}>
                 <Paperclip size={22} />
               </span>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <div className="card-header-title" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#050505', marginLeft: 0 }}>Anexar Imagem ou PDF</h2>
                 <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Opcional: envie uma imagem ou PDF junto com a campanha</span>
               </div>
