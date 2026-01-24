@@ -197,6 +197,10 @@
   align-items: center;
   margin-bottom: 18px;
 }
+.card-header .card-header-title{
+  text-align: left;
+}
+
 .card-header svg {
   background: linear-gradient(135deg, #2193b0 0%, #15608a 100%);
   color: #fff;
@@ -210,9 +214,11 @@
 .card-header h2 {
   font-size: 1.35rem;
   margin: 0;
+  margin-left: 0  ;
   color: #080707;
   font-weight: 700;
   line-height: 1.1;
+  text-align: left  ;
 }
 
 .card-header span {

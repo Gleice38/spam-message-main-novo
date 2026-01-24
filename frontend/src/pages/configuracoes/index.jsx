@@ -70,7 +70,7 @@ export default function Configuracoes() {
               <button className="btn-secondary">Alterar</button>
             </div>
 
-            <div className="config-divider"></div>
+            {/* Divider removido para eliminar espaço vazio */}
 
             <div className="config-item">
               <div className="config-item-info">
@@ -102,17 +102,10 @@ export default function Configuracoes() {
               </div>
               <label className="checkbox-seta">
                 <input type="checkbox" defaultChecked />
-                <span className="checkmark">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
-                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
               </label>
             </div>
 
             <div className="config-divider"></div>
-
 
             <div className="config-item">
               <div className="config-item-info">
@@ -121,12 +114,6 @@ export default function Configuracoes() {
               </div>
               <label className="checkbox-seta">
                 <input type="checkbox" defaultChecked />
-                <span className="checkmark">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
-                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
               </label>
             </div>
 
@@ -140,12 +127,6 @@ export default function Configuracoes() {
               </div>
               <label className="checkbox-seta">
                 <input type="checkbox" />
-                <span className="checkmark">
-                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
-                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                </span>
               </label>
             </div>
           </div>
@@ -213,18 +194,6 @@ export default function Configuracoes() {
                 <h3>Versão do Sistema</h3>
                 <p>1.0.0</p>
               </div>
-            </div>
-
-            <div className="config-divider"></div>
-
-            <div className="config-item">
-              <div className="config-item-info">
-                <h3>API Backend</h3>
-                <p>http://89.117.33.220:8000</p>
-              </div>
-              <a href="http://89.117.33.220:8000/docs" target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                Ver Docs
-              </a>
             </div>
 
             <div className="config-divider"></div>

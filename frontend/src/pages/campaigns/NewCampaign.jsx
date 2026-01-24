@@ -1,5 +1,5 @@
 import "./NewCampaign.css";
-import { MessageSquare, Filter, Calendar, History } from "lucide-react";
+import { MessageSquare, Filter, Calendar, History, Paperclip } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
@@ -182,9 +182,9 @@ export default function NewCampaign() {
 <div className="card">
   <div className="card-header" style={{ alignItems: 'center', gap: 8}}>
     <MessageSquare size={22}/>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <div className="card-header-title" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
       <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#000000', marginLeft: 0 }}>Informações da Campanha</h2>
-      <span style={{ margin: 0, color: '#183153', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Detalhes sobre o evento que será divulgado</span>
+      <span style={{ margin: 0, color: '#183153', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Detalhes sobre o evento que será divulgado</span>
     </div>
   </div>
 
@@ -257,7 +257,7 @@ export default function NewCampaign() {
               <Filter size={22} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Segmentação de Destinatários</h2>
-                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>
                   Selecione regiões e áreas acadêmicas para segmentar o envio
                 </span>
               </div>
@@ -311,7 +311,7 @@ export default function NewCampaign() {
               <Calendar size={22} />
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#080808', marginLeft: 0 }}>Agendamento (Opcional)</h2>
-                <span style={{ margin: 0, color: '#0a0a0a', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Agende o envio para uma data e hora específica</span>
+                <span style={{ margin: 0, color: '#0a0a0a', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Agende o envio para uma data e hora específica</span>
               </div>
             </div>
 
@@ -353,10 +353,12 @@ export default function NewCampaign() {
           {/* CARD 4 - UPLOAD DE ARQUIVO */}
           <div className="card">
             <div className="card-header" style={{ alignItems: 'center', gap: 10 }}>
-              <span role="img" aria-label="Arquivo" className="check-icon" style={{ fontSize: 22 }}>📎</span>
+              <span className="check-icon" style={{ fontSize: 22, color: '#2193b0', background: 'transparent', borderRadius: '8px', padding: '6px 10px', display: 'flex', alignItems: 'center' }}>
+                <Paperclip size={22} />
+              </span>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
                 <h2 style={{ margin: 0, fontWeight: 700, fontSize: '1.13rem', color: '#050505', marginLeft: 0 }}>Anexar Imagem ou PDF</h2>
-                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft: 32, display: 'block', textAlign: 'left' }}>Opcional: envie uma imagem ou PDF junto com a campanha</span>
+                <span style={{ margin: 0, color: '#0d0d0e', fontSize: 13, marginTop: 4, marginLeft:0, display: 'block', textAlign: 'left' }}>Opcional: envie uma imagem ou PDF junto com a campanha</span>
               </div>
             </div>
             <div className="card-content">
@@ -393,7 +395,7 @@ export default function NewCampaign() {
                   </defs>
                 </svg>
               </span>
-              <h2 style={{ fontWeight: 700, fontSize: '1.18rem', color: '#030303', margin: 0, display: 'inline-block', verticalAlign: 'middle' }}>Resumo do Envio</h2>
+              <h2 style={{ fontWeight: 700, fontSize: '1.18rem',marlor: '#030303', margin: 0, marginLeft: 0, display: 'inline-block', verticalAlign: 'middle' }}>Resumo do Envio</h2>
             </div>
             <div className="summary-list checklist">
               <div className="check-item">
