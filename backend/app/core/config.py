@@ -17,6 +17,12 @@ class Settings(BaseSettings):
     ZAPI_INSTANCE_TOKEN: str = ""
     ZAPI_INSTANCE_ID: str = ""
     CORS_ORIGINS: str = ""
+    SECRET_KEY: str = "change-me"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
+    ADMIN_EMAIL: str = "admin@test.com"
+    ADMIN_PASSWORD: str = "admin123"
+    SECRET_KEY: str = "change-me"
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     class Config:
         case_sensitive = True

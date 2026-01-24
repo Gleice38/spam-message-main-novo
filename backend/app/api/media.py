@@ -18,5 +18,5 @@ async def upload_media(file: UploadFile = File(...)):
     file_path = os.path.join(UPLOAD_DIR, filename)
     with open(file_path, "wb") as f:
         f.write(await file.read())
-    url = f"/static/{filename}"
+    url = f"/uploaded_media/{filename}"
     return JSONResponse(content={"url": url})

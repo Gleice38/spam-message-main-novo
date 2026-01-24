@@ -1,9 +1,36 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Mail, Lock, Eye, EyeOff, MapPin, Calendar, TrendingUp } from 'lucide-react';
+import { authService } from '../../services/auth/auth.service';
+import { toast } from '../../hooks/useToast';
 import './style.css'; 
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!email || !password) {
+      toast.error('Informe e-mail e senha para continuar.');
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      await authService.login({ email, password });
+      const completed = localStorage.getItem('onboardingCompleted') === 'true';
+      navigate(completed ? '/dashboard' : '/onboarding');
+    } catch (error) {
+      toast.error('Falha ao autenticar. Verifique suas credenciais.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="login-page-wrapper">
@@ -56,12 +83,17 @@ export default function Login() {
             <p>Faça login para continuar.</p>
           </header>
 
-          <form className="login-form">
+          <form className="login-form" onSubmit={handleSubmit}>
             <div className="input-field">
               <label>E-mail</label>
               <div className="input-container">
                 <Mail className="icon-left" size={18} />
-                <input type="email" placeholder="seu@email.com" />
+                <input
+                  type="email"
+                  placeholder="seu@email.com"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                />
               </div>
             </div>
 
@@ -69,7 +101,12 @@ export default function Login() {
               <label>Senha</label>
               <div className="input-container">
                 <Lock className="icon-left" size={18} />
-                <input type={showPassword ? 'text' : 'password'} placeholder="••••••••" />
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
                 <button 
                   type="button" 
                   className="icon-right" 
@@ -80,7 +117,9 @@ export default function Login() {
               </div>
             </div>
 
-            <button type="submit" className="btn-submit">Entrar</button>
+            <button type="submit" className="btn-submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Entrando...' : 'Entrar'}
+            </button>
           </form>
         </div>
         <p className="footer-copyright">© 2025 Mensagens Cooperativa. Todos os direitos reservados.</p>

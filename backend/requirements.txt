@@ -8,3 +8,5 @@ psycopg2-binary
 email-validator
 requests
 python-multipart
+passlib
+python-jose[cryptography]

@@ -6,6 +6,11 @@ from app.db.session import engine
 from app.db.base import Base
 from app.api import campaigns, contacts, dashboard, webhooks, auth, zapi, media
 from app.api.deps import get_current_user
+from sqlalchemy import text
+from pathlib import Path
+from app.core.security import get_password_hash
+from app.models.user import User
+from app.db.session import SessionLocal
 
 import logging
 from app.core.scheduler import start_scheduler
@@ -14,6 +19,38 @@ start_scheduler()
 
 
 Base.metadata.create_all(bind=engine)
+
+def seed_reference_data():
+    sql_path = Path(__file__).resolve().parents[1] / "insert_campuses.sql"
+    if not sql_path.exists():
+        return
+    sql = sql_path.read_text(encoding="utf-8")
+    statements = [stmt.strip() for stmt in sql.split(";") if stmt.strip()]
+    if not statements:
+        return
+    with engine.begin() as conn:
+        for stmt in statements:
+            conn.exec_driver_sql(stmt)
+def ensure_admin_user():
+    db = SessionLocal()
+    try:
+        if not settings.ADMIN_EMAIL or not settings.ADMIN_PASSWORD:
+            return
+        existing = db.query(User).filter(User.email == settings.ADMIN_EMAIL).first()
+        if existing:
+            return
+        user = User(
+            email=settings.ADMIN_EMAIL,
+            hashed_password=get_password_hash(settings.ADMIN_PASSWORD),
+            is_active=True,
+        )
+        db.add(user)
+        db.commit()
+    finally:
+        db.close()
+
+ensure_admin_user()
+seed_reference_data()
 
 app = FastAPI(
     title="📱 Mensagens Cooperativa API",

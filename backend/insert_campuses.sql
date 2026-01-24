@@ -36,3 +36,9 @@ INSERT INTO campuses (id, name, city, state) VALUES (111, 'UFRR - Campus Paricar
 -- Tocantins
 INSERT INTO campuses (id, name, city, state) VALUES (112, 'UFT - Campus Palmas', 'Palmas', 'TO') ON CONFLICT (id) DO NOTHING;
 INSERT INTO campuses (id, name, city, state) VALUES (113, 'UFT - Campus Araguaína', 'Araguaína', 'TO') ON CONFLICT (id) DO NOTHING;
+
+-- Outros (Exemplos)
+INSERT INTO campuses (id, name, city, state) VALUES (1, 'USP - Campus São Paulo', 'São Paulo', 'SP') ON CONFLICT (id) DO NOTHING;
+INSERT INTO campuses (id, name, city, state) VALUES (2, 'UNICAMP - Campus Campinas', 'Campinas', 'SP') ON CONFLICT (id) DO NOTHING;
+INSERT INTO campuses (id, name, city, state) VALUES (3, 'UFRJ - Campus Fundão', 'Rio de Janeiro', 'RJ') ON CONFLICT (id) DO NOTHING;
+INSERT INTO campuses (id, name, city, state) VALUES (4, 'UFPE - Campus Recife', 'Recife', 'PE') ON CONFLICT (id) DO NOTHING;
