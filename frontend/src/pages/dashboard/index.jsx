@@ -4,13 +4,14 @@ import LineChart from "./components/lineChart";
 import PieChart from "./components/PieChart";
 import BarChart from "./components/BarChart";
 import CampaignTable from './components/CampaignTable';
-import { Database, TrendingUp, Clock } from 'lucide-react';
+import { Database, TrendingUp, Clock, GraduationCap, MapPin } from 'lucide-react';
 import './style.css';
 import { useDashboardData } from '@/hooks/useDashboardData';
 
 export default function Dashboard() {
   const {
     totalContacts,
+    messagesThisMonth,
     activeCampaigns,
     nextDispatch,
     nextDispatchName,
@@ -32,9 +33,16 @@ export default function Dashboard() {
       {/* KPIs */}
       <section className="dashboard-section dashboard-section--stats">
         <StatCard
-          title="Total de Contatos"
+          title="Contatos Totais"
           value={totalContacts}
           icon={<Database size={24} />}
+          subtitle=""
+        />
+
+        <StatCard
+          title="Mensagens/Mês"
+          value={messagesThisMonth}
+          icon={<span style={{display:'flex',alignItems:'center',justifyContent:'center',background:'linear-gradient(135deg,#2193b0 0%,#15608a 100%)',borderRadius:'50%',width:44,height:44}}><svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='none' viewBox='0 0 24 24'><rect width='24' height='24' rx='12' fill='url(#a)'/><path d='M7.5 8.5h9M7.5 12h9m-9 3.5h5' stroke='#fff' strokeWidth='1.5' strokeLinecap='round'/><defs><linearGradient id='a' x1='0' y1='0' x2='24' y2='24' gradientUnits='userSpaceOnUse'><stop stopColor='#2193b0'/><stop offset='1' stopColor='#15608a'/></linearGradient></defs></svg></span>}
           subtitle=""
         />
 
@@ -42,31 +50,65 @@ export default function Dashboard() {
           title="Campanhas Ativas"
           value={activeCampaigns}
           icon={<TrendingUp size={24} />}
-          subtitle="Em andamento"
-        />
-
-        <StatCard
-          title="Próximo Disparo"
-          value={nextDispatch}
-          icon={<Clock size={24} />}
-          subtitle={nextDispatchName}
+          subtitle=""
         />
       </section>
 
+
+
+      {/* PRÓXIMOS DISPAROS AGENDADOS */}
+      <section className="dashboard-section dashboard-section--scheduled">
+        <div className="scheduled-card">
+          <div className="scheduled-card-header">
+            <span className="scheduled-card-icon"><Clock size={28} /></span>
+            <div>
+              <h3 className="scheduled-card-title">Próximos Disparos Agendados</h3>
+              <p className="scheduled-card-subtitle">Campanhas programadas para envio via WhatsApp</p>
+            </div>
+          </div>
+          <CampaignTable campaigns={lastCampaigns.filter(c => c.status === 'agendado' || c.status === 'scheduled' || c.status === 'SCHEDULED')} />
+        </div>
+      </section>
 
       {/* GRÁFICOS PRINCIPAIS */}
-      <section className="dashboard-section dashboard-section--charts">
-        <div className="card">
-          <h3 className="card-title">Contatos por Região</h3>
-          <p className="card-subtitle">Distribuição geográfica da base</p>
-          <PieChart data={contactsByRegion} />
-        </div>
-        <div className="card">
-          <h3 className="card-title">Contatos por Área Acadêmica</h3>
-          <p className="card-subtitle">Distribuição por campo de estudo</p>
-          <BarChart data={contactsByArea} />
-        </div>
-      </section>
+       <section className="dashboard-section dashboard-section--charts">
+
+  <div className="card">
+    <div className="card-with-icon">
+      <div className="card-icon">
+        <MapPin size={24} />
+      </div>
+
+      <div className="card-titles">
+        <h3 className="card-title">Contatos por Região</h3>
+        <p className="card-subtitle">Distribuição geográfica da base de dados</p>
+      </div>
+    </div>
+
+    <div className="card-content-chart">
+      <PieChart data={contactsByRegion} />
+    </div>
+  </div>
+
+  <div className="card">
+    <div className="card-with-icon">
+      <div className="card-icon">
+        <GraduationCap size={24} />
+      </div>
+
+      <div className="card-titles">
+        <h3 className="card-title">Contatos por Área Acadêmica</h3>
+        <p className="card-subtitle">Distribuição por campo de estudo</p>
+      </div>
+    </div>
+
+    <div className="card-content-chart">
+      <BarChart data={contactsByArea} />
+    </div>
+  </div>
+
+</section>
+
 
 
 

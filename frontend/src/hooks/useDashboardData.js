@@ -62,7 +62,7 @@ export function useDashboardData() {
   const [contactsByRegion, setContactsByRegion] = useState([])
   const [contactsByArea, setContactsByArea] = useState([])
   const [lastCampaigns, setLastCampaigns] = useState([])
-  const [messagesThisMonth, setMessagesThisMonth] = useState(0)
+  const [messagesThisMonth, setMessagesThisMonth] = useState(null)
   const [activeCampaigns, setActiveCampaigns] = useState(0)
   const [nextDispatch, setNextDispatch] = useState('')
   const [nextDispatchName, setNextDispatchName] = useState('')
@@ -103,7 +103,7 @@ export function useDashboardData() {
         const active = campaigns.filter(c => c.status === 'PENDING' || c.status === 'RUNNING');
         setActiveCampaigns(active.length);
 
-        setMessagesThisMonth(3245);
+        // setMessagesThisMonth(3245); // Removido valor estático, aguarda valor real do backend
 
         const scheduled = campaigns
           .filter(c => c.status === 'SCHEDULED' && c.scheduled_at && new Date(c.scheduled_at) > new Date())

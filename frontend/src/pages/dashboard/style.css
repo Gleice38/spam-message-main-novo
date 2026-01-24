@@ -1,3 +1,86 @@
+/* Títulos e subtítulos ao lado do ícone nos cards de gráficos */
+.card-with-icon {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
+.card-titles {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-content-chart {
+  width: 100%;
+}
+
+/* Ícones nos cards de gráficos */
+.card-with-icon {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.2rem;
+}
+.card-icon {
+  background: linear-gradient(135deg, #2193b0 0%, #15608a 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-top: 0.2rem;
+}
+/* =========================
+   CARD PRÓXIMOS DISPAROS AGENDADOS
+========================= */
+.scheduled-card {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 12px 0 rgba(44,62,80,0.07);
+  padding: 2.2rem 2rem 1.2rem 2rem;
+  margin-bottom: 2.5rem;
+  margin-top: 1.5rem;
+}
+.scheduled-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+.scheduled-card-icon {
+  background: linear-gradient(135deg, #2193b0 0%, #15608a 100%);
+  color: #fff;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1.1rem;
+  font-size: 1.7rem;
+}
+.scheduled-card-title {
+  font-size: 1.0rem;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 0.1rem;
+}
+.scheduled-card-subtitle {
+  font-size: 0.8rem;
+  color: #6b7b8a;
+  margin-bottom: 0;
+}
 /* =========================
    CONTAINER GERAL
 ========================= */

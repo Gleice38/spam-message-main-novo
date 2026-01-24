@@ -116,44 +116,13 @@
   min-width: 320px;
 }
 
+
 .logo-wrapper {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-
-.brand-logo {
-  height: 44px;
-  width: auto;
-  object-fit: contain;
-}
-
-
-.logo-circle {
-  position: relative;
+  justify-content: center;
   width: 44px;
   height: 44px;
-  background: #0b3c5d;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo-icon {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 20px;
-  height: 20px;
-  background: #1d9bf0;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .brand-text {
@@ -221,20 +190,24 @@
   color: #fff;
   box-shadow: 0 2px 8px rgba(99,102,241,0.08);
 }
-.nav-item.active svg {
-  color: #fff;
-}
-.nav-item:hover {
-  background: #e0e7ff;
-  color: #3730a3;
-}
-.nav-item:hover svg {
-  color: #3730a3;
-}
-}
 
-.divider {
-  width: 1px;
+/* Removido fundo roxo do item ativo, mantém apenas destaque por borda ou cor */
+.nav-item.active {
+  background: transparent;
+  color: #2196d3;
+  border: 2px solid #2196d3;
+  box-shadow: 0 2px 8px rgba(33,150,211,0.08);
+}
+.nav-item.active svg {
+  color: #2196d3;
+}
+.nav-item.active:focus {
+  background: #e3f2fd;
+  color: #2196d3;
+}
+.nav-item.active:active {
+  color: #15608a;
+}
   height: 24px;
   background: #e5e7eb;
 }
