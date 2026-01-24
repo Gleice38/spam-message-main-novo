@@ -29,19 +29,16 @@
   padding-top: 96px;
 }
 
+
+
+
 .configuracoes-header {
-  max-width: 1200px;
-  margin: 0 auto 32px auto;
+  margin-bottom: 32px;
+  padding-top: 48px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: flex-start;
-  gap: 8px;
-  padding: 48px 2rem 0 2rem;
-  margin-bottom: 32px;
-  text-align: left;
 }
-
 .configuracoes-header h1 {
   font-size: 2.2rem;
   font-weight: 700;
@@ -49,7 +46,6 @@
   margin-bottom: 0.5rem;
   letter-spacing: -0.06rem;
 }
-
 .configuracoes-header p {
   color: #fff;
   font-size: 1.05rem;
@@ -57,11 +53,8 @@
 }
 
 .configuracoes-container {
-  max-width: 1200px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 48px;
 }
 
@@ -102,18 +95,19 @@
   color: var(--text-secondary, #6b7280);
   margin: 0;
 }
+.configuracoes-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px; /* fixo, previsível */
+}
 
 /* CARDS */
 .config-card {
-  background: var(--bg-card, #ffffff);
-  border-radius: 18px;
-  padding: 80px 6vw;
-  box-shadow: 0 4px 16px rgba(24,49,83,0.08);
-  border: none;
-  min-width: 900px;
-  max-width: 1600px;
   width: 100%;
-  margin: 0 auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 16px rgba(24,49,83,0.08);
+  padding: 48px;   
 }
 
 .config-item {

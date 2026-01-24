@@ -150,6 +150,8 @@
   display: flex;
   gap: 8px;
   flex: 1;
+  justify-content: center;
+  margin-left: -240px;
 }
 
 /* ITEMS */
