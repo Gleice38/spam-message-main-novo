@@ -23,7 +23,7 @@ Edite o arquivo `.env` na raiz com suas credenciais e URLs.
 ## Rodar local (DEV - localhost)
 
 ```bash
-docker compose -f docker-compose.dev.yml up --build
+docker compose -f docker-compose.dev.yml up --build -d
 ```
 
 Acesso:
@@ -39,7 +39,7 @@ Login inicial (dev):
 Na VPS, com o repositorio clonado e `.env` ajustado para a VPS:
 
 ```bash
-docker compose up --build
+docker compose up --build -d
 ```
 
 Acesso esperado:
