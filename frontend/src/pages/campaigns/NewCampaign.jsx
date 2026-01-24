@@ -8,6 +8,7 @@ import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import EmojiPicker from 'emoji-picker-react';
 
 export default function NewCampaign() {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function NewCampaign() {
   const [mediaFile, setMediaFile] = useState(null);
   const [mediaUrl, setMediaUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
@@ -152,18 +154,22 @@ export default function NewCampaign() {
     }
   }
 
+  // Adiciona emoji ao texto
+  const handleEmojiClick = (emojiData) => {
+    setFormData(prev => ({
+      ...prev,
+      message_body: prev.message_body + emojiData.emoji
+    }));
+  };
+
   return (
     <div className="page-container">
       {/* HEADER DA PÁGINA */}
-      <div className="page-header">
+      <div className="page-header center-header">
         <div>
           <h1>Nova Campanha de Mensagens</h1>
           <p>Crie e envie mensagens personalizadas via WhatsApp</p>
         </div>
-        <button className="btn-secondary" onClick={() => navigate('/dashboard')}>
-          <History size={16} />
-          Ver Histórico
-        </button>
       </div>
 
       {/* GRID PRINCIPAL */}
@@ -172,51 +178,78 @@ export default function NewCampaign() {
         {/* COLUNA ESQUERDA */}
         <div className="campaign-left">
 
-          {/* CARD 1 */}
-          <div className="card">
-            <div className="card-header">
-              <MessageSquare size={18} />
-              <div>
-                <h2>Informações da Campanha</h2>
-                <span>Detalhes sobre o evento que será divulgado</span>
-              </div>
-            </div>
+        {/* CARD 1 */}
+<div className="card">
+  <div className="card-header">
+    <MessageSquare size={18} />
+    <div>
+      <h2>Informações da Campanha</h2>
+      <span>Detalhes sobre o evento que será divulgado</span>
+    </div>
+  </div>
 
-            <div className="card-content">
-              <label>Nome do Evento *</label>
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Ex: Congresso Nacional de Medicina 2025"
-                required
-              />
+  <div className="card-content">
+    <label>Nome do Evento *</label>
+    <input
+      name="name"
+      value={formData.name}
+      onChange={handleChange}
+      placeholder="Ex: Congresso Nacional de Medicina 2025"
+      required
+    />
 
-              <label>Mensagem *</label>
-              <div style={{ position: 'relative' }}>
-                <ReactQuill
-                  value={formData.message_body}
-                  onChange={value => setFormData(prev => ({ ...prev, message_body: value }))}
-                  modules={{
-                    toolbar: [
-                      ['bold', 'italic', 'underline'],
-                      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                      ['link'],
-                      ['clean']
-                    ]
-                  }}
-                  formats={['bold', 'italic', 'underline', 'list', 'bullet', 'link']}
-                  style={{ height: 200, marginBottom: 16 }}
-                />
-                <span style={{ position: 'absolute', right: 8, bottom: 8, fontSize: 13, color: '#666' }}>
-                  {formData.message_body.replace(/<[^>]+>/g, '').length} caracteres
-                </span>
-              </div>
-              <div className="helper-text">
-                Use quebras de linha para melhor formatação
-              </div>
-            </div>
-          </div>
+    <label>Mensagem *</label>
+
+    {/* Wrapper do editor */}
+    <div className="quill-wrapper">
+      <ReactQuill
+        value={formData.message_body}
+        onChange={value =>
+          setFormData(prev => ({ ...prev, message_body: value }))
+        }
+        modules={{
+          toolbar: [
+            ["bold", "italic", "underline"],
+            [{ list: "ordered" }, { list: "bullet" }],
+            ["link"],
+            ["clean"]
+          ]
+        }}
+        formats={["bold", "italic", "underline", "list", "bullet", "link"]}
+        // altura padrão do ReactQuill
+        placeholder="Use quebras de linha para melhor formatação"
+      />
+
+      {/* Contador */}
+      <span className="char-counter">
+        {formData.message_body.replace(/<[^>]+>/g, "").length} caracteres
+      </span>
+    </div>
+
+    {/* helper-text removido conforme solicitado */}
+  </div>
+
+  {/* Emoji fixo no canto inferior esquerdo do card */}
+  <button
+    type="button"
+    className="emoji-button"
+    onClick={() => setShowEmojiPicker(v => !v)}
+    aria-label="Adicionar emoji"
+  >
+    😊
+  </button>
+
+  {showEmojiPicker && (
+    <div className="emoji-picker-container">
+      <EmojiPicker
+        onEmojiClick={handleEmojiClick}
+        height={350}
+        width={300}
+      />
+    </div>
+  )}
+</div>
+
 
           {/* CARD 2 */}
           <div className="card">
