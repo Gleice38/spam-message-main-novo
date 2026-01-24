@@ -376,7 +376,12 @@ export default function NewCampaign() {
         {/* COLUNA DIREITA */}
         <div className="campaign-right">
           <div className="card sticky">
-            <h2 style={{ textAlign: 'center', marginBottom: 16 }}>Checklist do Envio</h2>
+            <div className="card-header" style={{ justifyContent: 'flex-start', gap: 10, marginBottom: 16 }}>
+              <span className="check-icon" style={{ fontSize: 28, color: '#2193b0', background: '#e0f4ff', borderRadius: '8px', padding: '6px 10px', marginRight: 8, display: 'flex', alignItems: 'center' }}>
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#e0f4ff"/><g><path d="M4 17.5V6.5C4 5.39543 4.89543 4.5 6 4.5H18C19.1046 4.5 20 5.39543 20 6.5V17.5C20 18.6046 19.1046 19.5 18 19.5H6C4.89543 19.5 4 18.6046 4 17.5Z" stroke="#2193b0" strokeWidth="1.5"/><path d="M8 8.5H16M8 12H16M8 15.5H13" stroke="#2193b0" strokeWidth="1.5" strokeLinecap="round"/></g></svg>
+              </span>
+              <h2 style={{ fontWeight: 700, fontSize: '1.18rem', color: '#15608a', margin: 0 }}>Resumo do Envio</h2>
+            </div>
             <div className="summary-list checklist">
               <div className="check-item">
                 <span className="check-icon">📅</span>
