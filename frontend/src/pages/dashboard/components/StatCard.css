@@ -1,0 +1,51 @@
+.stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 20px 18px;
+  box-shadow: 0 4px 16px rgba(24, 49, 83, 0.08);
+  position: relative;
+  width: 100%;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-left: 6px solid #3b82f6;
+}
+
+/* Header: título + ícone */
+.stat-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Título */
+.stat-card__title {
+  font-size: 0.95rem;
+  color: #4a6073;
+  font-weight: 500;
+  margin: 0;
+}
+
+/* Ícone */
+.stat-card__icon {
+  color: #3b82f6;
+  display: flex;
+  align-items: center;
+}
+
+/* Valor principal */
+.stat-card__value {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #183153;
+  margin: 8px 0 4px;
+  line-height: 1.2;
+}
+
+/* Subtítulo / trend */
+.stat-card__subtitle {
+  font-size: 0.85rem;
+  margin: 0;
+  color: #16a34a;
+}

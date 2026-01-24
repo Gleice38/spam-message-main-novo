@@ -1,0 +1,100 @@
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+
+.login-page-wrapper {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* LADO ESQUERDO - MANTENDO INTEGRIDADE AZUL ESCURO */
+.login-brand {
+  flex: 1.2;
+  background-color: #041d3d; 
+  color: white;
+  padding: 60px 8%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* LOGO FIGMA REFINADA */
+.logo-group { display: flex; align-items: center; gap: 16px; margin-bottom: 40px; }
+.logo-badge-main {
+  width: 64px; height: 64px; border-radius: 8px;
+  background: linear-gradient(135deg, #0ea5e9, #0369a1);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; border: 2px solid rgba(255, 255, 255, 0.1);
+}
+.logo-badge-main span { font-size: 24px; font-weight: 800; }
+.logo-badge-whatsapp {
+  position: absolute; bottom: -4px; right: -4px;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  border: 2px solid #041d3d;
+}
+
+.logo-titles h1 { font-size: 32px; font-weight: 700; line-height: 1.1; }
+.logo-titles p { font-size: 14px; color: #38bdf8; margin-top: 4px; }
+
+.headline-text { font-size: 20px; font-weight: 600; line-height: 1.4; margin-bottom: 40px; max-width: 450px; }
+.features-bullets { list-style: none; }
+.features-bullets li { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; font-size: 14px; color: #e2e8f0; }
+
+.icon-box { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.icon-blue { background-color: #3b82f6; }
+.icon-green { background-color: #10b981; }
+.icon-purple { background-color: #6366f1; }
+
+/* LADO DIREITO - AJUSTE DE PROFUNDIDADE (Azul Suave) */
+.form-section { 
+  flex: 1; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  padding: 40px;
+  background-color: #f0f7ff; /* Azul muito suave para profundidade */
+}
+
+.auth-card {
+  width: 100%; 
+  max-width: 420px; 
+  background: white; 
+  padding: 45px; 
+  border-radius: 20px; 
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.04); 
+  border: 1px solid #e5eaf0;
+}
+
+/* LOGO SOFTEX RESTAURADA */
+.realization-group { margin-bottom: 35px; text-align: center; }
+.realization-label { font-size: 10px; font-weight: 700; color: #94a3b8; letter-spacing: 1.5px; margin-bottom: 15px; }
+.logo-softex-img { height: 45px; width: auto; object-fit: contain; }
+
+.card-header h2 { font-size: 18px; font-weight: 700; color: #183153; margin-bottom: 8px; text-align: center; }
+.card-header p { font-size: 14px; color: #64748b; margin-bottom: 35px; text-align: center; }
+
+/* INPUTS CINZA (#f1f5f9) */
+.input-field { margin-bottom: 22px; }
+.input-field label { display: block; font-size: 13px; font-weight: 600; color: #183153; margin-bottom: 10px; text-align: left; }
+.input-container { position: relative; display: flex; align-items: center; }
+
+.input-container input { 
+  width: 100%; padding: 14px 14px 14px 44px; border: 1px solid #e2e8f0; 
+  border-radius: 12px; background-color: #f1f5f9; font-size: 14px; outline: none; transition: border-color 0.2s;
+}
+.input-container input:focus { border-color: #0ea5e9; }
+
+.icon-left { position: absolute; left: 14px; color: #94a3b8; }
+.icon-right { position: absolute; right: 14px; background: none; border: none; cursor: pointer; color: #94a3b8; }
+
+.btn-submit { 
+  width: 100%; padding: 16px; background-color: #183153; color: white; 
+  border: none; border-radius: 12px; font-weight: 700; cursor: pointer; margin-top: 15px; transition: background 0.2s;
+}
+.btn-submit:hover { background-color: #0d2545; }
+
+.footer-copyright { margin-top: 35px; font-size: 12px; color: #94a3b8; text-align: center; }
+
+@media (max-width: 1024px) { .login-brand { display: none; } }

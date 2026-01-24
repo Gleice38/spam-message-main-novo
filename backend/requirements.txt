@@ -1,0 +1,10 @@
+apscheduler
+fastapi
+uvicorn
+sqlalchemy
+pydantic
+pydantic-settings
+psycopg2-binary
+email-validator
+requests
+python-multipart
