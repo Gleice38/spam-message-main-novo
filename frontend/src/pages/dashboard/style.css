@@ -3,10 +3,13 @@
 ========================= */
 
 .dashboard-container {
-  padding: 2.5rem 1.5rem;
   min-height: 100vh;
-  background: linear-gradient(120deg, #f6faff 0%, #f8fafc 100%);
+  width: 100%;
+  background: #15608a;
+  margin-top: -96px;      /* sobe o azul */
+  padding-top: 96px;     /* compensa a navbar */
 }
+
 
 /* =========================
    HEADER
@@ -20,7 +23,7 @@
 
 
 .dashboard-header h1 {
-  color: #183153;
+  color: #fff;
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -29,7 +32,7 @@
 
 
 .dashboard-header p {
-  color: #4a6073;
+  color: #fff;
   font-size: 1.05rem;
 }
 
@@ -86,10 +89,9 @@
   padding: 28px;
   border-radius: 18px;
   box-shadow: 0 4px 16px rgba(24,49,83,0.08);
-  border-left: 6px solid #3b82f6;
+  border-left: 6px solid transparent;
   display: flex;
   flex-direction: column;
-    background: linear-gradient(120deg, #f6faff 0%, #f8fafc 100%);
   transition: box-shadow 0.2s ease;
 }
 
@@ -113,10 +115,10 @@
 /* =========================
    CORES DOS KPIs
 ========================= */
-.dashboard-section--stats .card:nth-child(1) { border-left-color: #3b82f6; }
-.dashboard-section--stats .card:nth-child(2) { border-left-color: #6366f1; }
-.dashboard-section--stats .card:nth-child(3) { border-left-color: #06b6d4; }
-.dashboard-section--stats .card:nth-child(4) { border-left-color: #f59e42; }
+.dashboard-section--stats .card:nth-child(1) { border-left-color: None ! important; }
+.dashboard-section--stats .card:nth-child(2) { border-left-color: None ! important; }
+.dashboard-section--stats .card:nth-child(3) { border-left-color: None ! important; }
+.dashboard-section--stats .card:nth-child(4) { border-left-color: None ! important; }
 
 /* =========================
    FOOTER
