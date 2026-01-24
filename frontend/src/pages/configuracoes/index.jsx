@@ -52,17 +52,16 @@ export default function Configuracoes() {
       <div className="configuracoes-container">
         {/* SEÇÃO: CONTA */}
         <section className="config-section">
-          <div className="section-header">
-            <div className="section-icon">
-              <User size={20} />
-            </div>
-            <div>
-              <h2>Conta e Perfil</h2>
-              <p>Gerencie suas informações pessoais</p>
-            </div>
-          </div>
-
           <div className="config-card">
+            <div className="section-header">
+              <div className="section-icon">
+                <User size={28} color="#fff" />
+              </div>
+              <div className="section-header-titles">
+                <h2>Meu Perfil</h2>
+                <p>Atualize suas informações pessoais</p>
+              </div>
+            </div>
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Email</h3>
@@ -85,51 +84,68 @@ export default function Configuracoes() {
 
         {/* SEÇÃO: NOTIFICAÇÕES */}
         <section className="config-section">
-          <div className="section-header">
-            <div className="section-icon">
-              <Bell size={20} />
-            </div>
-            <div>
-              <h2>Notificações</h2>
-              <p>Controle como você recebe notificações</p>
-            </div>
-          </div>
-
           <div className="config-card">
+            <div className="section-header">
+              <div className="section-icon">
+                <Bell size={28} color="#fff" />
+              </div>
+              <div className="section-header-titles">
+                <h2>Notificações</h2>
+                <p>Controle como você recebe notificações</p>
+              </div>
+            </div>
+
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Notificações de Campanhas</h3>
                 <p>Receba alertas quando campanhas forem enviadas</p>
               </div>
-              <label className="toggle-switch">
+              <label className="checkbox-seta">
                 <input type="checkbox" defaultChecked />
-                <span className="toggle-slider"></span>
+                <span className="checkmark">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
+                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
               </label>
             </div>
 
             <div className="config-divider"></div>
+
 
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Notificações de Erros</h3>
                 <p>Receba alertas quando houver falhas no envio</p>
               </div>
-              <label className="toggle-switch">
+              <label className="checkbox-seta">
                 <input type="checkbox" defaultChecked />
-                <span className="toggle-slider"></span>
+                <span className="checkmark">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
+                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
               </label>
             </div>
 
             <div className="config-divider"></div>
+
 
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Resumo Diário</h3>
                 <p>Receba um resumo diário das atividades</p>
               </div>
-              <label className="toggle-switch">
+              <label className="checkbox-seta">
                 <input type="checkbox" />
-                <span className="toggle-slider"></span>
+                <span className="checkmark">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="18" height="18" rx="5" fill="#2196d3"/>
+                    <path d="M5 9.5L8 12.5L13 7.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
               </label>
             </div>
           </div>
@@ -137,17 +153,16 @@ export default function Configuracoes() {
 
         {/* SEÇÃO: PRIVACIDADE */}
         <section className="config-section">
-          <div className="section-header">
-            <div className="section-icon">
-              <Shield size={20} />
-            </div>
-            <div>
-              <h2>Privacidade e Segurança</h2>
-              <p>Gerencie suas configurações de privacidade</p>
-            </div>
-          </div>
-
           <div className="config-card">
+            <div className="section-header">
+              <div className="section-icon">
+                <Shield size={28} color="#fff" />
+              </div>
+              <div className="section-header-titles">
+                <h2>Privacidade e Segurança</h2>
+                <p>Gerencie suas configurações de privacidade</p>
+              </div>
+            </div>
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Autenticação em Dois Fatores</h3>
@@ -183,17 +198,16 @@ export default function Configuracoes() {
 
         {/* SEÇÃO: SOBRE */}
         <section className="config-section">
-          <div className="section-header">
-            <div className="section-icon">
-              <Info size={20} />
-            </div>
-            <div>
-              <h2>Sobre o Sistema</h2>
-              <p>Informações e recursos do sistema</p>
-            </div>
-          </div>
-
           <div className="config-card">
+            <div className="section-header">
+              <div className="section-icon">
+                <Info size={28} color="#fff" />
+              </div>
+              <div className="section-header-titles">
+                <h2>Sobre o Sistema</h2>
+                <p>Informações e recursos do sistema</p>
+              </div>
+            </div>
             <div className="config-item">
               <div className="config-item-info">
                 <h3>Versão do Sistema</h3>
