@@ -50,3 +50,7 @@ Acesso esperado:
 
 - O backend cria o usuario admin automaticamente na inicializacao usando `ADMIN_EMAIL` e `ADMIN_PASSWORD` do `.env`.
 - Campuses e areas academicas sao inseridos automaticamente a partir de `backend/insert_campuses.sql`.
+
+# Build na vps
+git pull 'atualiza repositorio'
+docker compose up --build -d
