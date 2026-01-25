@@ -73,7 +73,7 @@
 .section-icon {
   width: 56px;
   height: 56px;
-  background: #2196d3;
+  background: linear-gradient(135deg, #2193b0 0%, #15608a 100%);
   color: #fff;
   border-radius: 14px;
   display: flex;

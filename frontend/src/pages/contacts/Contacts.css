@@ -115,7 +115,7 @@ html, body {
 }
 
 .icon-badge {
-  background: #0EA5E9;
+  background: linear-gradient(135deg, #2193b0 0%, #15608a 100%);
   color: white;
   padding: 12px;
   border-radius: 12px;
