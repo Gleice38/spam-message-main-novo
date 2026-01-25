@@ -39,7 +39,10 @@ export default function StepAnalytics({ onNext, onPrev, onSkip }) {
           </header>
 
           <div style={styles.body}>
-            <h1 style={styles.title}>Acompanhe Resultados</h1>
+            <h1 style={styles.title}>
+              Acompanhe <br />
+              Resultados
+            </h1>
             <h2 style={styles.subtitle}>Dashboard com estatísticas completas</h2>
             
             <p style={styles.descriptionText}>
@@ -48,7 +51,12 @@ export default function StepAnalytics({ onNext, onPrev, onSkip }) {
             </p>
           </div>
 
-          <div style={styles.footer}>
+          <div style={{
+            ...styles.footer,
+            flexDirection: window.innerWidth <= 700 ? 'column' : 'row',
+            gap: window.innerWidth <= 700 ? 8 : 0,
+            alignItems: window.innerWidth <= 700 ? 'stretch' : 'center',
+          }}>
             <button 
               onClick={onSkip} 
               onMouseEnter={() => setIsHovered(true)} 
@@ -57,16 +65,28 @@ export default function StepAnalytics({ onNext, onPrev, onSkip }) {
                 ...styles.btnSkip,
                 color: isHovered ? '#2d3748' : '#718096', 
                 backgroundColor: isHovered ? '#f1f5f9' : 'transparent',
+                width: window.innerWidth <= 700 ? '100%' : undefined,
+                marginLeft: window.innerWidth <= 700 ? 0 : styles.btnSkip.marginLeft
               }}
             >
               Pular Tutorial
             </button>
-            
-            <div style={styles.navButtons}>
-              <button onClick={onPrev} style={styles.btnPrev}>
+            <div style={{
+              ...styles.navButtons,
+              flexDirection: window.innerWidth <= 700 ? 'column' : 'row',
+              width: window.innerWidth <= 700 ? '100%' : undefined,
+              gap: window.innerWidth <= 700 ? 8 : 12
+            }}>
+              <button onClick={onPrev} style={{
+                ...styles.btnPrev,
+                width: window.innerWidth <= 700 ? '100%' : undefined
+              }}>
                 <ChevronLeft size={18} /> Anterior
               </button>
-              <button onClick={onNext} style={styles.btnNext}>
+              <button onClick={onNext} style={{
+                ...styles.btnNext,
+                width: window.innerWidth <= 700 ? '100%' : undefined
+              }}>
                 Próximo <ChevronRight size={18} />
               </button>
             </div>
@@ -83,8 +103,8 @@ export default function StepAnalytics({ onNext, onPrev, onSkip }) {
 
 const styles = {
   wrapper: { position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', backgroundColor: '#f4f7f9', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', zIndex: 9999 },
-  container: { width: '950px', height: '580px', backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', marginBottom: '30px' },
-  visualSide: { width: '42%', background: 'linear-gradient(135deg, #c026d3 0%, #a21caf 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
+  container: { width: '100%', maxWidth: '98vw', minWidth: 0, height: 'auto', minHeight: 320, backgroundColor: '#ffffff', display: 'flex', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.08)', marginBottom: '30px', flexDirection: 'row', boxSizing: 'border-box' },
+  visualSide: { width: '42%', minWidth: 0, background: 'linear-gradient(135deg, #c026d3 0%, #a21caf 100%)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' },
   circleTop: { position: 'absolute', top: '-50px', left: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
   circleBottom: { position: 'absolute', bottom: '-80px', right: '-40px', width: '250px', height: '250px', borderRadius: '50%', background: 'rgba(255,255,255,0.1)' },
   iconCard: { width: '140px', height: '140px', backgroundColor: 'rgba(255, 255, 255, 0.15)', borderRadius: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)', border: '1px solid rgba(255, 255, 255, 0.2)', marginBottom: '30px', zIndex: 2 },
@@ -93,13 +113,21 @@ const styles = {
   dotsRow: { display: 'flex', gap: '8px', zIndex: 2 },
   dot: { width: '8px', height: '8px', backgroundColor: 'rgba(255,255,255,0.4)', borderRadius: '50%' },
   activeDot: { width: '30px', height: '8px', backgroundColor: '#ffffff', borderRadius: '10px' },
-  contentSide: { width: '58%', padding: '50px 60px', display: 'flex', flexDirection: 'column', textAlign: 'left' },
+  contentSide: { width: '58%', minWidth: 0, padding: '24px 4vw', display: 'flex', flexDirection: 'column', textAlign: 'left', position: 'relative', boxSizing: 'border-box' },
   header: { display: 'flex', alignItems: 'center', marginBottom: '40px' },
   logoCircle: { width: '45px', height: '45px', backgroundColor: '#004a7c', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: '800', marginRight: '15px' },
   brandName: { margin: 0, color: '#004a7c', fontSize: '18px', fontWeight: '700' },
   brandSub: { margin: 0, fontSize: '12px', color: '#718096' },
   body: { flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' },
-  title: { fontSize: '34px', fontWeight: '800', color: '#1a202c', marginBottom: '12px' },
+  title: {
+    fontSize: '34px',
+    fontWeight: '800',
+    color: '#1a202c',
+    marginBottom: '12px',
+    wordBreak: 'break-word',
+    overflowWrap: 'break-word',
+    hyphens: 'auto',
+  },
   subtitle: { fontSize: '18px', color: '#3182ce', fontWeight: '600', marginBottom: '20px' },
   descriptionText: { fontSize: '15px', color: '#4a5568', lineHeight: '1.7', maxWidth: '480px' },
   footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto' },

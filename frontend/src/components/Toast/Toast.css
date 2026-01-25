@@ -109,3 +109,19 @@
     max-width: none;
   }
 }
+
+@media (max-width: 400px) {
+  .toast {
+    padding: 8px 6px;
+    font-size: 11px;
+    gap: 4px;
+    border-radius: 8px;
+  }
+  .toast-icon {
+    font-size: 1rem;
+  }
+  .toast-close {
+    padding: 2px;
+    font-size: 12px;
+  }
+}

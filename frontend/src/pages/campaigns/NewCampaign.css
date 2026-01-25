@@ -298,6 +298,9 @@
   background: #f9fafb;
   transition: background 0.2s, border 0.2s;
   cursor: pointer;
+  word-break: break-word;
+  white-space: normal;
+  flex-wrap: wrap;
 }
 .region-item.selected {
   background: #2563eb;

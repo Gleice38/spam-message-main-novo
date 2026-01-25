@@ -1,3 +1,37 @@
+@media (max-width: 700px) {
+  .campaign-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    font-size: 12px;
+  }
+  .campaign-table thead,
+  .campaign-table tbody,
+  .campaign-table tr {
+    display: block;
+    width: 100%;
+  }
+  .campaign-table thead {
+    display: none;
+  }
+  .campaign-table td {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    padding: 8px 4px;
+    font-size: 12px;
+    word-break: break-word;
+    white-space: normal;
+    border-bottom: 1px solid #eee;
+  }
+  .event-name {
+    font-size: 13px;
+    font-weight: 600;
+    word-break: break-word;
+  }
+}
 .campaign-table {
   width: 100%;
   border-collapse: collapse;

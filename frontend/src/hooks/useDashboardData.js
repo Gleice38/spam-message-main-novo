@@ -100,7 +100,13 @@ export function useDashboardData() {
           status: c.status?.toLowerCase() || ''
         })));
 
-        const active = campaigns.filter(c => c.status === 'PENDING' || c.status === 'RUNNING');
+        // Considera como ativa apenas campanhas com status realmente ativos
+        const ACTIVE_STATUS = ['pending', 'running', 'active'];
+        const INACTIVE_STATUS = ['completed', 'finished', 'sent', 'failed', 'cancelled', 'canceled', 'concluida', 'concluído', 'finalizada', 'finalizado'];
+        const active = campaigns.filter(c => {
+          const status = (c.status || '').toLowerCase();
+          return ACTIVE_STATUS.includes(status) && !INACTIVE_STATUS.includes(status);
+        });
         setActiveCampaigns(active.length);
 
         // setMessagesThisMonth(3245); // Removido valor estático, aguarda valor real do backend

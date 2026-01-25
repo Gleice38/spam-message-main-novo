@@ -89,11 +89,23 @@
   .navbar {
     flex-direction: column;
     height: auto;
-    padding: 0 2px;
+    padding: 0 1px;
+    min-height: 40px;
   }
   .navbar-brand {
-    min-width: 120px;
-    gap: 2px;
+    min-width: 80px;
+    gap: 1px;
+  }
+  .logo-wrapper {
+    width: 24px;
+    height: 24px;
+  }
+  .brand-text strong {
+    font-size: 10px;
+  }
+  .brand-text span {
+    font-size: 8px;
+    margin-top: 1px;
   }
   .navbar-menu {
     flex-wrap: wrap;
@@ -102,9 +114,16 @@
     gap: 0;
   }
   .nav-item {
-    font-size: 12px;
-    padding: 4px 4px;
-    margin: 0 2px;
+    font-size: 9px;
+    padding: 2px 2px;
+    margin: 0 1px;
+    gap: 1px;
+  }
+  .nav-icon {
+    width: 20px;
+    height: 20px;
+    font-size: 0.8rem;
+    margin-right: 1px;
   }
 }
 
@@ -139,6 +158,57 @@
    white-space: nowrap;
 }
 
+  @media (max-width: 400px) {
+    .navbar {
+      flex-direction: row;
+      height: 32px;
+      min-height: 0;
+      padding: 0 1px;
+    }
+    .navbar-brand {
+      min-width: 0;
+      gap: 0;
+    }
+    .logo-wrapper {
+      width: 20px;
+      height: 20px;
+    }
+    .brand-text {
+      display: none;
+    }
+    .navbar-menu {
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      gap: 0;
+    }
+    .nav-item {
+      font-size: 0;
+      padding: 0;
+      margin: 0 1px;
+      gap: 0;
+      min-width: 0;
+      min-height: 0;
+    }
+    .nav-item .nav-icon {
+      width: 20px;
+      height: 20px;
+      font-size: 1rem;
+      margin-right: 0;
+    }
+    .nav-item {
+      font-size: 0 !important;
+    }
+    .nav-item > span:not(.nav-icon) {
+      display: none !important;
+    }
+    .brand-text,
+    .brand-text strong,
+    .brand-text span {
+      display: none !important;
+    }
+  }
+  }
 .brand-text span {
   display: block;
   margin-top: 6px;   /* 🔥 separação real */
@@ -151,7 +221,26 @@
   gap: 8px;
   flex: 1;
   justify-content: center;
-  margin-left: -240px;
+  margin-left: 0;
+}
+
+@media (max-width: 600px) {
+  .navbar-menu {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 400px) {
+  .navbar-menu {
+    margin-left: 0;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
 }
 
 /* ITEMS */
