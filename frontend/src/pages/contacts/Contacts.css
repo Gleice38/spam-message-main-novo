@@ -34,12 +34,15 @@ html, body {
 /* HEADER DO PROTÓTIPO */
 .page-header {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
   max-width: 900px;
   margin: 0 auto 8px auto;
   box-sizing: border-box;
+  position: relative;
+  min-height: 72px;
 }
 
 .header-text-group {
@@ -73,8 +76,8 @@ html, body {
 }
 
 .btn-add-new {
-  background:  white ;
-  color:#0B3F60;
+  background: white;
+  color: #0B3F60;
   border: 1px solid rgba(255,255,255,0.1);
   padding: 10px 20px;
   border-radius: 8px;
@@ -84,6 +87,10 @@ html, body {
   gap: 8px;
   cursor: pointer;
   transition: background 0.2s;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
 }
 
 
