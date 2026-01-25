@@ -104,9 +104,13 @@ export default function EditContact() {
 
   if (loadingData) {
     return (
-      <div className="contacts-page">
-        <div className="contacts-header">
-          <h1>Carregando contato...</h1>
+      <div className="contacts-full-page">
+        <div className="contacts-content-wrapper">
+          <header className="page-header">
+            <div className="header-text-group">
+              <h1 style={{color: 'white', margin: 0}}>Carregando contato...</h1>
+            </div>
+          </header>
         </div>
       </div>
     );
@@ -121,159 +125,118 @@ export default function EditContact() {
   })();
 
   return (
-    <div className="contacts-page">
-      {/* HEADER */}
-      <div className="contacts-header">
-        <div>
-          <h1>Editar Contato</h1>
-          <p>Atualize os dados do contato</p>
+    <div className="contacts-full-page">
+      <div className="contacts-content-wrapper">
+        <header className="page-header">
+          <div className="header-text-group" style={{display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+            <h1 style={{color: 'white', margin: 0}}>Editar Contato</h1>
+            <span style={{color: '#dbeafe', margin: 0, fontSize: '16px', marginTop: '4px'}}>Atualize os dados do contato</span>
+          </div>
+        </header>
+        <div className="main-card">
+          <form onSubmit={handleSubmit}>
+            <div className="form-layout">
+              <div className="input-group full-width">
+                <label>Nome Completo *</label>
+                <div className="inner-input">
+                  <User size={18} />
+                  <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Ex: Dr. João Silva"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Telefone / WhatsApp *</label>
+                <div className="inner-input">
+                  <Phone size={18} />
+                  <input
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="(11) 98765-4321"
+                    required
+                  />
+                </div>
+                <small style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem', display: 'block' }}>
+                  Apenas números ou com formatação
+                </small>
+              </div>
+              <div className="input-group">
+                <label>Email (opcional)</label>
+                <div className="inner-input">
+                  <Mail size={18} />
+                  <input
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="exemplo@email.com"
+                  />
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Perfil *</label>
+                <div className="inner-input">
+                  <GraduationCap size={18} />
+                  <select name="role" value={formData.role} onChange={handleChange} required>
+                    <option value="STUDENT">Estudante</option>
+                    <option value="PROFESSOR">Professor</option>
+                    <option value="RESEARCHER">Pesquisador</option>
+                    <option value="COORDINATOR">Coordenador</option>
+                  </select>
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Região (Filtro)</label>
+                <div className="inner-input">
+                  <MapPin size={18} />
+                  <select value={selectedRegion} onChange={e => setSelectedRegion(e.target.value)}>
+                    <option value="">Todas as Regiões</option>
+                    {REGIONS.map(r => (
+                      <option key={r.id} value={r.id}>{r.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Campus / Universidade *</label>
+                <div className="inner-input">
+                  <MapPin size={18} />
+                  <select name="campus_id" value={formData.campus_id} onChange={handleChange} required>
+                    <option value="">Selecione um Campus</option>
+                    {filteredCampuses.map(c => (
+                      <option key={c.id} value={c.id}>{c.name} ({c.state})</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+              <div className="input-group">
+                <label>Área Acadêmica *</label>
+                <div className="inner-input">
+                  <BookOpen size={18} />
+                  <select name="academic_area_id" value={formData.academic_area_id} onChange={handleChange} required>
+                    <option value="">Selecione uma Área</option>
+                    {ACADEMIC_AREAS.map(a => (
+                      <option key={a.id} value={a.id}>{a.name}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="form-footer">
+              <button type="submit" className="btn-confirm" disabled={loading} style={{padding: '12px 30px'}}>
+                {loading ? "Salvando..." : "Salvar Alterações"}
+              </button>
+              <button type="button" className="btn-cancel" onClick={() => navigate("/contacts") } style={{padding: '12px 30px'}}>
+                Cancelar
+              </button>
+            </div>
+          </form>
         </div>
-      </div>
-
-      {/* CARD */}
-      <div className="contacts-card">
-        <form className="contact-form" onSubmit={handleSubmit}>
-          {/* Nome */}
-          <div className="form-group">
-            <label>Nome Completo *</label>
-            <div className="input-icon">
-              <User size={16} />
-              <input
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                placeholder="Ex: Dr. João Silva"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Linha 2 */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>Telefone / WhatsApp *</label>
-              <div className="input-icon">
-                <Phone size={16} />
-                <input
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="(11) 98765-4321"
-                  required
-                />
-              </div>
-              <small style={{ fontSize: '0.85rem', color: '#666', marginTop: '0.25rem', display: 'block' }}>
-                Apenas números ou com formatação
-              </small>
-            </div>
-
-            <div className="form-group">
-              <label>Email (opcional)</label>
-              <div className="input-icon">
-                <Mail size={16} />
-                <input
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="exemplo@email.com"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Linha 3 */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>Perfil *</label>
-              <div className="input-icon">
-                <GraduationCap size={16} />
-                <select
-                  name="role"
-                  value={formData.role}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="STUDENT">Estudante</option>
-                  <option value="PROFESSOR">Professor</option>
-                  <option value="RESEARCHER">Pesquisador</option>
-                  <option value="COORDINATOR">Coordenador</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Região (Filtro)</label>
-              <div className="input-icon">
-                <MapPin size={16} />
-                <select
-                  value={selectedRegion}
-                  onChange={e => setSelectedRegion(e.target.value)}
-                >
-                  <option value="">Todas as Regiões</option>
-                  {REGIONS.map(r => (
-                    <option key={r.id} value={r.id}>{r.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Linha 4 */}
-          <div className="form-row">
-            <div className="form-group">
-              <label>Campus / Universidade *</label>
-              <div className="input-icon">
-                <MapPin size={16} />
-                <select
-                  name="campus_id"
-                  value={formData.campus_id}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Selecione um Campus</option>
-                  {filteredCampuses.map(c => (
-                    <option key={c.id} value={String(c.id)}>{c.name} ({c.state})</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="form-group">
-              <label>Área Acadêmica *</label>
-              <div className="input-icon">
-                <BookOpen size={16} />
-                <select
-                  name="academic_area_id"
-                  value={formData.academic_area_id}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Selecione uma Área</option>
-                  {ACADEMIC_AREAS.map(a => (
-                    <option key={a.id} value={String(a.id)}>{a.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Ações */}
-          <div className="form-actions">
-            <button type="submit" className="btn-primary" disabled={loading}>
-              {loading ? "Salvando..." : "Salvar Alterações"}
-            </button>
-
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={() => navigate("/contacts")}
-              disabled={loading}
-            >
-              Cancelar
-            </button>
-          </div>
-        </form>
       </div>
     </div>
   );

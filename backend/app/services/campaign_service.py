@@ -159,16 +159,16 @@ class CampaignService:
                         "phone": contact.phone,
                         "message": caption
                     }
-                print(f"[ZAPI] Enviando para: {url}")
-                print(f"[ZAPI] Payload: {payload}")
+                print(f"[ZAPI] Enviando para: {url}", flush=True)
+                print(f"[ZAPI] Payload: {payload}", flush=True)
                 resp = requests.post(url, json=payload, headers=headers, timeout=10)
-                print(f"[ZAPI] Status: {resp.status_code}")
-                print(f"[ZAPI] Resposta: {resp.text}")
+                print(f"[ZAPI] Status: {resp.status_code}", flush=True)
+                print(f"[ZAPI] Resposta: {resp.text}", flush=True)
                 if resp.ok:
                     resp_json = resp.json()
                     zapi_message_id = resp_json.get("messageId")
             except Exception as e:
-                print(f"[ZAPI] Erro ao enviar: {e}")
+                print(f"[ZAPI] Erro ao enviar: {e}", flush=True)
                 zapi_message_id = None
             zapi_results.append({
                 "contact_id": contact.id,

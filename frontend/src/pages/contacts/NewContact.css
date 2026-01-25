@@ -66,6 +66,7 @@
   color: #94A3B8;
 }
 
+
 .inner-input input,
 .inner-input select {
   width: 100%;
@@ -76,6 +77,13 @@
   font-size: 14px;
   box-sizing: border-box;
   transition: all 0.2s;
+  position: relative;
+  z-index: 2;
+}
+
+.inner-input select:focus,
+.inner-input select:active {
+  z-index: 10;
 }
 
 .inner-input input:focus,

@@ -127,12 +127,19 @@ export default function NewCampaign() {
     setLoading(true);
 
     try {
+
       const payload = { ...formData };
 
       // Se agendamento estiver habilitado
       if (scheduleEnabled && scheduleDate && scheduleTime) {
         // Monta string local e converte para UTC ISO
         const localDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
+        const now = new Date();
+        if (localDateTime <= now) {
+          alert("A data e hora de agendamento devem ser futuras.");
+          setLoading(false);
+          return;
+        }
         payload.scheduled_at = localDateTime.toISOString();
       }
 

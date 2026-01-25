@@ -14,7 +14,12 @@ from app.db.session import SessionLocal
 
 import logging
 from app.core.scheduler import start_scheduler
-logging.basicConfig(level=logging.INFO)
+import sys
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s %(levelname)s %(name)s %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
 start_scheduler()
 
 
