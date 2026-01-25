@@ -50,6 +50,7 @@
   border-bottom: 1px solid #e5e7eb;
   display: flex;
   align-items: center;
+  justify-content: center;
   padding: 0 36px;
   z-index: 100;
 }
@@ -133,6 +134,16 @@
   align-items: center;
   gap: 14px;
   min-width: 320px;
+  position: absolute;
+  left: 36px;
+}
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+  position: absolute;
+  right: 36px;
 }
 
 
@@ -219,9 +230,8 @@
 .navbar-menu {
   display: flex;
   gap: 8px;
-  flex: 1;
   justify-content: center;
-  margin-left: 0;
+  align-items: center;
 }
 
 @media (max-width: 600px) {

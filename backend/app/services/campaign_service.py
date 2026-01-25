@@ -193,11 +193,11 @@ class CampaignService:
             # Atualiza status para PENDING antes de enviar
             campaign.status = "PENDING"
             self.db.commit()
-            # Reutiliza a lógica de envio imediato
+            # Reutiliza a lógica de envio imediato, mas ignora validação de scheduled_at < now
             data = CampaignCreate(
                 name=campaign.name,
                 message_body=campaign.message_body,
-                scheduled_at=campaign.scheduled_at,
+                scheduled_at=None,  # Força envio imediato
                 filters_snapshot=campaign.filters_snapshot
             )
             self.create_and_launch(data)
