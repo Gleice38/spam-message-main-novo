@@ -22,12 +22,13 @@ html, body {
 }
 
 .contacts-content-wrapper {
-  width: 100%;
-  max-width: 1200px;
-  /* Flex colum com gap resolve o problema dos cards colados */
+  width: 100vw;
+  max-width: none;
   display: flex;
   flex-direction: column;
-  gap: 24px; 
+  gap: 24px;
+  margin-left: calc(-1 * ((100vw - 100%) / 2));
+  box-sizing: border-box;
 }
 
 /* HEADER DO PROTÓTIPO */
@@ -35,8 +36,10 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  width: 100%;
-  margin-bottom: 8px; /* Espaço pequeno antes do primeiro card */
+  width: 100vw;
+  margin-bottom: 8px;
+  margin-left: calc(-1 * ((100vw - 100%) / 2));
+  box-sizing: border-box;
 }
 
 .header-text-group {
