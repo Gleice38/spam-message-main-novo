@@ -170,7 +170,7 @@ export default function NewCampaign() {
   return (
     <div className="page-container">
       {/* HEADER DA PÁGINA */}
-      <div className="page-header center-header">
+      <div className="page-header">
         <div>
           <h1>Nova Campanha de Mensagens</h1>
           <p>Crie e envie mensagens personalizadas via WhatsApp</p>
