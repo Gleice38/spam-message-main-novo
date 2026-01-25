@@ -62,10 +62,19 @@ html, body {
   align-items: center;
 }
 
+
 .header-text-group h1 {
-  color: white;
-  font-size: 32px;
+  color: #fff;
+  font-size: 2.2rem;
   font-weight: 700;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.06rem;
+  margin: 0;
+}
+
+.header-text-group p {
+  color: #fff;
+  font-size: 1.05rem;
   margin: 0;
 }
 
