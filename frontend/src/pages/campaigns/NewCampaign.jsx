@@ -20,9 +20,14 @@ export default function NewCampaign() {
     message_body: "",
     scheduled_at: null,
   });
+  // Pega data e hora atuais formatadas para os inputs
+  const now = new Date();
+  const pad = (n) => n.toString().padStart(2, '0');
+  const defaultDate = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+  const defaultTime = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
   const [scheduleEnabled, setScheduleEnabled] = useState(false);
-  const [scheduleDate, setScheduleDate] = useState("");
-  const [scheduleTime, setScheduleTime] = useState("");
+  const [scheduleDate, setScheduleDate] = useState(defaultDate);
+  const [scheduleTime, setScheduleTime] = useState(defaultTime);
   const [selectedRegions, setSelectedRegions] = useState([]);
   const [selectedAcademicAreas, setSelectedAcademicAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
