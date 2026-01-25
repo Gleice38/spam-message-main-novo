@@ -1,3 +1,32 @@
+  /* Linha horizontal para emoji e contador */
+  .emoji-char-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    position: relative;
+  }
+
+  .emoji-button-inline {
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    box-shadow: 0 2px 8px rgba(24,49,83,0.10);
+    margin-right: 4px;
+  }
+  .emoji-button-inline:active, .emoji-button-inline:focus {
+    background: #f0f4fa;
+    outline: none;
+  }
+
+  .emoji-picker-container-inline {
+    position: absolute;
+    left: 0;
+    top: 36px;
+    z-index: 30;
+  }
   /* Alinha o contador de caracteres à direita */
   .char-counter {
     display: block;

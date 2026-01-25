@@ -224,34 +224,34 @@ export default function NewCampaign() {
         placeholder="Use quebras de linha para melhor formatação"
       />
 
-      {/* Contador */}
-      <span className="char-counter">
-        {formData.message_body.replace(/<[^>]+>/g, "").length} caracteres
-      </span>
+      {/* Linha: emoji + contador */}
+      <div className="emoji-char-row">
+        <button
+          type="button"
+          className="emoji-button-inline"
+          onClick={() => setShowEmojiPicker(v => !v)}
+          aria-label="Adicionar emoji"
+        >
+          😊
+        </button>
+        <span className="char-counter">
+          {formData.message_body.replace(/<[^>]+>/g, "").length} caracteres
+        </span>
+        {showEmojiPicker && (
+          <div className="emoji-picker-container-inline">
+            <EmojiPicker
+              onEmojiClick={handleEmojiClick}
+              height={350}
+              width={300}
+            />
+          </div>
+        )}
+      </div>
     </div>
 
     {/* helper-text removido conforme solicitado */}
   </div>
 
-  {/* Emoji fixo no canto inferior esquerdo do card */}
-  <button
-    type="button"
-    className="emoji-button"
-    onClick={() => setShowEmojiPicker(v => !v)}
-    aria-label="Adicionar emoji"
-  >
-    😊
-  </button>
-
-  {showEmojiPicker && (
-    <div className="emoji-picker-container">
-      <EmojiPicker
-        onEmojiClick={handleEmojiClick}
-        height={350}
-        width={300}
-      />
-    </div>
-  )}
 </div>
 
 
