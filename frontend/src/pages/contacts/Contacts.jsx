@@ -225,7 +225,7 @@ export default function Contacts() {
 
         {/* FOOTER */}
         <footer className="dashboard-footer" style={{ marginTop: '40px' }}>
-          <div className="dashboard-footer__content" style={{ display: 'flex', alignItems: 'center', gap: '15px', color: 'white' }}>
+          <div className="dashboard-footer__content" style={{ display: 'flex', alignItems: 'center', gap: '15px', color: '#6b7280' }}>
             <img src="/softex-logo.png" alt="Softex" style={{ height: '30px' }} />
             <span>©2025 Mensagens Cooperativa. Todos os direitos reservados.</span>
           </div>
