@@ -430,7 +430,7 @@ export default function NewCampaign() {
                       type="date"
                       value={scheduleDate}
                       onChange={(e) => setScheduleDate(e.target.value)}
-                      min={new Date().toISOString().split('T')[0]}
+                      min={defaultDate}
                     />
                   </div>
                   <div style={{ flex: 1 }}>
