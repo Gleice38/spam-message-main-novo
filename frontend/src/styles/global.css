@@ -38,11 +38,11 @@ body,
    - NÃO controla padding lateral
 ========================= */
 .app-content {
-  padding-top: 96px; /* altura da navbar */
-  background: transparent;
+  padding-top: var(--navbar-height);
   padding-left: 0;
   padding-right: 0;
   padding-bottom: 0;
+  background: transparent;
 }
 
 /* =========================
@@ -52,14 +52,20 @@ body,
 /* Tablet */
 @media (max-width: 900px) {
   .app-content {
-    padding-top: 72px;
+    padding-top: var(--navbar-height-tablet);
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
   }
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .app-content {
-    padding-top: 56px;
+    padding-top: var(--navbar-height-mobile);
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
   }
 }
 
@@ -70,4 +76,3 @@ body,
     margin: 0;
   }
 }
-

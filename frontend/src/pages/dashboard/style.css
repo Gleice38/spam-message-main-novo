@@ -94,8 +94,8 @@
   #046091 60%,
   #056fb1 100%
 );
-  margin-top: -96px;      /* sobe o azul */
-  padding-top: 96px;     /* compensa a navbar */
+  margin-top: calc(-1 * var(--navbar-height));
+  padding-top: var(--navbar-height);
 }
 
 
@@ -166,6 +166,11 @@
 @media (max-width: 900px) {
   .dashboard-section--charts {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-container {
+    margin-top: calc(-1 * var(--navbar-height-tablet));
+    padding-top: var(--navbar-height-tablet);
   }
 }
 
@@ -240,15 +245,15 @@
 ========================= */
 @media (max-width: 600px) {
   .dashboard-container {
-    padding: 32px;
-    padding-top: 96px;
+    padding: var(--page-padding-mobile);
+    padding-top: var(--navbar-height-mobile);
+    margin-top: calc(-1 * var(--navbar-height-mobile));
     min-height: 100vh;
-    background: linear-gradient(120deg, #f0f6ff 0%, #f8fafc 100%);
-  }
+    background: linear-gradient(135deg, #044e75 0%, #046091 60%, #056fb1 100%);
   }
 
   .card {
     padding: 16px;
     border-radius: 12px;
   }
-
+}

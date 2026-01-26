@@ -1,4 +1,12 @@
 :root {
+  /* ===== LAYOUT ===== */
+  --navbar-height: 72px;
+  --navbar-height-tablet: 56px;
+  --navbar-height-mobile: 96px;
+  --page-padding: 32px;
+  --page-padding-tablet: 24px;
+  --page-padding-mobile: 16px;
+
   /* ===== COLORS ===== */
 
   /* Primary (Azul Cooperativa) */

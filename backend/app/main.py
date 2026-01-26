@@ -145,11 +145,12 @@ Configure as credenciais no arquivo `.env`.
 )
 
 origins = [o.strip() for o in settings.CORS_ORIGINS.split(",") if o.strip()]
+allow_all_origins = not origins or "*" in origins
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
+    allow_origins=["*"] if allow_all_origins else origins,
+    allow_credentials=False if allow_all_origins else True,
     allow_methods=["*"],
     allow_headers=["*"],
 )

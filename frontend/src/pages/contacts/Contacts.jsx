@@ -122,7 +122,7 @@ export default function Contacts() {
 
         {/* CARD PRINCIPAL */}
         <div className="main-card"> {/* AJUSTADO */}
-          <div className="card-header-actions" style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px'}}> {/* ADICIONADO ESTILO FLEX */}
+          <div className="card-header-actions"> {/* AJUSTADO */}
             <div className="card-intro"> {/* AJUSTADO */}
               <div className="icon-badge"> {/* AJUSTADO */}
                 <Users size={24} />

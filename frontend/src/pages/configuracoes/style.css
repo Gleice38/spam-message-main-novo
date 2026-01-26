@@ -25,8 +25,8 @@
   padding: 0;
   min-height: 100vh;
   background: linear-gradient(135deg, #044e75 0%, #046091 60%, #056fb1 100%);
-  margin-top: -96px;
-  padding-top: 96px;
+  margin-top: calc(-1 * var(--navbar-height));
+  padding-top: var(--navbar-height);
 }
 
 
@@ -374,6 +374,8 @@
 @media (max-width: 768px) {
   .configuracoes-page {
     padding: 16px;
+    padding-top: var(--navbar-height-tablet);
+    margin-top: calc(-1 * var(--navbar-height-tablet));
   }
 
   .config-item {

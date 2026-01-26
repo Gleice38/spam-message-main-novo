@@ -4,12 +4,11 @@ import {
   Users,
   Settings,
   LogOut,
-  User,
-  Bell,
-  Sliders
+  Menu
 } from 'lucide-react'
 
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import './Navbar.css';
 import LogoMC from './LogoMC';
 
@@ -17,6 +16,7 @@ import LogoMC from './LogoMC';
 export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   const isActive = (path) => location.pathname === path
 
@@ -26,6 +26,11 @@ export default function Navbar() {
 
   navigate('/', { replace: true });
 }
+
+  function handleNavigate(path) {
+    navigate(path)
+    setMenuOpen(false)
+  }
 
 
   return (
@@ -40,39 +45,48 @@ export default function Navbar() {
           <span>Comunicação Acadêmica</span>
         </div>
       </div>
+      <button
+        className="navbar-toggle"
+        type="button"
+        onClick={() => setMenuOpen((prev) => !prev)}
+        aria-label="Abrir menu"
+        aria-expanded={menuOpen}
+      >
+        <Menu size={20} />
+      </button>
       {/* MENU */}
-      <nav className="navbar-menu">
+      <nav className={`navbar-menu ${menuOpen ? 'is-open' : ''}`}>
         <button
           className={`nav-item ${isActive('/dashboard') ? 'active' : ''}`}
-          onClick={() => navigate('/dashboard')}
+          onClick={() => handleNavigate('/dashboard')}
         >
           <span className="nav-icon nav-icon--blue"><LayoutGrid size={20} /></span>
           Dashboard
         </button>
         <button
           className={`nav-item ${isActive('/campaigns') ? 'active' : ''}`}
-          onClick={() => navigate('/campaigns')}
+          onClick={() => handleNavigate('/campaigns')}
         >
           <span className="nav-icon nav-icon--cyan"><Send size={20} /></span>
           Nova Campanha
         </button>
         <button
           className={`nav-item ${isActive('/contacts') ? 'active' : ''}`}
-          onClick={() => navigate('/contacts')}
+          onClick={() => handleNavigate('/contacts')}
         >
           <span className="nav-icon nav-icon--green"><Users size={20} /></span>
           Gerenciar Contatos
         </button>
         <button
           className={`nav-item ${isActive('/configuracoes') ? 'active' : ''}`}
-          onClick={() => navigate('/configuracoes')}
+          onClick={() => handleNavigate('/configuracoes')}
         >
           <span className="nav-icon nav-icon--gray"><Settings size={20} /></span>
           Configurações
         </button>
       </nav>
       {/* AÇÕES */}
-      <div className="navbar-actions">
+      <div className={`navbar-actions ${menuOpen ? 'is-open' : ''}`}>
         <div className="divider" />
         <button className="nav-item logout" onClick={handleLogout}>
           <span className="nav-icon nav-icon--red"><LogOut size={20} /></span>

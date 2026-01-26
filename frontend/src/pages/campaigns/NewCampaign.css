@@ -132,9 +132,9 @@
   #046091 60%,
   #056fb1 100%
   );
-  width: 100v;
-  margin-top: -96px;
-  padding-top: 96px;
+  width: 100vw;
+  margin-top: calc(-1 * var(--navbar-height));
+  padding-top: var(--navbar-height);
 }
 
 .page-header {
@@ -382,10 +382,43 @@
 
 /* Pequenos ajustes para responsividade */
 @media (max-width: 900px) {
+  .page-container {
+    margin-top: calc(-1 * var(--navbar-height-tablet));
+    padding-top: var(--navbar-height-tablet);
+  }
+
   .campaign-grid {
     grid-template-columns: 1fr;
+    padding: 0 var(--page-padding-tablet);
   }
   .campaign-right {
     margin-top: 32px;
+  }
+  .campaign-right .sticky {
+    position: static;
+    top: auto;
+  }
+  .page-header {
+    padding: 0 var(--page-padding-tablet) !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-container {
+    padding-top: var(--navbar-height-mobile);
+    margin-top: calc(-1 * var(--navbar-height-mobile));
+  }
+
+  .page-header {
+    padding: 0 var(--page-padding-mobile) !important;
+  }
+
+  .campaign-grid {
+    padding: 0 var(--page-padding-mobile);
+    gap: 24px;
+  }
+
+  .card {
+    padding: 20px 16px;
   }
 }

@@ -98,3 +98,22 @@
 .footer-copyright { margin-top: 35px; font-size: 12px; color: #94a3b8; text-align: center; }
 
 @media (max-width: 1024px) { .login-brand { display: none; } }
+
+@media (max-width: 600px) {
+  .form-section {
+    padding: 24px 16px;
+  }
+
+  .auth-card {
+    padding: 28px 20px;
+    border-radius: 16px;
+  }
+
+  .logo-titles h1 {
+    font-size: 24px;
+  }
+
+  .headline-text {
+    font-size: 16px;
+  }
+}

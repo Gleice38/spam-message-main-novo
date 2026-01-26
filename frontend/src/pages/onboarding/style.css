@@ -88,6 +88,7 @@
   overflow-y: auto;
   box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   position: relative;
+}
 @media (max-width: 700px) {
   .onboarding-step-container {
     flex-direction: column;
@@ -106,7 +107,6 @@
     border-radius: 6px;
     padding: 2px 0;
   }
-}
 }
 
 /* Estilo do Botão Anterior (Branco com borda e seta) */
