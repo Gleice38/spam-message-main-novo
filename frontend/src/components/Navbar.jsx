@@ -74,14 +74,14 @@ export default function Navbar() {
           className={`nav-item ${isActive('/contacts') ? 'active' : ''}`}
           onClick={() => handleNavigate('/contacts')}
         >
-          <span className="nav-icon nav-icon--green"><Users size={20} /></span>
+          <span className="nav-icon nav-icon--cyan"><Users size={20} /></span>
           Gerenciar Contatos
         </button>
         <button
           className={`nav-item ${isActive('/configuracoes') ? 'active' : ''}`}
           onClick={() => handleNavigate('/configuracoes')}
         >
-          <span className="nav-icon nav-icon--gray"><Settings size={20} /></span>
+          <span className="nav-icon nav-icon--cyan"><Settings size={20} /></span>
           Configurações
         </button>
       </nav>
