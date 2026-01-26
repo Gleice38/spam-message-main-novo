@@ -1,5 +1,6 @@
 
 from sqlalchemy.orm import Session
+from typing import Optional
 
 from app.schemas.campaign import CampaignCreate
 from app.core.config import settings
@@ -8,6 +9,36 @@ import requests
 
 
 class CampaignService:
+    ALLOWED_IMAGE_EXTENSIONS = {"jpg", "jpeg", "png", "webp", "gif"}
+    ALLOWED_DOCUMENT_EXTENSIONS = {
+        "pdf",
+        "doc",
+        "docx",
+        "xls",
+        "xlsx",
+        "ppt",
+        "pptx",
+        "txt",
+        "csv",
+        "rtf",
+    }
+    MIME_EXTENSION_MAP = {
+        "application/pdf": "pdf",
+        "application/msword": "doc",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+        "application/vnd.ms-excel": "xls",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+        "application/vnd.ms-powerpoint": "ppt",
+        "application/vnd.openxmlformats-officedocument.presentationml.presentation": "pptx",
+        "text/plain": "txt",
+        "text/csv": "csv",
+        "application/rtf": "rtf",
+        "text/rtf": "rtf",
+        "image/jpeg": "jpg",
+        "image/png": "png",
+        "image/webp": "webp",
+        "image/gif": "gif",
+    }
     def list_all(self):
         from app.repositories.campaign_repository import CampaignRepository
         campaign_repo = CampaignRepository(self.db)
@@ -71,10 +102,27 @@ class CampaignService:
         text = re.sub(r'&gt;', '>', text)
         return text.strip()
 
+    def _extract_extension(self, filename: Optional[str], mime: Optional[str], url: Optional[str]):
+        import os
+        from urllib.parse import urlparse
+        if filename and "." in filename:
+            return filename.rsplit(".", 1)[-1].lower()
+        if mime and mime in self.MIME_EXTENSION_MAP:
+            return self.MIME_EXTENSION_MAP[mime]
+        if url:
+            path = urlparse(url).path
+            ext = os.path.splitext(path)[1].lstrip(".").lower()
+            return ext or None
+        return None
+
+    def _is_image_media(self, mime: Optional[str], ext: Optional[str]):
+        if mime and mime.startswith("image/"):
+            return True
+        return ext in self.ALLOWED_IMAGE_EXTENSIONS if ext else False
+
     def create_and_launch(self, data: CampaignCreate):
         from app.repositories.campaign_repository import CampaignRepository
         from datetime import datetime, timezone
-        import mimetypes
         import logging
         from fastapi import HTTPException
         campaign_repo = CampaignRepository(self.db)
@@ -120,38 +168,44 @@ class CampaignService:
             filters["academic_area_ids"] = selected_ids
         contacts = contact_repo.get_by_filters(filters)
         zapi_results = []
+        media_base64 = getattr(data, "media_base64", None)
+        media_filename = getattr(data, "media_filename", None)
+        media_mime = getattr(data, "media_mime", None)
+        media_url = getattr(data, "media_url", None)
+        media_source = media_base64 or media_url
+        media_extension = self._extract_extension(media_filename, media_mime, media_url)
+        is_image_media = self._is_image_media(media_mime, media_extension)
+
+        if media_source and not is_image_media and media_extension not in self.ALLOWED_DOCUMENT_EXTENSIONS:
+            raise HTTPException(status_code=400, detail="Tipo de arquivo não suportado para envio.")
+
+        if media_base64 and not media_base64.startswith("data:"):
+            raise HTTPException(status_code=400, detail="Arquivo base64 inválido. Use data URL com prefixo.")
+
         for contact in contacts:
             plain_message = self.html_to_plain_text(data.message_body)
             caption = f"{data.name}\n\n{plain_message}"
-            media_url = getattr(data, 'media_url', None)
             zapi_message_id = None
             try:
                 headers = {
                     "Client-Token": self.zapi_client_token,
                     "Content-Type": "application/json"
                 }
-                if media_url:
-                    mime, _ = mimetypes.guess_type(media_url)
-                    if mime and mime.startswith('image/'):
+                if media_source:
+                    if is_image_media:
                         url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-image"
                         payload = {
                             "phone": contact.phone,
-                            "image": media_url,
-                            "caption": caption
-                        }
-                    elif mime == 'application/pdf':
-                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-document"
-                        payload = {
-                            "phone": contact.phone,
-                            "document": media_url,
-                            "filename": media_url.split('/')[-1],
-                            "caption": caption
+                            "image": media_source,
+                            "caption": caption,
                         }
                     else:
-                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"
+                        url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-document/{media_extension}"
                         payload = {
                             "phone": contact.phone,
-                            "message": caption
+                            "document": media_source,
+                            "fileName": media_filename or f"arquivo.{media_extension}",
+                            "caption": caption,
                         }
                 else:
                     url = f"https://api.z-api.io/instances/{self.zapi_instance_id}/token/{self.zapi_instance_token}/send-text"

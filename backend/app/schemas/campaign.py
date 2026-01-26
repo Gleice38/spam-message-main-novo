@@ -7,6 +7,9 @@ class CampaignCreate(BaseModel):
     message_body: str
     scheduled_at: Optional[datetime] = None
     filters_snapshot: Optional[Dict[str, Any]] = None
+    media_base64: Optional[str] = None
+    media_filename: Optional[str] = None
+    media_mime: Optional[str] = None
 
 class CampaignResponse(CampaignCreate):
     id: int

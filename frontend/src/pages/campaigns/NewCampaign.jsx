@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { campaignsService } from "../../services/campaigns/campaigns.service";
 import { contactsService } from "../../services/contacts/contacts.service";
-import { mediaService } from '../../services/media.service';
 import { REGIONS, CAMPUSES, ACADEMIC_AREAS } from "../../constants/data";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -32,9 +31,64 @@ export default function NewCampaign() {
   const [selectedAcademicAreas, setSelectedAcademicAreas] = useState([]);
   const [areaSearch, setAreaSearch] = useState("");
   const [mediaFile, setMediaFile] = useState(null);
-  const [mediaUrl, setMediaUrl] = useState("");
+  const [mediaBase64, setMediaBase64] = useState("");
+  const [mediaFilename, setMediaFilename] = useState("");
+  const [mediaMime, setMediaMime] = useState("");
   const [uploading, setUploading] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+  const allowedImageExtensions = ["jpg", "jpeg", "png", "webp", "gif"];
+  const allowedDocumentExtensions = [
+    "pdf",
+    "doc",
+    "docx",
+    "xls",
+    "xlsx",
+    "ppt",
+    "pptx",
+    "txt",
+    "csv",
+    "rtf",
+  ];
+  const extensionMimeMap = {
+    pdf: "application/pdf",
+    doc: "application/msword",
+    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    xls: "application/vnd.ms-excel",
+    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ppt: "application/vnd.ms-powerpoint",
+    pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    txt: "text/plain",
+    csv: "text/csv",
+    rtf: "application/rtf",
+    jpg: "image/jpeg",
+    jpeg: "image/jpeg",
+    png: "image/png",
+    webp: "image/webp",
+    gif: "image/gif",
+  };
+  const acceptMimeTypes = [
+    "image/jpeg",
+    "image/png",
+    "image/webp",
+    "image/gif",
+    "application/pdf",
+    "application/msword",
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    "application/vnd.ms-powerpoint",
+    "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    "text/plain",
+    "text/csv",
+    "application/rtf",
+    "text/rtf",
+  ].join(",");
+
+  const getFileExtension = (name) => {
+    if (!name || !name.includes(".")) return "";
+    return name.split(".").pop().toLowerCase();
+  };
 
   const isFormValid = formData.name.trim() && formData.message_body.trim();
 
@@ -106,11 +160,39 @@ export default function NewCampaign() {
     if (!file) return;
     setUploading(true);
     try {
-      const result = await mediaService.upload(file);
-      setMediaUrl(result.url);
-      setMediaFile(file);
+      const extension = getFileExtension(file.name);
+      const mime = file.type || extensionMimeMap[extension] || "";
+      const isImage = mime.startsWith("image/") || allowedImageExtensions.includes(extension);
+      const isDocument = allowedDocumentExtensions.includes(extension) || !!extensionMimeMap[extension];
+
+      if (!isImage && !isDocument) {
+        alert("Tipo de arquivo não permitido. Envie imagem ou documento suportado.");
+        setMediaFile(null);
+        setMediaBase64("");
+        setMediaFilename("");
+        setMediaMime("");
+        return;
+      }
+
+      const fileForRead = !file.type && mime ? file.slice(0, file.size, mime) : file;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const result = reader.result?.toString() || "";
+        if (!result.startsWith("data:")) {
+          alert("Falha ao gerar base64 do arquivo.");
+          return;
+        }
+        setMediaFile(file);
+        setMediaBase64(result);
+        setMediaFilename(file.name);
+        setMediaMime(mime);
+      };
+      reader.onerror = () => {
+        alert("Erro ao ler o arquivo.");
+      };
+      reader.readAsDataURL(fileForRead);
     } catch (err) {
-      alert("Erro ao fazer upload do arquivo");
+      alert("Erro ao processar o arquivo");
     } finally {
       setUploading(false);
     }
@@ -151,9 +233,11 @@ export default function NewCampaign() {
         academic_areas: selectedAcademicAreas
       };
 
-      // Incluir URL da mídia se existir
-      if (mediaUrl) {
-        payload.media_url = mediaUrl;
+      // Incluir mídia em base64 se existir
+      if (mediaBase64) {
+        payload.media_base64 = mediaBase64;
+        payload.media_filename = mediaFilename;
+        payload.media_mime = mediaMime;
       }
 
       await campaignsService.send(payload);
@@ -373,12 +457,11 @@ export default function NewCampaign() {
               </div>
             </div>
             <div className="card-content">
-              <input type="file" accept="image/*,application/pdf" onChange={handleFileChange} />
-              {uploading && <span>Enviando arquivo...</span>}
-              {mediaUrl && (
+              <input type="file" accept={acceptMimeTypes} onChange={handleFileChange} />
+              {uploading && <span>Processando arquivo...</span>}
+              {mediaBase64 && (
                 <div style={{ marginTop: 8 }}>
-                  <span>Arquivo enviado: </span>
-                  <a href={mediaUrl} target="_blank" rel="noopener noreferrer">{mediaFile?.name}</a>
+                  <span>Arquivo pronto: {mediaFile?.name}</span>
                 </div>
               )}
             </div>
