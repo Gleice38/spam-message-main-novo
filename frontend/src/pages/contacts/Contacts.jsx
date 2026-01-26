@@ -185,6 +185,7 @@ export default function Contacts() {
                           <tr>
                             <th style={{ textAlign: 'left', padding: '12px' }}>Nome</th>
                             <th style={{ textAlign: 'left', padding: '12px' }}>Telefone</th>
+                            <th style={{ textAlign: 'left', padding: '12px' }}>Email</th>
                             <th style={{ textAlign: 'left', padding: '12px' }}>Perfil</th>
                             <th style={{ textAlign: 'left', padding: '12px' }}>Campus</th>
                             <th style={{ textAlign: 'left', padding: '12px' }}>Área Acadêmica</th>
@@ -196,6 +197,9 @@ export default function Contacts() {
                             <tr key={c.id}>
                               <td style={{ padding: '12px', fontWeight: '700' }}>{c.name}</td>
                               <td style={{ padding: '12px' }}>{c.phone}</td>
+                              <td style={{ padding: '12px' }}>
+                                {c.email || '-'}
+                              </td>
                               <td style={{ padding: '12px' }}>
                                 <span className={`state-badge ${getRoleBadgeClass(c.role)}`}>
                                   {ROLES[c.role] || c.role}

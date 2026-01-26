@@ -217,6 +217,7 @@ export default function NewCampaign() {
         // Monta string local e converte para UTC ISO
         const localDateTime = new Date(`${scheduleDate}T${scheduleTime}:00`);
         const now = new Date();
+        now.setSeconds(0, 0);
         if (localDateTime <= now) {
           alert("A data e hora de agendamento devem ser futuras.");
           setLoading(false);
